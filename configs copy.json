@@ -1,0 +1,22 @@
+{
+  "NERUS_AWS": {
+    "host": "44.209.174.255",
+    "database": "sqldados",
+    "user": "powerbi",
+    "port": 31975,
+    "password": "P0w3r@BISR3@l2023"
+  },
+  "PORT": 3000,
+  "BASE_URL": "/shoppingreal",
+  "REAL_BINGO": {
+    "host": "localhost",
+    "user": "root",
+    "database": "sorteio",
+    "port": 3306,
+    "password": "1234"
+  },
+  "HOST_IMPRESSORA": {
+    "ip": "192.168.0.183",
+    "timeout": 5000
+  }
+}

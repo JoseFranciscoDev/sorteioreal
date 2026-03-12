@@ -2,10 +2,9 @@ const PedidoDao = require("../modelo/PedidoDao.js");
 const CupomDao = require("../modelo/CupomDao.js");
 const CuponsClientesDao = require("../modelo/CuponsClientesDao.js");
 const DocumentoCupom = require("../utilitarios/DocumentoCupom.js");
-const {BASE_URL} = require("../configs.json");
-class Cupom {
-    
+const { BASE_URL } = require("../configs.json");
 
+class Cupom {
     static async adiciona(req, res) {
         req.body.usuario = req.session.usuario.codigo;
         const [pedido] = await PedidoDao.getPedido({codigo: req.body.pedido});
@@ -32,7 +31,6 @@ class Cupom {
             estado: req.body.estado,
             usuario: req.body.usuario
         };
-
 
         const codigoCupom = await CupomDao.setCupom(cupom);
 

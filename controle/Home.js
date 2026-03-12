@@ -13,7 +13,7 @@ class Home {
                 nome: "Sair"
             }
         ];
-      
+    
   }
  static urlsAdm() {
      
