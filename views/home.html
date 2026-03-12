@@ -1,0 +1,69 @@
+{% extends "index.html" %} 
+    {% block css %}
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <link rel="stylesheet" type="text/css" href="/css/home.css" media="screen" />
+    <link rel="stylesheet" href="https://unpkg.com/boxicons@2.1.2/css/boxicons.min.css"/>
+    <title>Shopping Real</title>
+    {% endblock %}
+
+
+    {% block principal %}
+
+    <div class="image-menu">
+        <img src="/image/logo-form.png" alt="">
+    </div>
+    <nav>
+        <div class="logo">
+          <i class="bx bx-menu menu-icon"></i>
+        </div>
+        <div class="sidebar">
+          <div class="logo">
+            <i class="bx bx-menu menu-icon"></i>
+          </div>
+  
+          <div class="sidebar-content">
+            <ul class="lists">
+                {% for item in links %}
+              <li class="list">
+                <a href="{{item.url}}" class="nav-link">
+                  <i class="{{item.clase}}"></i>
+                  <span class="link">{{item.nome}}</span>
+                </a>
+              </li>
+             {% endfor %}
+            </ul>
+  
+            <div class="bottom-cotent">
+                {% for item2 in links2 %}
+              <li class="list">
+                <a href="{{item2.url}}" class="nav-link">
+                  <i class="{{item2.clase}}"></i>
+                  <span class="link">{{item2.nome}}</span>
+                </a>
+              </li>
+              {% endfor %}
+            </div>
+          </div>
+        </div>
+      </nav>
+  
+      <section class="overlay"></section>
+  
+      <script>
+          const navBar = document.querySelector("nav"),
+          menuBtns = document.querySelectorAll(".menu-icon"),
+          overlay = document.querySelector(".overlay");
+  
+          menuBtns.forEach((menuBtn) => {
+          menuBtn.addEventListener("click", () => {
+          navBar.classList.toggle("open");
+          });
+      });
+  
+          overlay.addEventListener("click", () => {
+          navBar.classList.remove("open");
+      });
+      </script>
+      {% endblock %}
+      
+      

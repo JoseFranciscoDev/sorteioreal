@@ -1,0 +1,121 @@
+@import url('https://fonts.googleapis.com/css2?family=Poppins:wght@400;500;700&display=swap');
+
+*{
+    margin: 0px;
+    padding: 0px;
+    box-sizing: border-box;
+}
+body, html{
+    height: 100%;
+    font-family: 'Poppins',sans-serif;
+    font-weight: 400;
+}
+.Main-container{
+    width: 100%;
+    margin: 0 auto;
+}
+.container-form{
+    width: 100%;
+    min-height: 100vh;
+    display: flex;
+    flex-wrap: wrap;
+    justify-content: center;
+    align-items: center;
+    padding: 15px;
+    background: #ca2c2c;
+}
+.wrap-form{
+    width: 1050px;
+    height: 648px;
+    background: #ca2c2c;
+    border-radius: 10px;
+    overflow: hidden;
+    display: flex;
+    flex-wrap: wrap;
+    justify-content: center;
+    padding: 98px 140px 120px 90px;
+}
+form{
+    margin-left: 199px;
+    flex-wrap: wrap;
+    width: 1600PX;
+}
+input{
+    border: none;
+    margin-top: 18px;
+    height: 50px;
+    border-radius: 15px;
+    margin-left: 29px;
+    font-family: 'Poppins' , sans-serif;
+    font-size: 14.2px;
+    font-weight: 500;
+    line-height: 1.5;
+    color: #666666;
+    padding: 0 30px 0 10px;
+}
+.dav{
+    width: 150px;
+    font-size: 18px;
+}
+.CodigoCliente, 
+.cpf, 
+.telefone01, 
+.telefone02, 
+.valor-do-pedido, 
+.metodo-de-pagamento, 
+.quantidade-de-cupons,
+.enderecoCliente{
+    width: 210px;
+}
+
+.quantidade-de-cupons,
+.valor-do-pedido, 
+.metodo-de-pagamento{
+    background-color: #fff;
+}
+
+.Nome{
+    width: 453px;
+}
+.enderecoCliente{
+    width: 698px;
+}
+.dav::-webkit-outer-spin-button,
+.dav::-webkit-inner-spin-button {
+  -webkit-appearance: none;
+  margin: 0;
+}
+
+img{
+    width: 300px;
+}
+
+.confirmar{
+    margin-left: 38px;
+    margin-bottom: auto;
+    width: 890px;
+    display: flex;
+    flex-wrap: wrap;
+    padding-top: 25px;
+}
+.confirma-form{
+    font-family:'poppins',sans-serif ;
+    font-size: 15px;
+    line-height: 1.5;
+    color: #fff;
+    background: #57b846;
+    text-transform: uppercase;
+    width: 680px;
+    height: 50px;
+    border-radius: 15px;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    padding: 0 25px ;
+    transition: all 0.4s;
+    border: none;
+
+}
+.confirma-form:hover{
+    background: #333333;
+}

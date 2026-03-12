@@ -1,0 +1,83 @@
+{% extends "index.html" %}
+    {% block css %}
+    <link rel="stylesheet" type="text/css" href="/css/pedidoSemCliente.css" media="screen" />
+    <link rel="stylesheet" href="https://unpkg.com/boxicons@2.1.2/css/boxicons.min.css"/>
+    {% endblock %}
+{% block principal %}
+    <div class="Main-container">
+        <div class="container-form">
+            <div class="wrap-form">
+                <div class="image-form">
+                    <img src="/image/logo-form.png" alt="">
+                    <br>
+                </div>
+                <form method="POST" action="{{url}}">
+                   
+                    <input required name="pedido" placeholder="Pedido" maxlength="6" class="dav" type="text">
+                    <input required name="cliente" placeholder="Codigo do Cliente" maxlength="6" class="dav" type="text">
+                    <br>
+                    <br>
+                    <div class="confirmar">
+                        <button class="confirma-form">Avançar</button>
+                    </div>
+                </form>
+            </div>
+        </div>
+    </div>
+
+
+    <nav>
+        <div class="logo">
+          <i class="bx bx-menu menu-icon"></i>
+        </div>
+        <div class="sidebar">
+          <div class="logo">
+            <i class="bx bx-menu menu-icon"></i>
+          </div>
+  
+          <div class="sidebar-content">
+            <ul class="lists">
+              {% for item in links %}
+              <li class="list">
+                <a href="{{item.url}}" class="nav-link">
+                  <i class="{{item.clase}}"></i>
+                  <span class="link">{{item.nome}}</span>
+                </a>
+              </li>
+              {% endfor %}
+        
+            </ul>
+  
+            <div class="bottom-cotent">
+               {% for item in links2 %} 
+              <li class="list">
+                <a href="{{item.url}}" class="nav-link">
+                  <i class="{{item.clase}}"></i>
+                  <span class="link">{{item.nome}}</span>
+                </a>
+              </li>
+              {% endfor %}
+            </div>
+          </div>
+        </div>
+      </nav>
+  
+      <section class="overlay"></section>
+  
+      <script>
+          const navBar = document.querySelector("nav"),
+          menuBtns = document.querySelectorAll(".menu-icon"),
+          overlay = document.querySelector(".overlay");
+  
+          menuBtns.forEach((menuBtn) => {
+          menuBtn.addEventListener("click", () => {
+          navBar.classList.toggle("open");
+          });
+      });
+  
+          overlay.addEventListener("click", () => {
+          navBar.classList.remove("open");
+      });
+      </script>
+
+{% endblock %}

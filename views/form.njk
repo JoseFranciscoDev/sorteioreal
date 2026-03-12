@@ -1,0 +1,39 @@
+{% extends "index.html" %} 
+
+    {% block css %}
+     <link rel="stylesheet" type="text/css" href="/css/form.css" media="screen" />
+     <link rel="icon" type="image/x-icon" href="/image/icon.png">
+    {% endblock %}
+
+    {% block principal %}
+    <div class="Main-container">
+        <div class="container-form">
+            <div class="wrap-form">
+                <div class="image-form">
+                    <img src="/image/logo-form.png" alt="">
+                </div>
+                <form method="POST" action="{{url}}" >
+                    <input required placeholder="Pedido" maxlength="6" class="dav" type="number" value="{{cupom.pedido}}" readonly name="pedido">
+                    <br>
+                    <input type="text" class="CodigoCliente" name="cliente" placeholder="Codigo do Cliente" 
+                            maxlength="5" value="{{cupom.cliente}}" required>
+                    <input type="text" class="Nome" name="nome" placeholder="Nome" maxlength="45" value="{{cupom.nome}}" required>
+                    <input type="text" class="enderecoCliente" name="bairro" placeholder="Endereço" maxlength="255" value="{{cupom.endereco}}" required>
+                    <br>
+                    <input type="text" class="cpf" name="cpf" placeholder="CPF" minlength="14" maxlength="14" value="{{cupom.cpf}}" required>
+                    <input type="text" class="telefone01" name="telefone_fisco" placeholder="Tel 01" minlength="11" maxlength="11" value="{{cupom.telefone_fisco}}" required>
+                    <input type="text" class="telefone02" name="telefone_celular" placeholder="Tel 02" minlength="11" maxlength="11" value="{{cupom.telefone_celular}}">
+                    <input type="text"  class="valor-do-pedido" name="valor" placeholder="Valor" value="{{cupom.valor}}" readonly required>
+                    <input type="text" class="metodo-de-pagamento" name="metodoPagamento" placeholder="Metodo de Pgmt" value="{{cupom.metodoPagamento}}" readonly required>
+                    <input type="text" class="quantidade-de-cupons" name="quantidade" placeholder="Quantidade de Cupons" value="{{cupom.quantidade}}" readonly required>
+                    <br>
+                    <div class="confirmar">
+                        <button class="confirma-form">Confirmar</button>
+                    </div>
+                </form>
+            </div>
+        </div>
+    </div>
+   
+    
+    {% endblock %}

@@ -1,0 +1,81 @@
+{% extends "index.html" %}
+   {% block css %}
+    <link rel="stylesheet" type="text/css" href="/css/pedido.css" media="screen" />
+    <link rel="icon" type="image/x-icon" href="/image/icon.png">
+    <link rel="stylesheet" href="https://unpkg.com/boxicons@2.1.2/css/boxicons.min.css"/>
+  {% endblock %} 
+
+    {% block principal %}
+
+    
+    <nav>
+      <div class="logo">
+        <i class="bx bx-menu menu-icon"></i>
+      </div>
+      <div class="sidebar">
+        <div class="logo">
+          <i class="bx bx-menu menu-icon"></i>
+        </div>
+
+       <div class="sidebar-content">
+            <ul class="lists">
+                {% for item in links %}
+              <li class="list">
+                <a href="{{item.url}}" class="nav-link">
+                  <i class="{{item.clase}}"></i>
+                  <span class="link">{{item.nome}}</span>
+                </a>
+              </li>
+             {% endfor %}
+            </ul>
+  
+          </div>
+      </div>
+    </nav>
+
+    <section class="overlay"></section>
+
+    <script>
+        const navBar = document.querySelector("nav"),
+        menuBtns = document.querySelectorAll(".menu-icon"),
+        overlay = document.querySelector(".overlay");
+
+        menuBtns.forEach((menuBtn) => {
+        menuBtn.addEventListener("click", () => {
+        navBar.classList.toggle("open");
+        });
+    });
+
+        overlay.addEventListener("click", () => {
+        navBar.classList.remove("open");
+    });
+    </script>
+
+
+    
+    <div class="Main-container">
+        <div class="container-form">
+            <div class="wrap-form">
+                <div class="image-form">
+                    <img src="/image/logo-form.png" alt="">
+                    <br>
+                    {% if mensagem %}
+                    <p class="ms erro"><i class="icon icon-hand-paper-o"></i>{{mensagem}}</p>
+
+                    {% else %}
+                        <p></p>
+                    {% endif %}
+                </div>
+                <form method="POST" action="{{url}}">
+                   
+                    <input required name="pedido" placeholder="Pedido" maxlength="6" class="dav" type="text">
+                    <br>
+                    <br>
+                    <div class="confirmar">
+                        <button class="confirma-form">Avançar</button>
+                    </div>
+                </form>
+            </div>
+        </div>
+    </div>
+    {% endblock %}

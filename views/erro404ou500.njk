@@ -1,0 +1,32 @@
+	{% extends "index.html" %}
+     {% block titulo %}
+	<title>Erros</title>
+     {% endblock %}
+     {% block css %}
+	<link href="https://fonts.googleapis.com/css?family=Montserrat:300,700" rel="stylesheet">
+	<link type="text/css" rel="stylesheet" href="/css/erros.css" />
+     {% endblock %}
+
+    {% block principal %}
+	<div id="erro">
+		<div class="erro">
+			{% if boo %}
+			<div class="erro-404">
+				<h1>4<span></span>4</h1>
+			</div>
+				<h2>Oops! Pagina não encontrada</h2>
+				<p>Desculpe, mas a página que você procura não existe, foi removida, teve o nome alterado ou está temporariamente indisponível</p>
+				<a href="/login">Voltar para a pagina inicial</a>
+			{% else %}
+				<div class="erro-404">
+				<h1>5<span></span>0</h1>
+			</div>
+			<h2>Oops! Erro interno no servidor</h2>
+			
+			{% endif %}
+			
+		</div>
+	</div>
+        
+        {% endblock %}
+

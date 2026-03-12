@@ -1,0 +1,68 @@
+{% extends "index.html" %}
+    {% block css %}
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <link rel="stylesheet" type="text/css" href="/css/reimpressao.css" media="screen" />
+    <link rel="stylesheet" href="https://unpkg.com/boxicons@2.1.2/css/boxicons.min.css"/>
+   {% endblock %}
+
+{% block principal %}
+    <div class="Main-container">
+        <div class="container-form">
+            <div class="wrap-form">
+                <form method="POST" action="{{url}}">
+                    <span class="reimpressao-title">Reimpressão</span>
+                    <input required name="pedido" placeholder="Pedido" maxlength="6" class="dav" type="text">
+                    <input required name="ultimoCupom" placeholder="Ultimo Cupom Gerado" maxlength="7" class="cupom-gerado" type="text">
+                    <br>
+                    <br>
+                    <div class="confirmar">
+                        <button class="confirma-form">Avançar</button>
+                    </div>
+                </form>
+            </div>
+        </div>
+    </div>
+    <nav>
+        <div class="logo">
+          <i class="bx bx-menu menu-icon"></i>
+        </div>
+        <div class="sidebar">
+          <div class="logo">
+            <i class="bx bx-menu menu-icon"></i>
+          </div>
+  
+          <div class="sidebar-content">
+            <ul class="lists">
+                {% for item in links %}
+              <li class="list">
+                <a href="{{item.url}}" class="nav-link">
+                  <i class="{{item.clase}}"></i>
+                  <span class="link">{{item.nome}}</span>
+                </a>
+              </li>
+              {% endfor %}
+            </ul>
+  
+          
+          </div>
+        </div>
+      </nav>
+  
+      <section class="overlay"></section>
+  
+      <script>
+          const navBar = document.querySelector("nav"),
+          menuBtns = document.querySelectorAll(".menu-icon"),
+          overlay = document.querySelector(".overlay");
+  
+          menuBtns.forEach((menuBtn) => {
+          menuBtn.addEventListener("click", () => {
+          navBar.classList.toggle("open");
+          });
+      });
+  
+          overlay.addEventListener("click", () => {
+          navBar.classList.remove("open");
+      });
+      </script>
+{% endblock %}
