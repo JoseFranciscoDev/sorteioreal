@@ -1,6 +1,6 @@
 const express = require("express");
 const app = express();
-const {PORT,BASE_URL} = require("./configs.json");
+const { PORT, BASE_URL } = require("./configs.json");
 const nunjucks = require("nunjucks");
 const bodyParser = require("body-parser");
 const cookieParser = require("cookie-parser");
@@ -14,43 +14,32 @@ const UsuarioDao = require("./modelo/UsuariosDao.js");
 const CupomDao = require("./modelo/CupomDao.js");
 const CuponsClientesDao = require("./modelo/CuponsClientesDao.js");
 const cors = require("cors");
+const AbstractNerusAWS = require("./modelo/AbstractNerusAWS.js")
+const conexaoLocal = require("./modelo/AbstractUsuarios.js")
 
 app.use(cors({
     origen: "*"
 }));
-app.use(bodyParser.urlencoded({extended:true}));
+app.use(bodyParser.urlencoded({ extended: true }));
 app.use(bodyParser.json());
 app.use(cookieParser());
 app.use(cookieSession({
-    name:"real_bingo",
-    secret:"shopping_real_real_bingo",
+    name: "real_bingo",
+    secret: "shopping_real_real_bingo",
     maxAge: 24 * 60 * 60 * 1000
 }));
-app.use(express.static(path.resolve(__dirname,"./public")));
+app.use(express.static(path.resolve(__dirname, "./public")));
 
-nunjucks.configure(path.resolve(__dirname,"./views"),{autoescape:true, express:app});
+nunjucks.configure(path.resolve(__dirname, "./views"), { autoescape: true, express: app });
 
-app.use(BASE_URL,routerIndex);
-app.use(BASE_URL,routerHome);
-app.use(BASE_URL,routerPedido);
-app.use(BASE_URL,routerCupom);
+app.use(BASE_URL, routerIndex);
+app.use(BASE_URL, routerHome);
+app.use(BASE_URL, routerPedido);
+app.use(BASE_URL, routerCupom);
 
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-app.listen(PORT, async ()=>{
+app.listen(PORT, async () => {
+    await AbstractNerusAWS.connection();
+    await conexaoLocal.connection();
     await UsuarioDao.criarTabela();
     await CupomDao.criarTabela();
     await CuponsClientesDao.criarTabela();

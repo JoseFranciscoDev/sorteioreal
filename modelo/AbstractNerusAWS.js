@@ -2,7 +2,7 @@ const NerusAWS = require("../databases/ConexaoNerusAWS.js");
 class AbstractNerusAWS {
     
     static async getPedido(pedido) {
-        
+
         throw new Error("É preciso implementar esse metodo!");
     }
     

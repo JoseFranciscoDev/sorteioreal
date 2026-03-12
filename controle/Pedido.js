@@ -1,4 +1,4 @@
-const {BASE_URL} = require("../configs.json");
+const { BASE_URL } = require("../configs.json");
 const PedidoDao = require("../modelo/PedidoDao.js");
 const CuponsClientesDao = require("../modelo/CuponsClientesDao.js");
 const Cupom = require("./Cupom.js");
@@ -23,7 +23,7 @@ class Pedido {
 
         ];
 
-      
+
 
         return links;
 
@@ -31,7 +31,7 @@ class Pedido {
 
     static reimpressao(req, res) {
         const links = Pedido.urlsAtualizarReimpressao();
-        res.render("reimpressao.html", {url: `${BASE_URL}/home/pedido/reimpressao`, links});
+        res.render("reimpressao.html", { url: `${BASE_URL}/home/pedido/reimpressao`, links });
     }
     static async reimpressaoCupom(req, res) {
         try {
@@ -50,7 +50,7 @@ class Pedido {
             res.redirect(`${BASE_URL}/home/pedido`);
         } catch (erro) {
             const links = Pedido.url();
-            res.render("pedido.njk", {url: `${BASE_URL}/home/pedido`, mensagem: erro.message, links});
+            res.render("pedido.njk", { url: `${BASE_URL}/home/pedido`, mensagem: erro.message, links });
 
         }
 
@@ -58,7 +58,7 @@ class Pedido {
 
     static atualizar(req, res) {
         const links = Pedido.urlsAtualizarReimpressao();
-        res.render("pedidoSemCliente.html", {url: `${BASE_URL}/home/atualizar/pedido`, links});
+        res.render("pedidoSemCliente.html", { url: `${BASE_URL}/home/atualizar/pedido`, links });
     }
     static async atualizarPedido(req, res) {
 
@@ -71,7 +71,7 @@ class Pedido {
                 throw new Error("Campos pedido e cliente, são obrigatorios!");
             }
 
-            const [pedido] = await PedidoDao.getPedido({codigo: req.body.pedido});
+            const [pedido] = await PedidoDao.getPedido({ codigo: req.body.pedido });
 
             if (!pedido) {
                 throw new Error("Pedido cancelado ou expierado!");
@@ -85,7 +85,7 @@ class Pedido {
                 throw new Error("Pedido com o valor insuficiente!");
             }
 
-            const [cliente] = await PedidoDao.getCliente({codigo: req.body.cliente});
+            const [cliente] = await PedidoDao.getCliente({ codigo: req.body.cliente });
 
             const cupom = {
                 pedido: pedido.codigo,
@@ -100,12 +100,12 @@ class Pedido {
                 quantidade: parseInt(pedido.valor / 100)
             };
 
-            res.render("form.njk", {cupom, url: `${BASE_URL}/pedido/cupom`});
+            res.render("form.njk", { cupom, url: `${BASE_URL}/pedido/cupom` });
 
         } catch (erro) {
 
             const links = Pedido.url();
-            res.render("pedido.njk", {url: `${BASE_URL}/home/pedido`, mensagem: erro.message, links});
+            res.render("pedido.njk", { url: `${BASE_URL}/home/pedido`, mensagem: erro.message, links });
         }
 
 
@@ -142,10 +142,10 @@ class Pedido {
 
 
     }
-    static  index(req, res) {
+    static index(req, res) {
 
         const links = Pedido.url();
-        res.render("pedido.njk", {url: `${BASE_URL}/home/pedido`, mensagem: "", links});
+        res.render("pedido.njk", { url: `${BASE_URL}/home/pedido`, mensagem: "", links });
     }
 
     static async buscaPedido(req, res) {
@@ -154,10 +154,9 @@ class Pedido {
 
                 throw new Error("Esse campo é obrigatorio!");
             }
-            const [pedido] = await PedidoDao.getPedido({codigo: req.body.pedido});
-
+            const [pedido] = await PedidoDao.getPedido({ codigo: req.body.pedido });
+            console.log(pedido)
             if (!pedido) {
-
                 throw new Error("Pedido cancelado ou expirado!");
             }
 
@@ -174,7 +173,7 @@ class Pedido {
                 throw new Error("Pedido sem cliente, por favor vincular o cliente ao pedido.");
             }
 
-            const [cliente] = await PedidoDao.getCliente({codigo: pedido.cliente});
+            const [cliente] = await PedidoDao.getCliente({ codigo: pedido.cliente });
             if (!cliente) {
                 throw new Error("É preciso cadastrar o cliente para participar da promoção");
             }
@@ -192,12 +191,12 @@ class Pedido {
                 quantidade: parseInt(pedido.valor / 100)
             };
 
-            res.render("form.njk", {cupom, url: `${BASE_URL}/pedido/cupom`});
+            res.render("form.njk", { cupom, url: `${BASE_URL}/pedido/cupom` });
 
         } catch (erro) {
             const links = Pedido.url();
             console.log(erro);
-            res.render("pedido.njk", {url: `${BASE_URL}/home/pedido`, mensagem: erro.message, links});
+            res.render("pedido.njk", { url: `${BASE_URL}/home/pedido`, mensagem: erro.message, links });
         }
 
 
