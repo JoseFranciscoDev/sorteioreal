@@ -1,7 +1,7 @@
 const Abstract = require("./Abstract.js");
 
 class CuponsClientesDao extends Abstract {
-    
+
     static async setCupom(cupom) {
         const conn = await this.connection();
         const texto = `insert into cuponsClientes(
@@ -9,15 +9,15 @@ class CuponsClientesDao extends Abstract {
                         cuponsClientes.cliente,
                         cuponsClientes.pedido,
                         cuponsClientes.valor,
-                        cuponsclientes.data)
+                        cuponsClientes.data)
                     values(?, ?, ?, ?, ?)`;
-        await conn.query(texto,[cupom.codigoCupom, cupom.cliente,
-            cupom.pedido, cupom.valor, cupom.data]);
+        await conn.query(texto, [cupom.codigoCupom, cupom.cliente,
+        cupom.pedido, cupom.valor, cupom.data]);
     }
-    
+
     static async getCupom(cupom) {
-       const conn = await this.connection();
-       const texto = `
+        const conn = await this.connection();
+        const texto = `
                     select
                      cuponsClientes.codigo,
                      date_format(cuponsClientes.data, "%d/%m/%Y") as data,
@@ -30,14 +30,14 @@ class CuponsClientesDao extends Abstract {
                     from cuponsClientes join cupons
                          on(cuponsClientes.codigoCupom = cupons.codigo) 
                     where cuponsClientes.codigoCupom = ?`;
-        const [resultado] = await conn.query(texto,[cupom.codigoCupom]);
-        
+        const [resultado] = await conn.query(texto, [cupom.codigoCupom]);
+
         return resultado;
     }
-    
+
     static async getCupomPedido(cupom) {
-       const conn = await this.connection();
-       const texto = `
+        const conn = await this.connection();
+        const texto = `
                     select
                      cuponsClientes.codigo,
                      date_format(cuponsClientes.data, "%d/%m/%Y") as data,
@@ -51,21 +51,21 @@ class CuponsClientesDao extends Abstract {
                          on(cuponsClientes.codigoCupom = cupons.codigo) 
                     where cuponsClientes.pedido = ? 
                     and cuponsClientes.codigo >= ?`;
-        const [resultado] = await conn.query(texto,[cupom.pedido, cupom.ultimoCupom]);
-        
+        const [resultado] = await conn.query(texto, [cupom.pedido, cupom.ultimoCupom]);
+
         return resultado;
     }
-    
-    
-    
-    static async delete () {
+
+
+
+    static async delete() {
         return;
     }
-    
+
     static async update() {
         return;
     }
-    
+
     static async criarTabela() {
         const conn = await this.connection();
         const texto = ` create table if not exists cuponsClientes(
@@ -77,9 +77,9 @@ class CuponsClientesDao extends Abstract {
                             data date not null,
                             foreign key (codigoCupom) references cupons (codigo))`;
         await conn.query(texto);
-        
+
     }
-} 
+}
 
 module.exports = CuponsClientesDao;
 
