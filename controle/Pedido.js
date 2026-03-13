@@ -2,9 +2,9 @@ const { BASE_URL } = require("../configs.json");
 const PedidoDao = require("../modelo/PedidoDao.js");
 const CuponsClientesDao = require("../modelo/CuponsClientesDao.js");
 const Cupom = require("./Cupom.js");
+const { CUPONS: CUPOM } = require("../configs.json")
 
-
-
+console.log(CUPOM)
 
 class Pedido {
 
@@ -81,7 +81,7 @@ class Pedido {
                 throw new Error("Esse pedido já tem Cliente!");
             }
 
-            if ((pedido.valor / 100) < 1) {
+            if (pedido.valor / parseInt(CUPOM.valor_minimo) < 1) {
                 throw new Error("Pedido com o valor insuficiente!");
             }
 
@@ -97,7 +97,7 @@ class Pedido {
                 telefone_fisco: "(" + Pedido.formatarNumero(cliente.ddd) + ")" + " " + Pedido.formatarNumero(cliente.telefone_fisco),
                 telefone_celular: "(" + Pedido.formatarNumero(cliente.ddd) + ")" + " " + Pedido.formatarNumero(cliente.telefone_celular),
                 endereco: cliente.bairro,
-                quantidade: parseInt(pedido.valor / 100)
+                quantidade: parseInt(pedido.valor / parseInt(CUPOM.valor_minimo))
             };
 
             res.render("form.njk", { cupom, url: `${BASE_URL}/pedido/cupom` });
@@ -160,13 +160,11 @@ class Pedido {
                 throw new Error("Pedido cancelado ou expirado!");
             }
 
-            if (pedido.valor / 100 < 1) {
+            if (pedido.valor / parseInt(CUPOM.valor_minimo) < 1) {
 
                 throw new Error("Pedido com o valor insuficiente!");
 
             }
-
-
 
             if (!pedido.cliente) {
 
@@ -188,7 +186,7 @@ class Pedido {
                 telefone_fisco: "(" + Pedido.formatarNumero(cliente.ddd) + ")" + " " + Pedido.formatarNumero(cliente.telefone_fisco),
                 telefone_celular: "(" + Pedido.formatarNumero(cliente.ddd) + ")" + " " + Pedido.formatarNumero(cliente.telefone_celular),
                 endereco: cliente.bairro,
-                quantidade: parseInt(pedido.valor / 100)
+                quantidade: parseInt(pedido.valor / parseInt(CUPOM.valor_minimo))
             };
 
             res.render("form.njk", { cupom, url: `${BASE_URL}/pedido/cupom` });

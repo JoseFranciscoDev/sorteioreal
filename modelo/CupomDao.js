@@ -1,4 +1,5 @@
 const Abstract = require("./Abstract.js");
+
 class CupomDao extends Abstract {
 
     static async getCupomCodigo(pedido) {

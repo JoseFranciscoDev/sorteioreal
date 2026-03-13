@@ -14,7 +14,8 @@ const CAMPOS_OBRIGATORIOS = [
     { secao: "REAL_BINGO",      campo: "port",     label: "Banco Local — Porta" },
     { secao: "REAL_BINGO",      campo: "password", label: "Banco Local — Senha" },
     { secao: "HOST_IMPRESSORA", campo: "ip",       label: "Impressora — IP" },
-    { secao: "HOST_IMPRESSORA", campo: "timeout",  label: "Impressora — Timeout" },
+    { secao: "HOST_IMPRESSORA", campo: "timeout", label: "Impressora — Timeout" },
+    { secao: "CUPONS", campo: "valor_minimo", label: "Cupons - valor_minimo"}
 ];
 
 const CONFIG_PATH = path.resolve(__dirname, "../configs.json");

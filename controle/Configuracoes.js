@@ -11,7 +11,7 @@ class Configuracoes {
         // Lê config direto do disco para ter dados atualizados
         const config = ValidacaoConfig.lerConfig();
         const { valido, camposFaltando } = ValidacaoConfig.validar();
-
+        
         res.render("configuracoes.njk", {
             config,
             valido,
@@ -41,6 +41,8 @@ class Configuracoes {
 
             config.HOST_IMPRESSORA.ip      = req.body.impressora_ip      || "";
             config.HOST_IMPRESSORA.timeout = parseInt(req.body.impressora_timeout) || 0;
+            config.CUPONS.valor_minimo = req.body.valor_minimo || "";
+
 
             // Salva no disco com indentação legível
             fs.writeFileSync(CONFIG_PATH, JSON.stringify(config, null, 2), "utf-8");
