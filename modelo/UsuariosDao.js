@@ -14,13 +14,13 @@ class Usuarios extends AbstractUsuarios {
             return usuarios;
 
         } else {
-             const texto = `select * from usuarios where usuarios.snome = ?`;
+            const texto = `select * from usuarios where usuarios.snome = ?`;
 
             const [usuarios] = await conn.query(texto, [nome]);
 
             return usuarios;
-                     
-            
+
+
         }
 
 
@@ -41,10 +41,8 @@ class Usuarios extends AbstractUsuarios {
         const texto = `insert into usuarios(nome,snome, email, senha, tipo)
             values(?, ?, ?, ?, ?)`;
 
-
         const [usuarios] = await conn.query(texto, [usuario.nome, usuario.snome, usuario.email,
-            usuario.senha, usuario.tipo]);
-
+        usuario.senha, usuario.tipo]);
         return usuarios;
 
     }
@@ -68,7 +66,7 @@ class Usuarios extends AbstractUsuarios {
         return usuarios;
 
     }
-    
+
     static async criarTabela() {
         const conn = await this.connection();
         const texto = ` create table if not exists usuarios(

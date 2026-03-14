@@ -1,0 +1,193 @@
+/* ============================================================
+   configuracoes.css — Tela de Configurações
+   Tema: Vermelho (#c0392b) e Branco
+   ============================================================ */
+
+body {
+    font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+    background: #f5f5f5;
+    margin: 0;
+    padding: 0;
+}
+
+.page-wrapper {
+    max-width: 860px;
+    margin: 40px auto;
+    padding: 0 20px;
+}
+
+/* ---- Cabeçalho ---- */
+.page-header {
+    display: flex;
+    align-items: center;
+    gap: 12px;
+    margin-bottom: 24px;
+    padding: 18px 24px;
+    background: #c0392b;
+    border-radius: 14px;
+    box-shadow: 0 4px 16px rgba(192, 57, 43, 0.25);
+}
+
+.page-header i {
+    font-size: 2rem;
+    color: #fff;
+}
+
+.page-header h1 {
+    font-size: 1.6rem;
+    color: #fff;
+    margin: 0;
+    font-weight: 700;
+    letter-spacing: .3px;
+}
+
+/* ---- Alertas ---- */
+.alert {
+    display: flex;
+    align-items: flex-start;
+    gap: 10px;
+    padding: 14px 18px;
+    border-radius: 10px;
+    margin-bottom: 20px;
+    font-size: 0.95rem;
+}
+
+.alert-danger {
+    background: #fef2f2;
+    border: 1px solid #fca5a5;
+    color: #991b1b;
+}
+
+.alert-success {
+    background: #f0fdf4;
+    border: 1px solid #86efac;
+    color: #166534;
+}
+
+.alert i { font-size: 1.2rem; flex-shrink: 0; margin-top: 1px; }
+
+.alert ul { margin: 6px 0 0 0; padding-left: 18px; }
+.alert ul li { margin: 2px 0; }
+
+/* ---- Cartão de seção ---- */
+.card {
+    background: #fff;
+    border-radius: 14px;
+    box-shadow: 0 2px 12px rgba(0,0,0,.07);
+    padding: 28px 32px;
+    margin-bottom: 22px;
+    border-top: 4px solid #c0392b;
+}
+
+.card-title {
+    font-size: 1rem;
+    font-weight: 700;
+    color: #c0392b;
+    margin: 0 0 20px 0;
+    display: flex;
+    align-items: center;
+    gap: 8px;
+    text-transform: uppercase;
+    letter-spacing: .5px;
+}
+
+/* ---- Grid de campos ---- */
+.fields-grid {
+    display: grid;
+    grid-template-columns: 1fr 1fr;
+    gap: 16px 24px;
+}
+
+.field-group {
+    display: flex;
+    flex-direction: column;
+    gap: 5px;
+}
+
+.field-group.full-width {
+    grid-column: 1 / -1;
+}
+
+label {
+    font-size: 0.82rem;
+    font-weight: 600;
+    color: #374151;
+    text-transform: uppercase;
+    letter-spacing: .4px;
+}
+
+input {
+    padding: 10px 13px;
+    border: 1.5px solid #d1d5db;
+    border-radius: 8px;
+    font-size: 0.95rem;
+    color: #111827;
+    transition: border-color .2s, box-shadow .2s;
+    outline: none;
+    background: #f9fafb;
+}
+
+input:focus {
+    border-color: #c0392b;
+    background: #fff;
+    box-shadow: 0 0 0 3px rgba(192, 57, 43, .15);
+}
+
+input.campo-faltando {
+    border-color: #ef4444;
+    background: #fff5f5;
+}
+
+input.campo-faltando:focus {
+    box-shadow: 0 0 0 3px rgba(239,68,68,.15);
+}
+
+/* ---- Botões ---- */
+.actions {
+    display: flex;
+    align-items: center;
+    gap: 12px;
+    margin-top: 10px;
+}
+
+.btn {
+    display: inline-flex;
+    align-items: center;
+    gap: 7px;
+    padding: 11px 22px;
+    border-radius: 9px;
+    font-size: 0.95rem;
+    font-weight: 600;
+    cursor: pointer;
+    border: none;
+    text-decoration: none;
+    transition: background .2s, transform .1s, box-shadow .2s;
+}
+
+.btn:active { transform: scale(.97); }
+
+.btn-primary {
+    background: #c0392b;
+    color: #fff;
+    box-shadow: 0 3px 10px rgba(192, 57, 43, 0.3);
+}
+
+.btn-primary:hover {
+    background: #a93226;
+    box-shadow: 0 4px 14px rgba(192, 57, 43, 0.4);
+}
+
+.btn-secondary {
+    background: #fff;
+    color: #c0392b;
+    border: 2px solid #c0392b;
+}
+
+.btn-secondary:hover {
+    background: #fef2f2;
+}
+
+@media (max-width: 600px) {
+    .fields-grid { grid-template-columns: 1fr; }
+    .field-group.full-width { grid-column: unset; }
+}

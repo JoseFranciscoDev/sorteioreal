@@ -12,9 +12,7 @@ class AbstractNerusAWS {
     }
     
   static  async connection () {
-        
         return await NerusAWS();
-        
         
     }
 }

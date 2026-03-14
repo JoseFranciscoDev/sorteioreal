@@ -1,9 +1,8 @@
 const path = require("path");
 const {ThermalPrinter, PrinterTypes} = require("node-thermal-printer");
-const {HOST_IMPRESSORA} = require("../configs.json");
+const { HOST_IMPRESSORA } = require("../configs.json");
+
 class DocumentoCupom {
-
-
    static configuracao() {
         return new ThermalPrinter({
         type: PrinterTypes.EPSON,
@@ -71,8 +70,6 @@ class DocumentoCupom {
             printer.cut();
 
             await  printer.execute();
-
-        
     }
 
    static adicionarZeroAEsqueda(codigoCupom) {

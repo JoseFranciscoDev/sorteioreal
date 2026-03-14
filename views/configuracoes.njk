@@ -1,0 +1,188 @@
+<!DOCTYPE html>
+<html lang="pt-BR">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Configurações — Shopping Real</title>
+    <link rel="stylesheet" type="text/css" href="/css/style.css" media="screen">
+    <link rel="stylesheet" type="text/css" href="/css/configuracoes.css" media="screen">
+    <link href="https://unpkg.com/boxicons@2.1.4/css/boxicons.min.css" rel="stylesheet">
+</head>
+<body>
+
+<div class="page-wrapper">
+
+    <div class="page-header">
+        <i class='bx bx-cog'></i>
+        <h1>Configurações do Sistema</h1>
+    </div>
+
+    {# ---- Banner: campos faltando ---- #}
+    {% if not valido %}
+    <div class="alert alert-danger">
+        <i class='bx bx-error-circle'></i>
+        <div>
+            <strong>Configuração incompleta!</strong> Os campos abaixo são obrigatórios para o funcionamento do sistema:
+            <ul>
+                {% for c in camposFaltando %}
+                <li>{{ c.label }}</li>
+                {% endfor %}
+            </ul>
+        </div>
+    </div>
+    {% endif %}
+
+    {# ---- Banner: sucesso ---- #}
+    {% if mensagem %}
+    <div class="alert alert-success">
+        <i class='bx bx-check-circle'></i>
+        <span>{{ mensagem }}</span>
+    </div>
+    {% endif %}
+
+    {# ---- Banner: erro ---- #}
+    {% if erro %}
+    <div class="alert alert-danger">
+        <i class='bx bx-error-circle'></i>
+        <span>{{ erro }}</span>
+    </div>
+    {% endif %}
+
+    <form method="POST" action="{{ BASE_URL }}/home/configuracoes">
+
+        {# ===== Nerus AWS ===== #}
+        <div class="card">
+            <p class="card-title"><i class='bx'></i> Nerus AWS (ERP)</p>
+            <div class="fields-grid">
+
+                <div class="field-group">
+                    <label for="nerus_host">Host / IP</label>
+                    <input type="text" id="nerus_host" name="nerus_host"
+                           value="{{ config.NERUS_AWS.host }}"
+                           class="{% if camposFaltando | selectattr('secao','equalto','NERUS_AWS') | selectattr('campo','equalto','host') | list | length %}campo-faltando{% endif %}">
+                </div>
+
+                <div class="field-group">
+                    <label for="nerus_port">Porta</label>
+                    <input type="number" id="nerus_port" name="nerus_port"
+                           value="{{ config.NERUS_AWS.port }}"
+                           class="{% if camposFaltando | selectattr('secao','equalto','NERUS_AWS') | selectattr('campo','equalto','port') | list | length %}campo-faltando{% endif %}">
+                </div>
+
+                <div class="field-group">
+                    <label for="nerus_database">Database</label>
+                    <input type="text" id="nerus_database" name="nerus_database"
+                           value="{{ config.NERUS_AWS.database }}"
+                           class="{% if camposFaltando | selectattr('secao','equalto','NERUS_AWS') | selectattr('campo','equalto','database') | list | length %}campo-faltando{% endif %}">
+                </div>
+
+                <div class="field-group">
+                    <label for="nerus_user">Usuário</label>
+                    <input type="text" id="nerus_user" name="nerus_user"
+                           value="{{ config.NERUS_AWS.user }}"
+                           class="{% if camposFaltando | selectattr('secao','equalto','NERUS_AWS') | selectattr('campo','equalto','user') | list | length %}campo-faltando{% endif %}">
+                </div>
+
+                <div class="field-group full-width">
+                    <label for="nerus_password">Senha</label>
+                    <input type="password" id="nerus_password" name="nerus_password"
+                           value="{{ config.NERUS_AWS.password }}"
+                           class="{% if camposFaltando | selectattr('secao','equalto','NERUS_AWS') | selectattr('campo','equalto','password') | list | length %}campo-faltando{% endif %}">
+                </div>
+
+            </div>
+        </div>
+
+        {# ===== Banco Local ===== #}
+        <div class="card">
+            <p class="card-title"><i class='bx'></i> Banco de Dados Local (Sorteio)</p>
+            <div class="fields-grid">
+
+                <div class="field-group">
+                    <label for="bingo_host">Host</label>
+                    <input type="text" id="bingo_host" name="bingo_host"
+                           value="{{ config.REAL_BINGO.host }}"
+                           class="{% if camposFaltando | selectattr('secao','equalto','REAL_BINGO') | selectattr('campo','equalto','host') | list | length %}campo-faltando{% endif %}">
+                </div>
+
+                <div class="field-group">
+                    <label for="bingo_port">Porta</label>
+                    <input type="number" id="bingo_port" name="bingo_port"
+                           value="{{ config.REAL_BINGO.port }}"
+                           class="{% if camposFaltando | selectattr('secao','equalto','REAL_BINGO') | selectattr('campo','equalto','port') | list | length %}campo-faltando{% endif %}">
+                </div>
+
+                <div class="field-group">
+                    <label for="bingo_database">Database</label>
+                    <input type="text" id="bingo_database" name="bingo_database"
+                           value="{{ config.REAL_BINGO.database }}"
+                           class="{% if camposFaltando | selectattr('secao','equalto','REAL_BINGO') | selectattr('campo','equalto','database') | list | length %}campo-faltando{% endif %}">
+                </div>
+
+                <div class="field-group">
+                    <label for="bingo_user">Usuário</label>
+                    <input type="text" id="bingo_user" name="bingo_user"
+                           value="{{ config.REAL_BINGO.user }}"
+                           class="{% if camposFaltando | selectattr('secao','equalto','REAL_BINGO') | selectattr('campo','equalto','user') | list | length %}campo-faltando{% endif %}">
+                </div>
+
+                <div class="field-group full-width">
+                    <label for="bingo_password">Senha</label>
+                    <input type="password" id="bingo_password" name="bingo_password"
+                           value="{{ config.REAL_BINGO.password }}"
+                           class="{% if camposFaltando | selectattr('secao','equalto','REAL_BINGO') | selectattr('campo','equalto','password') | list | length %}campo-faltando{% endif %}">
+                </div>
+
+            </div>
+        </div>
+
+        {# ===== Impressora ===== #}
+        <div class="card">
+            <p class="card-title"><i class='bx'></i> Impressora Térmica</p>
+            <div class="fields-grid">
+
+                <div class="field-group">
+                    <label for="impressora_ip">IP da Impressora</label>
+                    <input type="text" id="impressora_ip" name="impressora_ip"
+                           value="{{ config.HOST_IMPRESSORA.ip }}"
+                           class="{% if camposFaltando | selectattr('secao','equalto','HOST_IMPRESSORA') | selectattr('campo','equalto','ip') | list | length %}campo-faltando{% endif %}">
+                </div>
+
+                <div class="field-group">
+                    <label for="impressora_timeout">Timeout (ms)</label>
+                    <input type="number" id="impressora_timeout" name="impressora_timeout"
+                           value="{{ config.HOST_IMPRESSORA.timeout }}"
+                           class="{% if camposFaltando | selectattr('secao','equalto','HOST_IMPRESSORA') | selectattr('campo','equalto','timeout') | list | length %}campo-faltando{% endif %}">
+                </div>
+
+            </div>
+        </div>
+
+        <div class="card">
+            <p class="card-title"><i class='bx'></i>CUPONS</p>
+            <div class="fields-grid">
+                <div class="field-group">
+                    <label for="valor_minimo">Valor Mínimo</label>
+                    <input type="text" id="valor_minimo" name="valor_minimo"
+                           value="{{ config.CUPONS.valor_minimo }}"
+                           class="{% if camposFaltando | selectattr('secao','equalto','CUPONS') | selectattr('campo','equalto','valor_minimo') | list | length %}campo-faltando{% endif %}">
+                </div>
+            </div>
+        </div>
+
+        <div class="actions">
+            <button type="submit" class="btn btn-primary">
+                <i class='bx bx-save'></i> Salvar Configurações
+            </button>
+            {% if valido %}
+            <a href="{{ BASE_URL }}/home" class="btn btn-secondary">
+                <i class='bx bx-arrow-back'></i> Voltar
+            </a>
+            {% endif %}
+        </div>
+
+    </form>
+</div>
+
+</body>
+</html>

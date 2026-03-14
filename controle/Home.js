@@ -13,11 +13,10 @@ class Home {
                 nome: "Sair"
             }
         ];
-      
+    
   }
- static urlsAdm() {
-     
-     const links = [
+    static urlsAdm() {
+        const links = [
            {
                url:`${BASE_URL}/home/pedido`,
                clase: "bx bx-plus-circle icon",
@@ -60,14 +59,11 @@ class Home {
         console.log(req.session.usuario);
         if (!req.session.usuario.tipo) {
             const urls = Home.urls();
-             res.render("home.html", {links: [urls[0]], links2:[urls[1]]});
+            res.render("home.html", {links: [urls[0]], links2:[urls[1]]});
         } else {
             const {links, links2} = Home.urlsAdm();
             res.render("home.html", {links, links2});
         }
-        
-        
-        
     }
     
  static sair(req,res) {
