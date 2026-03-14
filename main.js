@@ -11,6 +11,7 @@ const routerHome = require("./rotas/home.js");
 const routerPedido = require("./rotas/pedido.js");
 const routerCupom = require("./rotas/cupom.js");
 const routerConfiguracoes = require("./rotas/configuracoes.js");
+const routerAdministracao = require("./rotas/administracao.js");
 const routerCatalogo = require("./rotas/catalogo.js");
 const verificaConfig = require("./middlewares/verificaConfig.js");
 const UsuarioDao = require("./modelo/UsuariosDao.js");
@@ -42,6 +43,7 @@ app.use(BASE_URL, routerConfiguracoes);
 app.use(BASE_URL, verificaConfig, routerHome);
 app.use(BASE_URL, verificaConfig, routerPedido);
 app.use(BASE_URL, verificaConfig, routerCupom);
+app.use(BASE_URL, verificaConfig, routerAdministracao);
 app.use(BASE_URL, routerCatalogo);
 
 app.listen(PORT, async () => {
