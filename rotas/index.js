@@ -1,10 +1,10 @@
 const express = require("express");
 const router = express.Router();
-const Usuario =require("../controle/Usuario.js");
+const Autenticacao =require("../controle/Autenticacao.js");
 
 
-router.get("/", Usuario.index);
-router.post("/",Usuario.login);
+router.get("/", Autenticacao.index);
+router.post("/",Autenticacao.login);
 
 
 
