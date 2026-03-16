@@ -50,7 +50,11 @@ data date not null,
 foreign key (codigoCupom) references cupons (codigo)
 );
 
-
-
-
-
+create table if not exists vendedorClientes(
+	id int primary key auto_increment,
+    codigoUsuario int not null,
+    codigoVendedor int not null,
+    codigoCliente int not null,
+    codigoPedido int,
+    data datetime not null default now()
+);

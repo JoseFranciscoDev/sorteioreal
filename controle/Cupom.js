@@ -7,9 +7,9 @@ const { BASE_URL } = require("../configs.json");
 class Cupom {
     static async adiciona(req, res) {
         req.body.usuario = req.session.usuario.codigo;
-        const [pedido] = await PedidoDao.getPedido({codigo: req.body.pedido});
+        const [pedido] = await PedidoDao.getPedido({ codigo: req.body.pedido });
         req.body.data = pedido.data;
-        const [cliente] = await PedidoDao.getCliente({codigo: req.body.cliente});
+        const [cliente] = await PedidoDao.getCliente({ codigo: req.body.cliente });
         req.body.cidade = cliente.cidade;
         req.body.estado = cliente.estado;
         req.body.cep = cliente.cep;
@@ -35,14 +35,15 @@ class Cupom {
         const codigoCupom = await CupomDao.setCupom(cupom);
 
         await Cupom.adicionaCuponsClientes(
-                {codigoCupom,
-                    cliente: cupom.cliente,
-                    pedido: cupom.codigo,
-                    valor: cupom.valor,
-                    data: cupom.data
-                }, cupom.quantidade);
+            {
+                codigoCupom,
+                cliente: cupom.cliente,
+                pedido: cupom.codigo,
+                valor: cupom.valor,
+                data: cupom.data
+            }, cupom.quantidade);
 
-        const cupons = await CuponsClientesDao.getCupom({codigoCupom});
+        const cupons = await CuponsClientesDao.getCupom({ codigoCupom });
 
         await Cupom.imprimirCupons(cupons);
         res.redirect(`${BASE_URL}/home/pedido`);
@@ -56,8 +57,9 @@ class Cupom {
     }
 
     static async imprimirCupons(cupons) {
-       await cupons.forEach(async function (cupom) {
-           await DocumentoCupom.imprimir(cupom);
+ 
+        await cupons.forEach(async function (cupom) {
+            await DocumentoCupom.imprimir(cupom);
         });
 
     }

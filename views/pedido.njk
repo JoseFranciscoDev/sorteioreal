@@ -7,7 +7,6 @@
 
     {% block principal %}
 
-    
     <nav>
       <div class="logo">
         <i class="bx bx-menu menu-icon"></i>
@@ -16,10 +15,9 @@
         <div class="logo">
           <i class="bx bx-menu menu-icon"></i>
         </div>
-
        <div class="sidebar-content">
             <ul class="lists">
-                {% for item in links %}
+              {% for item in links %}
               <li class="list">
                 <a href="{{item.url}}" class="nav-link">
                   <i class="{{item.clase}}"></i>
@@ -28,7 +26,6 @@
               </li>
              {% endfor %}
             </ul>
-  
           </div>
       </div>
     </nav>
