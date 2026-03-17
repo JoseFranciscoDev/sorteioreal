@@ -5,7 +5,6 @@ class PedidoDao extends AbstractNerusAWS {
     static async getPedido(pedido) {
         const conn = await this.connection();
 
-        console.log(conn)
         const texto = `select 
                             eord.ordno as codigo,
                             date_format(eord.date, "%Y-%m-%d") as data,

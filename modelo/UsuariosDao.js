@@ -43,8 +43,8 @@ class Usuarios extends AbstractUsuarios {
 
         const [usuarios] = await conn.query(texto, [usuario.nome, usuario.snome, usuario.email,
         usuario.senha, usuario.tipo]);
+        console.log(usuarios);
         return usuarios;
-
     }
     static async deleteUsuario(usuario) {
         const conn = await this.connection();

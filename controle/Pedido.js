@@ -3,7 +3,7 @@ const PedidoDao = require("../modelo/PedidoDao.js");
 const CuponsClientesDao = require("../modelo/CuponsClientesDao.js");
 const Cupom = require("./Cupom.js");
 const { CUPONS: CUPOM } = require("../configs.json")
-
+const DocmentoCupom = require("../utilitarios/DocumentoCupom.js");
 console.log(CUPOM)
 
 class Pedido {
@@ -142,10 +142,14 @@ class Pedido {
 
 
     }
-    static index(req, res) {
-
+    static async index(req, res) {
         const links = Pedido.url();
-        res.render("pedido.njk", { url: `${BASE_URL}/home/pedido`, mensagem: "", links });
+        const printer = DocmentoCupom.configuracao();
+        if (await printer.isPrinterConnected()) {
+            res.render("pedido.njk", { url: `${BASE_URL}/home/pedido`, links });
+        } else {
+            res.render("pedido.njk", { url: `${BASE_URL}/home/pedido`, mensagem: "Impressora não conectada!", links });;
+        }
     }
 
     static async buscaPedido(req, res) {
@@ -155,7 +159,6 @@ class Pedido {
                 throw new Error("Esse campo é obrigatorio!");
             }
             const [pedido] = await PedidoDao.getPedido({ codigo: req.body.pedido });
-            console.log(pedido)
             if (!pedido) {
                 throw new Error("Pedido cancelado ou expirado!");
             }

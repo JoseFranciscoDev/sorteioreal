@@ -1,6 +1,6 @@
 const mysql = require("mysql2/promise");
 const { REAL_BINGO } = require("../configs.json");
-let conn
+let conn;
 async function conexao() {
     const configuracao = {
         host: REAL_BINGO.host,
@@ -10,7 +10,7 @@ async function conexao() {
         password: REAL_BINGO.password
     };
     if (conn != null) {
-        return conn
+        return conn;
     }
     conn = await mysql.createConnection(configuracao);
 

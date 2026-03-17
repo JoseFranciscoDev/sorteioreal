@@ -1,0 +1,80 @@
+{% extends "index.html" %} 
+{% block css %}
+<meta name="viewport" content="width=device-width, initial-scale=1.0" />
+<link rel="stylesheet" type="text/css" href="/css/home.css" media="screen" />
+<link rel="stylesheet" type="text/css" href="/css/administracao.css" media="screen" />
+<link rel="stylesheet" href="https://unpkg.com/boxicons@2.1.2/css/boxicons.min.css" />
+<title>Administração - Shopping Real</title>
+{% endblock %} 
+
+{% block principal %}
+<nav>
+  <div class="logo">
+    <i class="bx bx-menu menu-icon"></i>
+  </div>
+  <div class="sidebar">
+    <div class="logo">
+      <i class="bx bx-menu menu-icon"></i>
+    </div>
+    <div class="sidebar-content">
+      <ul class="lists">
+        {% for item in links %}
+        <li class="list">
+          <a href="{{item.url}}" class="nav-link">
+            <i class="{{item.clase}}"></i>
+            <span class="link">{{item.nome}}</span>
+          </a>
+        </li>
+        {% endfor %}
+      </ul>
+      <div class="bottom-cotent">
+        {% for item2 in links2 %}
+        <li class="list">
+          <a href="{{item2.url}}" class="nav-link">
+            <i class="{{item2.clase}}"></i>
+            <span class="link">{{item2.nome}}</span>
+          </a>
+        </li>
+        {% endfor %}
+      </div>
+    </div>
+  </div>
+</nav>
+
+<section class="overlay"></section>
+
+<div class="admin-container">
+    <h1 class="admin-title">Painel de Administração</h1>
+    <p class="admin-subtitle">Escolha o que você deseja gerenciar:</p>
+    
+    <div class="admin-cards">
+        <a href="{{ url }}administracao/usuarios" class="admin-card">
+            <i class='bx bxs-user-detail admin-card-icon'></i>
+            <h2>Gerir Usuários</h2>
+            <p>Adicionar, visualizar e editar os usuários do sistema.</p>
+        </a>
+        
+        <a href="#" class="admin-card">
+            <i class='bx bxs-discount admin-card-icon'></i>
+            <h2>Gerir Cupons</h2>
+            <p>Administrar os cupons disponíveis e campanhas.</p>
+        </a>
+    </div>
+</div>
+
+<script>
+  const navBar = document.querySelector("nav"),
+    menuBtns = document.querySelectorAll(".menu-icon"),
+    overlay = document.querySelector(".overlay");
+
+  menuBtns.forEach((menuBtn) => {
+    menuBtn.addEventListener("click", () => {
+      navBar.classList.toggle("open");
+    });
+  });
+
+  overlay.addEventListener("click", () => {
+    navBar.classList.remove("open");
+  });
+</script>
+{% endblock %}

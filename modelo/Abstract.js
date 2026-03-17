@@ -20,7 +20,6 @@ class Abstract {
     }
     
   static async connection() {
-        
         return await connection();
     }
     
