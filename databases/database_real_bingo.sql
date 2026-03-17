@@ -50,6 +50,17 @@ data date not null,
 foreign key (codigoCupom) references cupons (codigo)
 );
 
+
+create table if not exists produto_imagens (
+    id int not null primary key auto_increment,
+    codigo_produto int not null,
+    imagem_nome varchar(255),
+    imagem_url varchar(255),
+    codigo_usuario int not null,
+    data_criacao datetime default current_timestamp,
+    data_atualizacao datetime default current_timestamp on update current_timestamp
+);
+
 create table if not exists vendedorClientes(
 	id int primary key auto_increment,
     codigoUsuario int not null,
