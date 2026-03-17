@@ -37,6 +37,11 @@ class Home {
                 url: `${BASE_URL}/administracao`,
                 clase: "bx bxs-user icon",
                 nome: "Administração"
+            },
+            {
+                url: `${BASE_URL}/cliente`,
+                clase: "bx bxs-user icon",
+                nome: "Cadastro de Cliente"
             }
         ];
 
@@ -45,6 +50,11 @@ class Home {
                 url: `${BASE_URL}/home/configuracoes`,
                 clase: "bx bx-cog icon",
                 nome: "Configurações"
+            },
+            {
+                url: `${BASE_URL}/cliente`,
+                clase: "bx bxs-user icon",
+                nome: "Cadastro de Cliente"
             },
             {
                 url: `${BASE_URL}/home/sair`,

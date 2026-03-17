@@ -159,7 +159,6 @@ class Pedido {
                 throw new Error("Esse campo é obrigatorio!");
             }
             const [pedido] = await PedidoDao.getPedido({ codigo: req.body.pedido });
-            console.log(pedido)
             if (!pedido) {
                 throw new Error("Pedido cancelado ou expirado!");
             }

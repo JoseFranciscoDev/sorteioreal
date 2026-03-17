@@ -1,0 +1,220 @@
+@import url('https://fonts.googleapis.com/css2?family=Poppins:wght@400;500;700&display=swap');
+
+* {
+    margin: 0;
+    padding: 0;
+    box-sizing: border-box;
+}
+
+body, html {
+    height: 100%;
+    font-family: 'Poppins', sans-serif;
+    font-weight: 400;
+}
+
+.Main-container {
+    width: 100%;
+    margin: 0 auto;
+}
+.container-cliente {
+    width: 100%;
+    min-height: 100vh;
+    display: flex;
+    flex-wrap: wrap;
+    justify-content: center;
+    align-items: center;
+    padding: 15px;
+    background: #ca2c2c;
+    margin: 0 auto;
+}
+
+.wrap-cliente {
+    width: 500px;
+    background: #ca2c2c;
+    border-radius: 10px;
+    padding: 50px 50px 60px 50px;
+    box-shadow: 0 10px 30px 0px rgba(0, 0, 0, 0.2);
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    justify-content: center;
+}
+
+.cliente-form-title {
+    font-family: 'Poppins', sans-serif;
+    font-size: 35px;
+    color: #ffffff;
+    line-height: 1.2;
+    text-align: center;
+    font-weight: 700;
+    width: 100%;
+    display: block;
+    padding-bottom: 30px;
+}
+
+.wrap-input {
+    width: 100%;
+    margin-bottom: 15px;
+    position: relative;
+}
+
+.input-cliente {
+    font-family: 'Poppins', sans-serif;
+    font-size: 15px;
+    font-weight: 500;
+    line-height: 1.5;
+    color: #666666;
+    outline: none;
+    border: none;
+    display: block;
+    width: 100%;
+    background: #e6e6e6;
+    height: 50px;
+    border-radius: 25px;
+    padding: 0 30px;
+    transition: all 0.4s;
+}
+
+.input-cliente:focus {
+    background: #ffffff;
+    box-shadow: 0 0 10px rgba(255, 255, 255, 0.5);
+}
+
+.btn-container {
+    width: 100%;
+    display: flex;
+    justify-content: center;
+    padding-top: 20px;
+}
+
+.btn-cliente {
+    font-family: 'Poppins', sans-serif;
+    font-size: 15px;
+    line-height: 1.5;
+    color: #fff;
+    background: #57b846;
+    text-transform: uppercase;
+    width: 100%;
+    height: 50px;
+    border-radius: 25px;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    padding: 0 25px;
+    transition: all 0.4s;
+    border: none;
+    cursor: pointer;
+    font-weight: 500;
+}
+
+.btn-cliente:hover {
+    background: #333333;
+}
+
+nav {
+    position: fixed;
+    top: 0;
+    left: 0;
+    height: 70px;
+    display: flex;
+    align-items: center;
+    box-sizing: border-box;
+    font-family: "Poppins", sans-serif;
+    z-index: 1000;
+  }
+.ms {
+   text-align: center;
+   font-family:Verdana, Arial, Helvetica, sans-serif; 
+   width: 80%;
+   padding: 8px;
+   font-weight:100px; 
+   font-size:14px;
+   margin-bottom: 15px;
+}
+.erro {
+     background-color:#FFCACA; 
+     border:2px #a60202 solid; 
+     color:#a60202; 
+     border-radius:10px; 
+}
+
+  
+  nav .logo {
+    display: flex;
+    align-items: center;
+    margin: 0 19px;
+  }
+  .logo .menu-icon {
+    color: #000000;
+    font-size: 50px;
+    margin-right: 14px;
+    cursor: pointer;
+  }
+
+  nav .sidebar {
+    position: fixed;
+    top: 0;
+    left: -100%;
+    height: 100%;
+    width: 269px;
+    padding: 20px 0;
+    background-color: #fff;
+    box-shadow: 0 5px 1px rgba(0, 0, 0, 0.1);
+    transition: all 0.4s ease;
+    z-index: 1000;
+  }
+  nav.open .sidebar {
+    left: 0;
+  }
+  .sidebar .sidebar-content {
+    display: flex;
+    height: 97%;
+    flex-direction: column;
+    justify-content: space-between;
+    padding: 25px 16px;
+  }
+
+  .sidebar-content .list {
+    list-style: none;
+  }
+  .list .nav-link {
+    display: flex;
+    align-items: center;
+    margin: 0px 0;
+    padding: 10px 10px;
+    border-radius: 8px;
+    text-decoration: none;
+  }
+  .lists .nav-link:hover {
+    background-color: #f04141;
+  }
+  .nav-link .icon {
+    margin-right: 14px;
+    font-size: 20px;
+    color: #707070;
+  }
+  .nav-link .link {
+    font-size: 16px;
+    color: #707070;
+    font-weight: 400;
+  }
+  .lists .nav-link:hover .icon,
+  .lists .nav-link:hover .link {
+    color: #fff;
+  }
+  .overlay {
+    position: fixed;
+    top: 0;
+    left: -100%;
+    height: 1000vh;
+    width: 200%;
+    opacity: 0;
+    pointer-events: none;
+    transition: all 0.4s ease;
+    z-index: 999;
+  }
+  nav.open ~ .overlay {
+    opacity: 1;
+    left: 260px;
+    pointer-events: auto;
+  }

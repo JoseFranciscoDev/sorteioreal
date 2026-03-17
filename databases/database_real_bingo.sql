@@ -54,7 +54,7 @@ create table if not exists vendedorClientes(
 	id int primary key auto_increment,
     codigoUsuario int not null,
     codigoVendedor int not null,
-    codigoCliente int not null,
-    codigoPedido int,
+    codigoCliente int not null unique,
+    codigoPedido int unique,
     data datetime not null default now()
 );

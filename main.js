@@ -13,6 +13,7 @@ const routerCupom = require("./rotas/cupom.js");
 const routerConfiguracoes = require("./rotas/configuracoes.js");
 const routerAdministracao = require("./rotas/administracao.js");
 const routerCatalogo = require("./rotas/catalogo.js");
+const routerCliente = require("./rotas/Cliente.js");
 const verificaConfig = require("./middlewares/verificaConfig.js");
 const UsuarioDao = require("./modelo/UsuariosDao.js");
 const CupomDao = require("./modelo/CupomDao.js");
@@ -37,6 +38,7 @@ app.use(express.static(path.resolve(__dirname, "./public")));
 nunjucks.configure(path.resolve(__dirname, "./views"), { autoescape: true, express: app });
 
 app.use(BASE_URL, routerIndex);
+app.use(BASE_URL, routerCliente);
 
 app.use(BASE_URL, routerConfiguracoes);
 
