@@ -17,6 +17,13 @@ class ClienteDao extends Abstract {
         return clientes;
     };
 
+    static async getClientes() {
+        const conn = await this.connection();
+        const texto = `select * from vendedorclientes`;
+        const [clientes] = await conn.query(texto);
+        return clientes;
+    };
+
     static async criarTabela() {
         const conn = await this.connection();
         const texto = ` create table if not exists vendedorclientes(
