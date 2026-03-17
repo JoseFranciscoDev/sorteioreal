@@ -4,17 +4,16 @@ class Home {
     static urls() {
         return [
             {
-                url: `${BASE_URL}/home/pedido`,
-                clase: "bx bx-plus-circle icon",
-                nome: "Modulo de Sorteio"
+                url: `${BASE_URL}/cliente`,
+                clase: "bx bxs-user icon",
+                nome: "Cadastro de Cliente"
             },
             {
                 url: `${BASE_URL}/home/sair`,
                 clase: "bx bx-log-out icon",
                 nome: "Sair"
-            }
-        ];
-
+            },
+        ]
     }
     static urlsAdm() {
         const links = [
@@ -50,11 +49,6 @@ class Home {
                 url: `${BASE_URL}/home/configuracoes`,
                 clase: "bx bx-cog icon",
                 nome: "Configurações"
-            },
-            {
-                url: `${BASE_URL}/cliente`,
-                clase: "bx bxs-user icon",
-                nome: "Cadastro de Cliente"
             },
             {
                 url: `${BASE_URL}/home/sair`,

@@ -17,27 +17,6 @@ class ClienteDao extends Abstract {
         return clientes;
     };
 
-    static async getClienteNerus(pedido) {
-        const conn = await this.connection();
-        const texto = `select
-                            custp.no as codigo,
-                            custp.name as nome,
-                            custp.cpf_cgc as cpf,
-                            ifnull(substring_index(custp.ddd, " ", 1), " ") as ddd,
-                            ifnull(substring_index(custp.tel, " ", 1), " ") as telefone_fisco,
-                            ifnull(substring_index(custp.celular, " ", 1), " ") as telefone_celular,
-                            custp.nei1 as bairro,
-                            custp.city1 as cidade,
-                            ifnull(substring_index(custp.zip, " ", 1), " ") as cep,
-                            custp.state1 as estado
-                            
-                            from custp where custp.no = ?`;
-        const [cliente] = await conn.query(texto, [pedido.codigo]);
-
-        return cliente;
-
-    }
-
     static async criarTabela() {
         const conn = await this.connection();
         const texto = ` create table if not exists vendedorclientes(

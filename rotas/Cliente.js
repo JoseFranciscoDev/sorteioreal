@@ -4,7 +4,7 @@ const router = express.Router();
 const { BASE_URL } = require("../configs.json");
 const ClienteNerusDao = require("../modelo/ClienteNerusDao.js");
 const Home = require("../controle/Home.js");
-
+const PedidoDao = require("../modelo/PedidoDao.js");
 
 router.get("/cliente", async (req, res) => {
     const tipoUsuario = req.session.usuario.tipo;
@@ -24,12 +24,11 @@ router.post("/cliente", async (req, res) => {
     novoCliente.codigoUsuario = req.session.usuario.codigo;
     const verificarBingo = await ClienteDao.getClienteBingo(novoCliente);
     if (verificarBingo.length > 0) {
-        res.redirect(`${BASE_URL}/cliente?erro=Cliente já cadastrado!`);
+        res.redirect(`${BASE_URL}/cliente?erro=Erro: Cliente já cadastrado no sistema!`);
         return;
     }
 
     const verificarNerus = await ClienteNerusDao.getCliente(novoCliente);
-    console.log(verificarNerus);
     if (verificarNerus.length == 0) {
         res.redirect(`${BASE_URL}/cliente?erro=Cliente ${novoCliente.codigoCliente} não cadastrado no Nérus!`);
         return;
@@ -40,6 +39,14 @@ router.post("/cliente", async (req, res) => {
     if (verificarNerus[0].data_cadastro <= dataComecoIncentivo) {
         res.redirect(`${BASE_URL}/cliente?erro=Cliente ${novoCliente.codigoCliente} cadastrado no Nérus antes do começo do incentivo!`);
         return;
+    }
+
+    if (novoCliente.codigoPedido) {
+        const verificarPedido = await PedidoDao.getPedido(novoCliente);
+        if (verificarPedido.length == 0) {
+            res.redirect(`${BASE_URL}/cliente?erro=Pedido ${novoCliente.codigoPedido} não cadastrado no Nérus!`);
+            return;
+        }
     }
 
     try {
