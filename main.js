@@ -13,7 +13,7 @@ const routerCupom = require("./rotas/cupom.js");
 const routerConfiguracoes = require("./rotas/configuracoes.js");
 const routerAdministracao = require("./rotas/administracao.js");
 const routerCatalogo = require("./rotas/catalogo.js");
-const routerCliente = require("./rotas/Cliente.js");
+const routerCliente = require("./rotas/cliente.js");
 const verificaConfig = require("./middlewares/verificaConfig.js");
 const UsuarioDao = require("./modelo/UsuariosDao.js");
 const CupomDao = require("./modelo/CupomDao.js");
@@ -22,6 +22,7 @@ const cors = require("cors");
 const AbstractNerusAWS = require("./modelo/AbstractNerusAWS.js");
 const conexaoLocal = require("./modelo/AbstractUsuarios.js");
 const ProdutoImagemDao = require("./modelo/ProdutoImagemDao");
+const ClienteDao = require("./modelo/ClienteDao.js");
 const conexao = require("./databases/conexao.js");
 
 app.use(cors({
@@ -58,6 +59,7 @@ app.listen(PORT, async () => {
     await CupomDao.criarTabela();
     await CuponsClientesDao.criarTabela();
     await ProdutoImagemDao.criarTabela(conn);
+    await ClienteDao.criarTabela();
     console.log("Servidor rodando na porta: " + PORT);
 });
 
