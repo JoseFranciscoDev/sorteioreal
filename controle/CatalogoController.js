@@ -11,6 +11,9 @@ class CatalogoController {
             const arquivos = req.files;
             
             
+            if(!usuario) return res.redirect("/login");
+            
+            
             if (!codigoProduto) {
                 return res.render("catalogo", {
                     erro: "Codigo do produto é obrigatorio"
@@ -32,7 +35,7 @@ class CatalogoController {
             return res.redirect("/catalogo");
         } catch(erro) {
             
-            console.erro(erro);
+            console.error(erro);
             
             return res.render("catalogo", {
                 erro: "Erro ao enviar imagens"
