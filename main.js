@@ -23,6 +23,7 @@ const AbstractNerusAWS = require("./modelo/AbstractNerusAWS.js");
 const conexaoLocal = require("./modelo/AbstractUsuarios.js");
 const ProdutoImagemDao = require("./modelo/ProdutoImagemDao");
 const conexao = require("./databases/conexao.js");
+const uploadRouter = require("./rotas/uploads.js");
 
 app.use(cors({
     origen: "*"
@@ -49,6 +50,8 @@ app.use(BASE_URL, verificaConfig, routerPedido);
 app.use(BASE_URL, verificaConfig, routerCupom);
 app.use(BASE_URL, verificaConfig, routerAdministracao);
 app.use(BASE_URL, routerCatalogo);
+app.use(BASE_URL,uploadRouter);
+
 
 app.listen(PORT, async () => {
     const conn = await conexao();
