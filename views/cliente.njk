@@ -31,6 +31,17 @@
               </li>
              {% endfor %}
             </ul>
+
+            <div class="bottom-cotent">
+              {% for item2 in links2 %}
+              <li class="list">
+                <a href="{{item2.url}}" class="nav-link">
+                  <i class="{{item2.clase}}"></i>
+                  <span class="link">{{item2.nome}}</span>
+                </a>
+              </li>
+              {% endfor %}
+            </div>
           </div>
       </div>
     </nav>
