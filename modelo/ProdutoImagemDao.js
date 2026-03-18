@@ -18,7 +18,8 @@ class ProdutoImagemDao {
             dados.codigo_usuario
         ];
 
-        return await this.conexao.query(sql, valores);
+        const [resultado] = await this.conexao.query(sql, valores);
+        return resultado;
     }
     
     
