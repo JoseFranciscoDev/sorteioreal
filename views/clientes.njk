@@ -67,7 +67,6 @@
                         <th>Cod. Cliente</th>
                         <th>Cod. Pedido</th>
                         <th>Data</th>
-                        <th>Tipo de usuário</th>
                     </tr>
                 </thead>
                 <tbody>
@@ -83,9 +82,6 @@
                         <td>{{ cliente.codigoCliente }}</td>
                         <td>{{ cliente.codigoPedido }}</td>
                         <td>{{ cliente.data }}</td>
-                        <td>
-                            <button class="btn-action btn-delete" title="Excluir"><i class='bx bx-trash'></i></button>
-                        </td>
                     </tr>
                     {% endfor %}
                     {% endif %}
