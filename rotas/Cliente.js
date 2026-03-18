@@ -23,12 +23,13 @@ router.get("/cliente/todos", async (req, res) => {
     const tipoUsuario = req.session.usuario.tipo;
     const erro = req.query.erro;
     const clientes = await ClienteDao.getClientes();
+    console.log(clientes)
     if (tipoUsuario === 1) {
         const { links, links2 } = Home.urlsAdm();
-        res.render("clientes.njk", { links, links2, erro, clientes });
+        res.render("clientes.njk", { links, links2, erro, clientes, BASE_URL });
     } else {
         const urls = Home.urls();
-        res.render("clientes.njk", { links: [urls[0]], links2: [urls[1]], erro, clientes: [] });
+        res.render("clientes.njk", { links: [urls[0]], links2: [urls[1]], erro, clientes, BASE_URL });
     }
 });
 

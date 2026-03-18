@@ -1,15 +1,23 @@
 @import url('https://fonts.googleapis.com/css2?family=Poppins:wght@300;400;500;600;700&display=swap');
 
+/* ============================================================
+   clientes.css — Listagem de Clientes
+   Tema: Vermelho (#d1121d) e Branco — alinhado ao projeto
+   ============================================================ */
+
 :root {
-    --primary: #e63946;
-    --primary-hover: #c1121f;
-    --bg-dark: #0f0f1a;
-    --bg-card: rgba(255, 255, 255, 0.05);
-    --text-main: #f1faee;
-    --text-muted: #a8dadc;
-    --glass-border: rgba(255, 255, 255, 0.1);
-    --sidebar-bg: #1a1a2e;
-    --transition: all 0.3s cubic-bezier(0.4, 0, 0.2, 1);
+    --primary-color: #d1121d;
+    --primary-light: #e63946;
+    --bg-page:       #f4f6f9;
+    --bg-card:       #ffffff;
+    --sidebar-bg:    #ffffff;
+    --text-main:     #333333;
+    --text-muted:    #666666;
+    --border-color:  #e0e0e0;
+    --shadow-sm:     0 2px 4px rgba(0, 0, 0, 0.05);
+    --shadow-md:     0 4px 6px rgba(0, 0, 0, 0.10);
+    --shadow-lg:     0 10px 15px rgba(0, 0, 0, 0.10);
+    --transition:    all 0.3s ease;
 }
 
 * {
@@ -21,12 +29,12 @@
 body, html {
     height: 100%;
     font-family: 'Poppins', sans-serif;
+    background-color: var(--bg-page);
     color: var(--text-main);
-    background: radial-gradient(circle at top left, #1a1a2e, #0f0f1a);
     overflow-x: hidden;
 }
 
-/* Sidebar Styling */
+/* ---- Navbar / Sidebar ---- */
 nav {
     position: fixed;
     top: 0;
@@ -51,7 +59,7 @@ nav .logo {
 }
 
 .logo .menu-icon:hover {
-    color: var(--primary);
+    color: var(--primary-color);
     transform: scale(1.1);
 }
 
@@ -63,9 +71,9 @@ nav .sidebar {
     width: 280px;
     padding: 20px;
     background: var(--sidebar-bg);
-    box-shadow: 10px 0 30px rgba(0, 0, 0, 0.5);
+    box-shadow: 4px 0 20px rgba(0, 0, 0, 0.12);
     transition: var(--transition);
-    border-right: 1px solid var(--glass-border);
+    border-right: 1px solid var(--border-color);
 }
 
 nav.open .sidebar {
@@ -89,16 +97,16 @@ nav.open .sidebar {
     display: flex;
     align-items: center;
     padding: 12px 15px;
-    border-radius: 12px;
+    border-radius: 10px;
     text-decoration: none;
     color: var(--text-muted);
     transition: var(--transition);
 }
 
 .list .nav-link:hover {
-    background: var(--primary);
+    background: var(--primary-color);
     color: #fff;
-    box-shadow: 0 4px 15px rgba(230, 57, 70, 0.3);
+    box-shadow: 0 4px 12px rgba(209, 18, 29, 0.25);
 }
 
 .nav-link i {
@@ -111,7 +119,7 @@ nav.open .sidebar {
     font-weight: 500;
 }
 
-/* Content Container */
+/* ---- Content Container ---- */
 .admin-container {
     max-width: 1200px;
     margin: 80px auto 40px;
@@ -122,46 +130,45 @@ nav.open .sidebar {
     display: flex;
     justify-content: space-between;
     align-items: center;
-    margin-bottom: 40px;
+    margin-bottom: 30px;
 }
 
 .admin-title {
     font-size: 2.5rem;
+    color: var(--text-main);
     font-weight: 700;
-    background: linear-gradient(45deg, #fff, #a8dadc);
-    -webkit-background-clip: text;
-    background-clip: text;
-    -webkit-text-fill-color: transparent;
 }
 
+/* ---- Botão Primário ---- */
 .btn-primary {
-    background: var(--primary);
-    color: #fff;
-    padding: 12px 24px;
-    border-radius: 12px;
+    background-color: var(--primary-color);
+    color: white;
+    padding: 10px 20px;
+    border-radius: 8px;
     text-decoration: none;
     font-weight: 600;
     display: flex;
     align-items: center;
     gap: 8px;
     transition: var(--transition);
-    box-shadow: 0 10px 20px rgba(230, 57, 70, 0.2);
+    border: none;
+    cursor: pointer;
+    box-shadow: 0 4px 12px rgba(209, 18, 29, 0.20);
 }
 
 .btn-primary:hover {
-    background: var(--primary-hover);
+    background-color: var(--primary-light);
     transform: translateY(-2px);
-    box-shadow: 0 15px 25px rgba(230, 57, 70, 0.3);
+    box-shadow: 0 8px 20px rgba(209, 18, 29, 0.28);
 }
 
-/* Table Card */
+/* ---- Tabela ---- */
 .table-container {
     background: var(--bg-card);
-    backdrop-filter: blur(10px);
-    border: 1px solid var(--glass-border);
-    border-radius: 20px;
-    overflow: hidden;
-    box-shadow: 0 20px 40px rgba(0, 0, 0, 0.3);
+    border-radius: 12px;
+    box-shadow: var(--shadow-md);
+    overflow-x: auto;
+    border: 1px solid var(--border-color);
 }
 
 .admin-table {
@@ -169,79 +176,85 @@ nav.open .sidebar {
     border-collapse: collapse;
 }
 
-.admin-table th {
-    background: rgba(255, 255, 255, 0.03);
-    padding: 20px;
-    text-align: left;
-    font-weight: 600;
-    color: var(--text-muted);
-    border-bottom: 1px solid var(--glass-border);
-}
-
+.admin-table th,
 .admin-table td {
-    padding: 18px 20px;
-    border-bottom: 1px solid rgba(255, 255, 255, 0.03);
-    vertical-align: middle;
+    padding: 15px 20px;
+    text-align: left;
+    border-bottom: 1px solid var(--border-color);
 }
 
-.admin-table tr:hover td {
-    background: rgba(255, 255, 255, 0.02);
-}
-
-/* Badges */
-.badge {
-    padding: 6px 12px;
-    border-radius: 8px;
-    font-size: 12px;
+.admin-table th {
+    background-color: #f8f9fa;
+    color: var(--text-muted);
     font-weight: 600;
     text-transform: uppercase;
+    font-size: 0.82rem;
+    letter-spacing: 0.5px;
+}
+
+.admin-table tr:last-child td {
+    border-bottom: none;
+}
+
+.admin-table tbody tr:hover td {
+    background-color: #fef6f6;
+}
+
+/* ---- Badges ---- */
+.badge {
+    padding: 5px 12px;
+    border-radius: 20px;
+    font-size: 0.82rem;
+    font-weight: 600;
 }
 
 .badge-admin {
-    background: rgba(230, 57, 70, 0.1);
-    color: var(--primary);
-    border: 1px solid rgba(230, 57, 70, 0.2);
+    background-color: rgba(209, 18, 29, 0.10);
+    color: var(--primary-color);
+    border: 1px solid rgba(209, 18, 29, 0.20);
 }
 
 .badge-user {
-    background: rgba(168, 218, 220, 0.1);
-    color: var(--text-muted);
-    border: 1px solid rgba(168, 218, 220, 0.2);
+    background-color: rgba(108, 117, 125, 0.10);
+    color: #6c757d;
+    border: 1px solid rgba(108, 117, 125, 0.20);
 }
 
-/* Actions */
+/* ---- Botões de Ação ---- */
 .btn-action {
-    background: rgba(255, 255, 255, 0.05);
-    color: var(--text-muted);
-    width: 36px;
-    height: 36px;
-    border-radius: 8px;
-    display: inline-flex;
-    align-items: center;
-    justify-content: center;
-    margin-right: 5px;
+    background: none;
+    border: none;
+    cursor: pointer;
+    font-size: 1.2rem;
+    color: #6c757d;
     transition: var(--transition);
+    margin-right: 10px;
+    padding: 6px;
+    border-radius: 6px;
 }
 
 .btn-action:hover {
-    background: var(--primary);
-    color: #fff;
-    transform: translateY(-2px);
+    color: var(--primary-color);
+    background: rgba(209, 18, 29, 0.08);
 }
 
 .btn-delete:hover {
-    background: #bd1f36;
+    color: #dc3545;
+    background: rgba(220, 53, 69, 0.08);
 }
 
-/* Overlay */
+.text-center {
+    text-align: center;
+}
+
+/* ---- Overlay ---- */
 .overlay {
     position: fixed;
     top: 0;
     left: 0;
     width: 100%;
     height: 100%;
-    background: rgba(0, 0, 0, 0.5);
-    backdrop-filter: blur(4px);
+    background: rgba(0, 0, 0, 0.4);
     opacity: 0;
     visibility: hidden;
     transition: var(--transition);
@@ -253,15 +266,16 @@ nav.open ~ .overlay {
     visibility: visible;
 }
 
+/* ---- Responsivo ---- */
 @media (max-width: 768px) {
     .admin-header {
         flex-direction: column;
         align-items: flex-start;
-        gap: 20px;
+        gap: 15px;
     }
-    
+
     .admin-table {
         display: block;
         overflow-x: auto;
     }
-}
+}
