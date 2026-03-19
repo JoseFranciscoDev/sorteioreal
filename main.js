@@ -21,8 +21,8 @@ const CuponsClientesDao = require("./modelo/CuponsClientesDao.js");
 const cors = require("cors");
 const AbstractNerusAWS = require("./modelo/AbstractNerusAWS.js");
 const conexaoLocal = require("./modelo/AbstractUsuarios.js");
+const UploadsDao = require("./modelo/UploadsDao.js");
 const ClienteDao = require("./modelo/ClienteDao.js");
-const ProdutoImagemDao = require("./modelo/ProdutoImagemDao");
 const conexao = require("./databases/conexao.js");
 const uploadRouter = require("./rotas/uploads.js");
 
@@ -51,18 +51,17 @@ app.use(BASE_URL, verificaConfig, routerPedido);
 app.use(BASE_URL, verificaConfig, routerCupom);
 app.use(BASE_URL, verificaConfig, routerAdministracao);
 app.use(BASE_URL, routerCatalogo);
-app.use(BASE_URL,uploadRouter);
+app.use(BASE_URL, uploadRouter);
 
 
 app.listen(PORT, async () => {
-    const conn = await conexao();
     await AbstractNerusAWS.connection();
     await conexaoLocal.connection();
     await UsuarioDao.criarTabela();
     await CupomDao.criarTabela();
     await CuponsClientesDao.criarTabela();
-    await ProdutoImagemDao.criarTabela(conn);
-    await ClienteDao.criarTabela(conn);
+    await UploadsDao.criarTabela(conexao);
+    await ClienteDao.criarTabela();
     console.log("Servidor rodando na porta: " + PORT);
 });
 

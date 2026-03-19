@@ -1,7 +1,7 @@
 {% extends "index.html" %} 
 
 {% block titulo %}
-<title>Shopping Real - Cliente</title>
+<title>Shopping Real - Cadastro de Cliente</title>
 {% endblock %}
 
 {% block css %}
@@ -46,51 +46,49 @@
       </div>
     </nav>
 
-    <section class="overlay"></section>
+    <div class="overlay"></div>
+
+    <div class="container-cliente">
+        <div class="wrap-cliente">
+            <span class="cliente-form-title">Cadastro de Cliente</span>
+            {% if erro %}
+               <p class="ms erro"><i class='bx bx-error-circle'></i> {{erro}}</p>
+            {% endif %}
+            <form action="{{ url }}" method="POST">
+
+                <div class="wrap-input">
+                    <input type="text" class="input-cliente" name="codigoVendedor" placeholder="Código do Vendedor" required>
+                </div>
+
+                <div class="wrap-input">
+                    <input type="text" class="input-cliente" name="codigoCliente" placeholder="Código do Cliente" required>
+                </div>
+
+                <div class="wrap-input">
+                    <input type="text" class="input-cliente" name="codigoPedido" placeholder="Código do Pedido">
+                </div>
+
+                <div class="btn-container">
+                    <button type="submit" class="btn-cliente">Cadastrar Cliente</button>
+                </div>
+                
+            </form>
+        </div>
+    </div>
 
     <script>
         const navBar = document.querySelector("nav"),
-        menuBtns = document.querySelectorAll(".menu-icon"),
-        overlay = document.querySelector(".overlay");
+              menuBtns = document.querySelectorAll(".menu-icon"),
+              overlay = document.querySelector(".overlay");
 
         menuBtns.forEach((menuBtn) => {
-        menuBtn.addEventListener("click", () => {
-        navBar.classList.toggle("open");
+            menuBtn.addEventListener("click", () => {
+                navBar.classList.toggle("open");
+            });
         });
-    });
 
         overlay.addEventListener("click", () => {
-        navBar.classList.remove("open");
-    });
+            navBar.classList.remove("open");
+        });
     </script>
-
-    <div class="Main-container">
-        <div class="container-cliente">
-            <div class="wrap-cliente">
-                <span class="cliente-form-title">Cadastro de cliente</span>
-                {% if erro %}
-                   <p class="ms erro"><i class="icon icon-hand-paper-o"></i>{{erro}}</p>
-                {% endif %}
-                <form action="{{ url }}" method="POST">
-
-                    <div class="wrap-input">
-                        <input type="text" class="input-cliente" name="codigoVendedor" placeholder="Código do Vendedor" required>
-                    </div>
-
-                    <div class="wrap-input">
-                        <input type="text" class="input-cliente" name="codigoCliente" placeholder="Código do Cliente" required>
-                    </div>
-
-                    <div class="wrap-input">
-                        <input type="text" class="input-cliente" name="codigoPedido" placeholder="Código do Pedido">
-                    </div>
-
-                    <div class="btn-container">
-                        <button type="submit" class="btn-cliente">Cadastrar</button>
-                    </div>
-                    
-                </form>
-            </div>
-        </div>
-    </div>
-{% endblock %}
+{% endblock %}

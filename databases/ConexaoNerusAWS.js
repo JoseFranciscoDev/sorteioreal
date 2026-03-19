@@ -13,7 +13,7 @@ async function conexao() {
     if (conn != null) {
         return conn
     }
-    conn = await mysql.createConnection(configuracao);
+    conn = await mysql.createPool(configuracao);
     return conn;
 
 }

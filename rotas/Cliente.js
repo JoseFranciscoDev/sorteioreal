@@ -19,6 +19,22 @@ router.get("/cliente", async (req, res) => {
 });
 
 
+router.get("/cliente/todos", async (req, res) => {
+    const tipoUsuario = req.session.usuario.tipo;
+    const erro = req.query.erro;
+    const clientes = await ClienteDao.getClientes();
+    // const pedido = await PedidoDao.getPedidoPsssorCodigoCliente(clientes[0].codigoCliente);
+    // console.log(pedido)
+    if (tipoUsuario === 1) {
+        const { links, links2 } = Home.urlsAdm();
+        res.render("clientes.njk", { links, links2, erro, clientes, BASE_URL });
+    } else {
+        const urls = Home.urls();
+        res.render("clientes.njk", { links: [urls[0]], links2: [urls[1]], erro, clientes, BASE_URL });
+    }
+});
+
+
 router.post("/cliente", async (req, res) => {
     const novoCliente = req.body;
     novoCliente.codigoUsuario = req.session.usuario.codigo;
