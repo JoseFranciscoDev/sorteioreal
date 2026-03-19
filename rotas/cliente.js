@@ -1,7 +1,7 @@
 const express = require("express");
 const ClienteDao = require("../modelo/ClienteDao.js");
 const router = express.Router();
-const { BASE_URL } = require("../configs.json");
+const { BASE_URL, INCENTIVO } = require("../configs.json");
 const ClienteNerusDao = require("../modelo/ClienteNerusDao.js");
 const Home = require("../controle/Home.js");
 const PedidoDao = require("../modelo/PedidoDao.js");
@@ -50,7 +50,7 @@ router.post("/cliente", async (req, res) => {
         return;
     }
 
-    const dataComecoIncentivo = "20260301";
+    const dataComecoIncentivo = INCENTIVO.data_comeco;
 
     if (verificarNerus[0].data_cadastro <= dataComecoIncentivo) {
         res.redirect(`${BASE_URL}/cliente?erro=Cliente ${novoCliente.codigoCliente} cadastrado no Nérus antes do começo do incentivo!`);

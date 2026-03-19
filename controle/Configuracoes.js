@@ -42,6 +42,7 @@ class Configuracoes {
             config.HOST_IMPRESSORA.ip      = req.body.impressora_ip      || "";
             config.HOST_IMPRESSORA.timeout = parseInt(req.body.impressora_timeout) || 0;
             config.CUPONS.valor_minimo = req.body.valor_minimo || "";
+            config.INCENTIVO.data_comeco = req.body.data_comeco || "";
 
 
             // Salva no disco com indentação legível
