@@ -80,17 +80,17 @@ class Home {
         res.render("CriarUsuario.njk", { url: `${BASE_URL}/` });
     }
 
-    static criarUsuarioPost(req, res) {
-        if (!req.session.usuario.tipo) {
-            res.redirect(`${BASE_URL}/`);
-            const { nome, snome, email, senha, tipo } = req.body;
-            const usuario = { nome, snome, email, senha, tipo };
-            try {
-                Usuario.setUsuario(usuario);
-                res.redirect(`${BASE_URL}/`);
-            } catch (erro) {
-                res.render("CriarUsuario.njk", { url: `${BASE_URL}/`, mensagem: erro.message });
-            }
+    static async criarUsuarioPost(req, res) {
+        if (!req.session.usuario || !req.session.usuario.tipo) {
+            return res.redirect(`${BASE_URL}/`);
+        }
+        const { nome, snome, email, senha, tipo } = req.body;
+        const usuario = { nome, snome, email, senha, tipo };
+        try {
+            await Usuario.setUsuario(usuario);
+            res.redirect(`${BASE_URL}/administracao/usuarios`);
+        } catch (erro) {
+            res.render("CriarUsuario.njk", { url: `${BASE_URL}/`, mensagem: erro.message });
         }
     }
 }
