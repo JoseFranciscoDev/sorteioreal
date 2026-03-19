@@ -22,7 +22,7 @@ const cors = require("cors");
 const AbstractNerusAWS = require("./modelo/AbstractNerusAWS.js");
 const conexaoLocal = require("./modelo/AbstractUsuarios.js");
 const ClienteDao = require("./modelo/ClienteDao.js");
-const ProdutoImagemDao = require("./modelo/ProdutoImagemDao");
+const UploadsDao = require("./modelo/UploadsDao.js");
 const conexao = require("./databases/conexao.js");
 const uploadRouter = require("./rotas/uploads.js");
 
@@ -55,14 +55,13 @@ app.use(BASE_URL,uploadRouter);
 
 
 app.listen(PORT, async () => {
-    const conn = await conexao();
     await AbstractNerusAWS.connection();
     await conexaoLocal.connection();
     await UsuarioDao.criarTabela();
     await CupomDao.criarTabela();
     await CuponsClientesDao.criarTabela();
-    await ProdutoImagemDao.criarTabela(conn);
-    await ClienteDao.criarTabela(conn);
+    await ClienteDao.criarTabela();
+    await UploadsDao.criarTabela(conexao);
     console.log("Servidor rodando na porta: " + PORT);
 });
 
