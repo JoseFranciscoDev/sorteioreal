@@ -67,6 +67,7 @@
                         <th>Cod. Cliente</th>
                         <th>Cod. Pedido</th>
                         <th>Data</th>
+                        <th>Hora</th>
                     </tr>
                 </thead>
                 <tbody>
@@ -82,7 +83,7 @@
                         <td>{{ cliente.codigoCliente }}</td>
                         <td>{{ cliente.codigoPedido }}</td>
                         <td>{{ cliente.data }}</td>
-                        <td>{{ cliente.status }}</td>
+                        <td>{{cliente.hora}}</td>
                     </tr>
                     {% endfor %}
                     {% endif %}
