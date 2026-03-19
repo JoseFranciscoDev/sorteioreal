@@ -5,9 +5,9 @@ const {v4: uuidv4} = require("uuid");
 
 class CatalogoService {
     
-    constructor(produtoImagemDao) {
+    constructor(uploadsDao) {
         
-        this.produtoImagemDao = produtoImagemDao;
+        this.uploadsDao = uploadsDao;
     }
     
     
@@ -16,7 +16,11 @@ class CatalogoService {
         const pastaProduto = path.resolve("public/catalogo", codigoProduto.toString());
         
         fs.mkdirSync(pastaProduto, {recursive: true});
-        
+	
+	console.log(codigoProduto);
+	console.log(usuario);
+	console.log(arquivos);
+
         for (const arquivo of arquivos) {
             
             const extensao = path.extname(arquivo.originalname);
@@ -31,11 +35,13 @@ class CatalogoService {
             
             const urlImagem = `/catalogo/${nomeImagem}`;
             
-            await this.produtoImagemDao.salvarImagem({
+           console.log(usuario);
+            
+            await this.uploadsDao.salvarImagem({
                 codigo_produto: codigoProduto,
                 imagem_nome: nomeImagem,
                 imagem_url: urlImagem,
-                codigo_usuario: usuario.id
+                codigo_usuario: usuario.codigo
             });
         }
     }

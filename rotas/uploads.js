@@ -1,18 +1,19 @@
 const express = require("express");
 const router = express.Router();
-const  upload = require("../middlewares/uploadImagem.js");
-const CatalogoController = require("../controle/CatalogoController.js");
-const CatalogoService = require("../services/CatalogoService.js"); 
-const ProdutoImagemDao = require("../modelo/ProdutoImagemDao.js");
+const  upload = require("../middlewares/Uploads.js");
+const UploadsController = require("../controle/UploadsController.js");
+const UploadsService = require("../services/UploadsService.js"); 
+const UploadsDao = require("../modelo/UploadsDao.js");
 const conexao = require("../databases/conexao.js");
 
-const produtoImagemDao = new ProdutoImagemDao(conexao);
+const uploadsDao = new UploadsDao(conexao);
 
-const catalogoService = new CatalogoService(produtoImagemDao);
+const uploadsService = new UploadsService(uploadsDao);
 
-const catalogoController = new CatalogoController(catalogoService);
+const uploadsController = new UploadsController(uploadsService);
 
-router.post("/catalogo/upload", upload.array("imagens", 10), catalogoController.uploadImagens.bind(CatalogoController));
+router.post("/uploads", upload.array("imagens", 10), (req, res)=> uploadsController.uploads(req, res));
+router.get("/uploads", (req, res)=> uploadsController.uploadsImagens(req, res));
 
 
 module.exports = router;

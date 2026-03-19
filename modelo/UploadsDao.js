@@ -18,7 +18,8 @@ class ProdutoImagemDao {
             dados.codigo_usuario
         ];
 
-        const [resultado] = await this.conexao.query(sql, valores);
+	const conn = await this.conexao();
+        const [resultado] = await conn.query(sql, valores);
         return resultado;
     }
     
@@ -35,7 +36,8 @@ class ProdutoImagemDao {
                          data_atualizacao datetime default current_timestamp on update current_timestamp )`;
         
         
-        await conexao.query(sql);
+	const conn = await conexao();
+        await conn.query(sql);
     }
 
 }

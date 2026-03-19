@@ -12,6 +12,8 @@ class Autenticacao {
         try {
             const usuario = req.body;
             const [resultado] = await UsuarioDao.getUsuarios(usuario.nome);
+
+
             if (!resultado) {
                 throw new Error("Usuario e Senha Incorretos!");
             }
