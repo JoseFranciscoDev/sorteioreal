@@ -38,6 +38,7 @@ router.get("/cliente/todos", async (req, res) => {
 router.post("/cliente", async (req, res) => {
     const novoCliente = req.body;
     novoCliente.codigoUsuario = req.session.usuario.codigo;
+    novoCliente.codigoPedido = novoCliente.codigoPedido || null;
     const verificarBingo = await ClienteDao.getClienteBingo(novoCliente);
     if (verificarBingo.length > 0) {
         res.redirect(`${BASE_URL}/cliente?erro=Erro: Cliente já cadastrado no sistema!`);
@@ -52,7 +53,7 @@ router.post("/cliente", async (req, res) => {
 
     const dataComecoIncentivo = INCENTIVO.data_comeco;
 
-    if (verificarNerus[0].data_cadastro <= dataComecoIncentivo) {
+    if (verificarNerus[0].data_cadastro < dataComecoIncentivo) {
         res.redirect(`${BASE_URL}/cliente?erro=Cliente ${novoCliente.codigoCliente} cadastrado no Nérus antes do começo do incentivo!`);
         return;
     }
