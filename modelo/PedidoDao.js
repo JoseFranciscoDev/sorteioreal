@@ -10,12 +10,29 @@ class PedidoDao extends AbstractNerusAWS {
                             date_format(eord.date, "%Y-%m-%d") as data,
                             eord.custno as cliente,
                             ((eord.amount - eord.discount) / 100) valor,
-                            paym.name as metodoPagamento                            
+                            paym.name as metodoPagamento                  
                              from eord left join paym on(eord.paymno = paym.no) where eord.ordno = ?
                                     and eord.status in(3,8)`;
         const [resultado] = await conn.query(texto, [pedido.codigo]);
         return resultado;
     }
+
+    static async getPedidoPorCodigoCliente(codigoCliente) {
+        const conn = await this.connection();
+
+        const texto = `select 
+                            eord.ordno as codigo,
+                            date_format(eord.date, "%Y-%m-%d") as data,
+                            eord.custno as cliente,
+                            ((eord.amount - eord.discount) / 100) valor,
+                            paym.name as metodoPagamento,
+                            eord.status as status                           
+                             from eord left join paym on(eord.paymno = paym.no) where eord.custno = ?
+                                    and eord.status in(3,8)`;
+        const [resultado] = await conn.query(texto, [codigoCliente]);
+        return resultado;
+    }
+
 
     static async getCliente(pedido) {
         const conn = await this.connection();
