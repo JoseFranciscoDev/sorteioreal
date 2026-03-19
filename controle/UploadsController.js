@@ -35,7 +35,6 @@ class UploadsController {
 			const usuario = req.session.usuario;
 			const arquivos = req.files;
 
-                        console.log("entrou fazendo o uploads");
 
 			if(!usuario) return res.redirect("/login");
                         
