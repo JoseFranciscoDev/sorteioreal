@@ -15,6 +15,7 @@ class CatalogoService {
         
         const pastaProduto = path.resolve("public/catalogo", codigoProduto.toString());
         
+
         if (!fs.existsSync(pastaProduto)) {
             fs.mkdirSync(pastaProduto, {recursive: true});
         }
@@ -34,8 +35,6 @@ class CatalogoService {
             fs.renameSync(caminhoOrigem, caminhoDestino);
             
             const urlImagem = `/public/catalogo/${codigoProduto.toString()}/${nomeImagem}`;
-            
-       
             
             await this.uploadsDao.salvarImagem({
                 codigo_produto: codigoProduto,
