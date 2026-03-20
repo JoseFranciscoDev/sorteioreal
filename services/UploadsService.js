@@ -19,7 +19,7 @@ class CatalogoService {
         
         const produtos = await this.uploadsDao.buscarImagensProdutos();
         
-        if (!produtos || produtos.lenth === 0) {
+        if (!produtos || produtos.length === 0) {
             
             return [];
         }
