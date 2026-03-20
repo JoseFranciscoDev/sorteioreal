@@ -3,12 +3,60 @@ const path = require("path");
 const {v4: uuidv4} = require("uuid");
 
 
+
 class CatalogoService {
     
     constructor(uploadsDao) {
         
         this.uploadsDao = uploadsDao;
     }
+    
+    
+    async listarProdutos() {
+        
+        const loja = 1;
+        
+        
+        const produtos = await this.uploadsDao.buscarImagensProdutos();
+        
+        if (!produtos || produtos.lenth === 0) {
+            
+            return [];
+        }
+        
+        
+        
+        const codigos = produtos.map(p => p.codigo_produto);
+        
+        const dadosProdutos = await this.uploadsDao.buscarDadosProdutos(codigos, loja);
+        
+        
+        
+        const  mapaProdutos = new Map();
+        
+        
+        for (const item of dadosProdutos) {
+            
+            mapaProdutos.set(item.codigo, item);
+        }
+        
+        
+        const listaFinal = produtos.map(produto => {
+            const dados = mapaProdutos.get(produto.codigo_produto);
+            
+            return {
+                        ...produto,
+                        nome_produto: dados?.produto || null,
+                        preco: dados?.preco || null
+            };
+        });
+        
+        
+        return listaFinal;
+        
+       
+        } 
+        
     
     
     async uploadImagens(codigoProduto, usuario, arquivos) {
@@ -22,15 +70,12 @@ class CatalogoService {
 
         for (const arquivo of arquivos) {
             
-         /*   const extensao = path.extname(arquivo.originalname);
-            console.log(extensao);*/
-            
+    
             const nomeImagem = arquivo.filename;
             
             const caminhoOrigem = arquivo.path;
             
             const caminhoDestino = path.resolve(pastaProduto, nomeImagem);
-            console.log(caminhoDestino);
             
             fs.renameSync(caminhoOrigem, caminhoDestino);
             
