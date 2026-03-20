@@ -59,15 +59,12 @@ class Home {
         return { links, links2 };
     }
     static index(req, res) {
-        console.log(req.session.usuario);
-        if (req.session.usuario && req.session.usuario.tipo != AUTORIZACAO.admin) {
+        if (req.session.usuario && req.session.usuario.tipo == "NORMAL") {
             const urls = Home.urls();
             res.render("home.html", { links: [urls[0]], links2: [urls[1]] });
-        } else if(req.session.usuario && req.session.usuario.tipo == AUTORIZACAO.admin) {
+        } else if (req.session.usuario && req.session.usuario.tipo != "NORMAL") {
             const { links, links2 } = Home.urlsAdm();
-            res.render("home.html", { links, links2 });
-        } else {
-            res.redirect(`${BASE_URL}/`);
+            res.render("home.html", { links, links2 })
         }
     }
 
