@@ -10,7 +10,7 @@ const storage = multer.diskStorage({
         
         const dir = "tmp/uploads";
         
-        if (!fs.existisSync(dir)) {
+        if (!fs.existsSync(dir)) {
             fs.mkdirSync(dir, {recursive: true});
         }
         
