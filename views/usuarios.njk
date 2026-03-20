@@ -71,10 +71,12 @@
                     <td>{{ usuario.snome }}</td>
                     <td>{{ usuario.email }}</td>
                     <td>
-                        {% if usuario.tipo == 1 %}
+                        {% if usuario.tipo == 'ADMIN' %}
                             <span class="badge badge-admin">Administrador</span>
-                        {% else %}
-                            <span class="badge badge-user">Usuário</span>
+                        {% elif usuario.tipo == 'NORMAL' %}
+                            <span class="badge badge-user">Normal</span>
+                        {% elif usuario.tipo == 'ADMIN_VEND' %}
+                            <span class="badge badge-user">Admin Vendedor</span>
                         {% endif %}
                     </td>
                     <td>
