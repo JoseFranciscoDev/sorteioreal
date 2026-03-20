@@ -13,7 +13,7 @@ const routerCupom = require("./rotas/cupom.js");
 const routerConfiguracoes = require("./rotas/configuracoes.js");
 const routerAdministracao = require("./rotas/administracao.js");
 const routerCatalogo = require("./rotas/catalogo.js");
-const routerCliente = require("./rotas/Cliente.js");
+const routerCliente = require("./rotas/cliente.js");
 const verificaConfig = require("./middlewares/verificaConfig.js");
 const UsuarioDao = require("./modelo/UsuariosDao.js");
 const CupomDao = require("./modelo/CupomDao.js");
@@ -21,6 +21,10 @@ const CuponsClientesDao = require("./modelo/CuponsClientesDao.js");
 const cors = require("cors");
 const AbstractNerusAWS = require("./modelo/AbstractNerusAWS.js");
 const conexaoLocal = require("./modelo/AbstractUsuarios.js");
+<<<<<<< HEAD
+=======
+const ClienteDao = require("./modelo/ClienteDao.js");
+>>>>>>> dev
 const UploadsDao = require("./modelo/UploadsDao.js");
 const conexao = require("./databases/conexao.js");
 const uploadRouter = require("./rotas/uploads.js");
@@ -59,6 +63,10 @@ app.listen(PORT, async () => {
     await UsuarioDao.criarTabela();
     await CupomDao.criarTabela();
     await CuponsClientesDao.criarTabela();
+<<<<<<< HEAD
+=======
+    await ClienteDao.criarTabela();
+>>>>>>> dev
     await UploadsDao.criarTabela(conexao);
     console.log("Servidor rodando na porta: " + PORT);
 });
