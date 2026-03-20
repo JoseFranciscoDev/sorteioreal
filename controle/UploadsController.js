@@ -6,6 +6,11 @@ class UploadsController {
 	constructor(catalogoService) {
 		this.catalogoService = catalogoService;
 	}
+        
+        async listarProdutos(req, res) {
+            
+            await this.catalogoService.listarProdutos();
+        }
 
 	async uploadsImagens(req, res) {
 
