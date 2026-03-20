@@ -1,4 +1,4 @@
-const { BASE_URL } = require("../configs.json");
+const { BASE_URL, AUTORIZACAO } = require("../configs.json");
 const Usuario = require("../modelo/UsuariosDao.js");
 class Home {
     static urls() {
@@ -56,17 +56,18 @@ class Home {
                 nome: "Sair"
             }
         ];
-
         return { links, links2 };
     }
     static index(req, res) {
         console.log(req.session.usuario);
-        if (!req.session.usuario.tipo) {
+        if (req.session.usuario && req.session.usuario.tipo != AUTORIZACAO.admin) {
             const urls = Home.urls();
             res.render("home.html", { links: [urls[0]], links2: [urls[1]] });
-        } else {
+        } else if(req.session.usuario && req.session.usuario.tipo == AUTORIZACAO.admin) {
             const { links, links2 } = Home.urlsAdm();
             res.render("home.html", { links, links2 });
+        } else {
+            res.redirect(`${BASE_URL}/`);
         }
     }
 
