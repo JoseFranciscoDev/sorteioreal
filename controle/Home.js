@@ -9,6 +9,11 @@ class Home {
                 nome: "Cadastro de Cliente"
             },
             {
+                url: `${BASE_URL}/cliente/todos`,
+                clase: "bx bxs-user icon",
+                nome: "Clientes Cadastrados"
+            },
+            {
                 url: `${BASE_URL}/home/sair`,
                 clase: "bx bx-log-out icon",
                 nome: "Sair"
@@ -61,7 +66,7 @@ class Home {
     static index(req, res) {
         if (req.session.usuario && req.session.usuario.tipo == "NORMAL") {
             const urls = Home.urls();
-            res.render("home.html", { links: [urls[0]], links2: [urls[1]] });
+            res.render("home.html", { links: [urls[0], urls[1]], links2: [urls[2]] });
         } else if (req.session.usuario && req.session.usuario.tipo != "NORMAL") {
             const { links, links2 } = Home.urlsAdm();
             res.render("home.html", { links, links2 })
