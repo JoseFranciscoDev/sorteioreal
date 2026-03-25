@@ -1,18 +1,6 @@
-<!DOCTYPE html>
-<html lang="en">
-<head>
-    <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Catalogo</title>
-</head>
-<body>
+{% extends "index.html" %}
+{% block principal %}
     {% for produto in produtos %}
-    <div class="produto">
-        <img src="{{produto.imagem}}" alt="{{produto.nome}}">
-        <h2>{{produto.nome}}</h2>
-        <p>{{produto.descricao}}</p>
-        <p>{{produto.preco}}</p>
-    </div>
+        <img src="/{{ produto.imagem_url }}" alt="{{ produto.nome_produto }}">
     {% endfor %}
-</body>
-</html>
+{% endblock %}

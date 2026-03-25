@@ -1,3 +1,4 @@
+{% extends "index.html" %}
 
 <form action="{{baseUrl}}" method="POST" enctype="multipart/form-data">
 
@@ -9,4 +10,97 @@
         Enviar imagens
     </button>
 
+
 </form>
+{% block titulo %}
+<title>Shopping Real - Upload de Imagens</title>
+{% endblock %}
+
+{% block css %}
+<link rel="stylesheet" type="text/css" href="/css/cliente.css" media="screen" />
+<link rel="icon" type="image/x-icon" href="/image/icon.png">
+<link rel="stylesheet" href="https://unpkg.com/boxicons@2.1.2/css/boxicons.min.css"/>
+{% endblock %}
+
+{% block principal %}
+
+    <nav>
+      <div class="logo">
+        <i class="bx bx-menu menu-icon"></i>
+      </div>
+      <div class="sidebar">
+        <div class="logo">
+          <i class="bx bx-menu menu-icon"></i>
+        </div>
+       <div class="sidebar-content">
+            <ul class="lists">
+              {% for item in links %}
+              <li class="list">
+                <a href="{{item.url}}" class="nav-link">
+                  <i class="{{item.clase}}"></i>
+                  <span class="link">{{item.nome}}</span>
+                </a>
+              </li>
+             {% endfor %}
+            </ul>
+
+            <div class="bottom-cotent">
+              {% for item2 in links2 %}
+              <li class="list">
+                <a href="{{item2.url}}" class="nav-link">
+                  <i class="{{item2.clase}}"></i>
+                  <span class="link">{{item2.nome}}</span>
+                </a>
+              </li>
+              {% endfor %}
+            </div>
+          </div>
+      </div>
+    </nav>
+
+    <div class="overlay"></div>
+
+    <div class="container-cliente">
+        <div class="wrap-cliente">
+            <span class="cliente-form-title">Upload de Imagens</span>
+            {% if erro %}
+               <p class="ms erro"><i class='bx bx-error-circle'></i> {{erro}}</p>
+            {% endif %}
+            {% if message %}
+               <p class="ms success"><i class='bx bx-check-circle'></i> {{message}}</p>
+            {% endif %}
+            <form action="{{baseUrl}}" method="POST" enctype="multipart/form-data">
+
+                <div class="wrap-input">
+                    <input type="text" class="input-cliente" name="codigo_produto" placeholder="Código do Produto" required>
+                </div>
+
+                <div class="wrap-input">
+                    <input type="file" name="imagens" multiple required accept="image/*" >
+                </div>
+
+                <div class="btn-container">
+                    <button type="submit" class="btn-cliente">Enviar Imagens</button>
+                </div>
+                
+            </form>
+        </div>
+    </div>
+
+    <script>
+        const navBar = document.querySelector("nav"),
+              menuBtns = document.querySelectorAll(".menu-icon"),
+              overlay = document.querySelector(".overlay");
+
+        menuBtns.forEach((menuBtn) => {
+            menuBtn.addEventListener("click", () => {
+                navBar.classList.toggle("open");
+            });
+        });
+
+        overlay.addEventListener("click", () => {
+            navBar.classList.remove("open");
+        });
+    </script>
+{% endblock %}
+

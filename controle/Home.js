@@ -9,9 +9,14 @@ class Home {
                 nome: "Cadastro de Cliente"
             },
             {
-                url: `${BASE_URL}/cliente/todos`,
-                clase: "bx bxs-user icon",
-                nome: "Clientes Cadastrados"
+                url: `${BASE_URL}/uploads`,
+                clase: "bx bxs-image icon",
+                nome: "Upload de Imagens"
+            },
+            {
+                url: `${BASE_URL}/produtos`,
+                clase: "bx bxs-image icon",
+                nome: "Catalogo de Produtos"
             },
             {
                 url: `${BASE_URL}/home/sair`,
@@ -46,7 +51,12 @@ class Home {
                 url: `${BASE_URL}/cliente`,
                 clase: "bx bxs-user icon",
                 nome: "Cadastro de Cliente"
-            }
+            },
+            {
+                url: `${BASE_URL}/uploads`,
+                clase: "bx bxs-image icon",
+                nome: "Upload de Imagens"
+            },
         ];
 
         const links2 = [
@@ -64,10 +74,15 @@ class Home {
         return { links, links2 };
     }
     static index(req, res) {
-        if (req.session.usuario && req.session.usuario.tipo == "NORMAL") {
+        if (req.session.usuario && req.session.usuario.tipo == AUTORIZACAO.normal) {
             const urls = Home.urls();
-            res.render("home.html", { links: [urls[0], urls[1]], links2: [urls[2]] });
-        } else if (req.session.usuario && req.session.usuario.tipo != "NORMAL") {
+            res.render("home.html", { links: [urls[0]], links2: [urls[3]] });
+        }
+        if (req.session.usuario && req.session.usuario.tipo == AUTORIZACAO.admin_vend) {
+            const urls = Home.urls();
+            res.render("home.html", { links: [urls[0], urls[1]], links2: [urls[3]] });
+        }
+        if (req.session.usuario && req.session.usuario.tipo == AUTORIZACAO.admin) {
             const { links, links2 } = Home.urlsAdm();
             res.render("home.html", { links, links2 })
         }
