@@ -72,7 +72,6 @@ class CatalogoService {
 
 
             const nomeImagem = arquivo.filename;
-
             const caminhoOrigem = arquivo.path;
 
             const caminhoDestino = path.resolve(pastaProduto, nomeImagem);

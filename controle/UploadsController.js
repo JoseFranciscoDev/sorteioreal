@@ -1,20 +1,25 @@
 const { AUTORIZACAO, BASE_URL } = require("../configs.json");
-
+const Home = require("../controle/Home.js");
 
 class UploadsController {
-
 	constructor(catalogoService) {
 		this.catalogoService = catalogoService;
 	}
-
 	async listarProdutos(req, res) {
+		const usuario = req.session.usuario;
 		const produtos = await this.catalogoService.listarProdutos();
-		console.log(produtos);
-		return res.render("catalogo.njk", { produtos });
+		if (!usuario) {
+			return res.redirect(BASE_URL);
+		}
+		if (usuario && usuario.tipo == AUTORIZACAO.normal) {
+			return res.redirect(BASE_URL);
+		}
+		const urls = Home.urls();
+		return res.render("catalogo.njk", { produtos, links: [urls[0], urls[1]], links2: [urls[3]] });
 	}
 
 	async uploadsImagens(req, res) {
-
+		const message = req.query.message;
 		const usuario = req.session.usuario;
 
 
@@ -28,10 +33,8 @@ class UploadsController {
 			return res.redirect("/login");
 
 		}
-
-
-
-		return res.render("upload.njk", { baseUrl: BASE_URL + "/uploads" });
+		const urls = Home.urls();
+		return res.render("upload.njk", { baseUrl: BASE_URL + "/uploads", message, links: [urls[0], urls[2]], links2: [urls[3]] });
 	}
 
 
@@ -40,6 +43,7 @@ class UploadsController {
 			const codigoProduto = req.body.codigo_produto;
 			const usuario = req.session.usuario;
 			const arquivos = req.files;
+			console.log(arquivos)
 
 
 			if (!usuario) return res.redirect("/login");
@@ -63,7 +67,7 @@ class UploadsController {
 			await this.catalogoService.uploadImagens(codigoProduto, usuario, arquivos);
 
 
-			return res.redirect("upload.njk");
+			return res.redirect(`${BASE_URL}/uploads?message=Imagens enviadas com sucesso`);
 		} catch (erro) {
 
 			console.error(erro);
