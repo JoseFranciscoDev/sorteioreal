@@ -1,0 +1,6 @@
+{% extends "index.html" %}
+{% block principal %}
+    {% for produto in produtos %}
+        <img src="/{{ produto.imagem_url }}" alt="{{ produto.nome_produto }}">
+    {% endfor %}
+{% endblock %}

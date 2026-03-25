@@ -1,4 +1,4 @@
-const {AUTORIZACAO, BASE_URL} = require("../configs.json");
+const { AUTORIZACAO, BASE_URL } = require("../configs.json");
 
 
 class UploadsController {
@@ -6,31 +6,32 @@ class UploadsController {
 	constructor(catalogoService) {
 		this.catalogoService = catalogoService;
 	}
-        
-        async listarProdutos(req, res) {
-            
-            await this.catalogoService.listarProdutos();
-        }
+
+	async listarProdutos(req, res) {
+		const produtos = await this.catalogoService.listarProdutos();
+		console.log(produtos);
+		return res.render("catalogo.njk", { produtos });
+	}
 
 	async uploadsImagens(req, res) {
 
 		const usuario = req.session.usuario;
-	
-                
-                if (!usuario) {
-                    
-                    return res.redirect("/login");
-                }
 
-		if (usuario && usuario.tipo == AUTORIZACAO.normal ) {
-                    
-                    return res.redirect("/login");
+
+		if (!usuario) {
+
+			return res.redirect("/login");
+		}
+
+		if (usuario && usuario.tipo == AUTORIZACAO.normal) {
+
+			return res.redirect("/login");
 
 		}
-                
-                
 
-		return res.render("upload.njk", {baseUrl: BASE_URL + "/uploads"});
+
+
+		return res.render("upload.njk", { baseUrl: BASE_URL + "/uploads" });
 	}
 
 
@@ -41,21 +42,21 @@ class UploadsController {
 			const arquivos = req.files;
 
 
-			if(!usuario) return res.redirect("/login");
-                        
-                        if (usuario && usuario.tipo == AUTORIZACAO.normal ) {
-                            
-                           return res.redirect("/login");
-                        }
+			if (!usuario) return res.redirect("/login");
+
+			if (usuario && usuario.tipo == AUTORIZACAO.normal) {
+
+				return res.redirect("/login");
+			}
 
 
 			if (!codigoProduto) {
-				return res.render("upload.njk", {erro: "Codigo do produto é obrigatorio"});
+				return res.render("upload.njk", { erro: "Codigo do produto é obrigatorio" });
 			}
 
 
 			if (!arquivos || arquivos.length == 0) {
-				return res.render("upload.njk", {erro: "Nenhuma imagem enviada"});
+				return res.render("upload.njk", { erro: "Nenhuma imagem enviada" });
 			}
 
 
@@ -63,11 +64,11 @@ class UploadsController {
 
 
 			return res.redirect("upload.njk");
-		} catch(erro) {
+		} catch (erro) {
 
 			console.error(erro);
 
-			return res.render("upload.njk", {erro: "Erro ao enviar imagens"});
+			return res.render("upload.njk", { erro: "Erro ao enviar imagens" });
 		}
 
 	}
