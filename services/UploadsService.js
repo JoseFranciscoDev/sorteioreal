@@ -88,6 +88,37 @@ class CatalogoService {
             });
         }
     }
+    
+    async removeProdutoImagemId(id) {
+        
+        const [produto] = await this.uploadsDao.buscarProdutoImagemId(id);
+       
+        
+        if (!produto) {
+            return false;
+        }
+        
+        const imagemPath = path.resolve("public", produto.imagem_url);
+        
+        
+        try {
+            
+            if (fs.existsSync(imagemPath)) {
+                fs.unlinkSync(imagemPath);
+                console.log("arquivo removido: ", imagemPath);
+            }
+            
+             const resultado = await this.uploadsDao.removeProdutoImagemId(produto.id);
+             
+             return resultado.affectedRows != 0;
+        } catch(erro) {
+            
+            console.log("Erro ao tentar remover a imagem: ", erro);
+            throw erro;
+        }               
+       
+        
+    }
 }
 
 
