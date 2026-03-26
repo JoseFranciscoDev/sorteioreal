@@ -14,7 +14,7 @@ router.get("/cliente", async (req, res) => {
         res.render("cliente.njk", { links, links2, erro });
     } else {
         const urls = Home.urls();
-        res.render("cliente.njk", { links: [urls[0]], links2: [urls[1]], erro });
+        res.render("cliente.njk", { links: [urls[1], urls[2]], links2: [urls[3]], erro });
     }
 });
 
@@ -30,7 +30,7 @@ router.get("/cliente/todos", async (req, res) => {
         res.render("clientes.njk", { links, links2, erro, clientes, BASE_URL });
     } else {
         const urls = Home.urls();
-        res.render("clientes.njk", { links: [urls[0]], links2: [urls[1]], erro, clientes, BASE_URL });
+        res.render("clientes.njk", { links: [urls[0], urls[1]], links2: [urls[2]], erro, clientes, BASE_URL });
     }
 });
 

@@ -1,4 +1,4 @@
-const { BASE_URL } = require("../configs.json");
+const { BASE_URL, AUTORIZACAO } = require("../configs.json");
 const Usuario = require("../modelo/UsuariosDao.js");
 class Home {
     static urls() {
@@ -7,6 +7,16 @@ class Home {
                 url: `${BASE_URL}/cliente`,
                 clase: "bx bxs-user icon",
                 nome: "Cadastro de Cliente"
+            },
+            {
+                url: `${BASE_URL}/uploads`,
+                clase: "bx bxs-image icon",
+                nome: "Upload de Imagens"
+            },
+            {
+                url: `${BASE_URL}/produtos`,
+                clase: "bx bxs-image icon",
+                nome: "Catalogo de Produtos"
             },
             {
                 url: `${BASE_URL}/home/sair`,
@@ -41,7 +51,12 @@ class Home {
                 url: `${BASE_URL}/cliente`,
                 clase: "bx bxs-user icon",
                 nome: "Cadastro de Cliente"
-            }
+            },
+            {
+                url: `${BASE_URL}/uploads`,
+                clase: "bx bxs-image icon",
+                nome: "Upload de Imagens"
+            },
         ];
 
         const links2 = [
@@ -56,17 +71,20 @@ class Home {
                 nome: "Sair"
             }
         ];
-
         return { links, links2 };
     }
     static index(req, res) {
-        console.log(req.session.usuario);
-        if (!req.session.usuario.tipo) {
+        if (req.session.usuario && req.session.usuario.tipo == AUTORIZACAO.normal) {
             const urls = Home.urls();
-            res.render("home.html", { links: [urls[0]], links2: [urls[1]] });
-        } else {
+            res.render("home.html", { links: [urls[0]], links2: [urls[3]] });
+        }
+        if (req.session.usuario && req.session.usuario.tipo == AUTORIZACAO.admin_vend) {
+            const urls = Home.urls();
+            res.render("home.html", { links: [urls[0], urls[1]], links2: [urls[3]] });
+        }
+        if (req.session.usuario && req.session.usuario.tipo == AUTORIZACAO.admin) {
             const { links, links2 } = Home.urlsAdm();
-            res.render("home.html", { links, links2 });
+            res.render("home.html", { links, links2 })
         }
     }
 
