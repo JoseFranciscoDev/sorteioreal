@@ -30,7 +30,7 @@ router.get("/cliente/todos", async (req, res) => {
         res.render("clientes.njk", { links, links2, erro, clientes, BASE_URL });
     } else {
         const urls = Home.urls();
-        res.render("clientes.njk", { links: [urls[0]], links2: [urls[1]], erro, clientes, BASE_URL });
+        res.render("clientes.njk", { links: [urls[0]], links2: [urls[urls.length - 1]], erro, clientes, BASE_URL });
     }
 });
 

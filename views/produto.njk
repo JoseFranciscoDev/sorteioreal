@@ -1,0 +1,116 @@
+{% extends "index.html" %}
+
+{% block css %}
+<link rel="stylesheet" type="text/css" href="/css/produto.css" />
+<link rel="stylesheet" href="https://unpkg.com/boxicons@2.1.2/css/boxicons.min.css" />
+{% endblock %}
+
+{% block principal %}
+
+<nav>
+    <div class="logo">
+        <i class="bx bx-menu menu-icon"></i>
+    </div>
+    <div class="sidebar">
+        <div class="logo">
+            <i class="bx bx-menu menu-icon"></i>
+        </div>
+        <div class="sidebar-content">
+            <ul class="lists">
+                {% for item in links %}
+                <li class="list">
+                    <a href="{{ item.url }}" class="nav-link">
+                        <i class="{{ item.clase }}"></i>
+                        <span class="link">{{ item.nome }}</span>
+                    </a>
+                </li>
+                {% endfor %}
+            </ul>
+            <div class="bottom-cotent">
+                {% for item2 in links2 %}
+                <li class="list">
+                    <a href="{{ item2.url }}" class="nav-link">
+                        <i class="{{ item2.clase }}"></i>
+                        <span class="link">{{ item2.nome }}</span>
+                    </a>
+                </li>
+                {% endfor %}
+            </div>
+        </div>
+    </div>
+</nav>
+
+<section class="overlay"></section>
+
+<header class="cat-header">
+    <div class="header-left ms-5">
+        <i class="bx bx-menu menu-icon-header"></i>
+        <h1>{{ produto.nome_produto if produto.nome_produto else "Produto " + produto.codigo_produto }}</h1>
+    </div>
+</header>
+
+<div class="produto-detalhe-wrapper">
+
+    <div class="produto-info">
+        <h2>{{ produto.nome_produto if produto.nome_produto else "Produto sem nome" }}</h2>
+        <p class="codigo">Código: {{ produto.codigo_produto }}</p>
+        {% if produto.preco %}
+        <p class="preco">R$ {{ produto.preco }}</p>
+        {% endif %}
+        <a href="{{ baseUrl }}/produtos" class="btn-voltar">
+            <i class="bx bx-arrow-back"></i> Voltar ao catálogo
+        </a>
+    </div>
+
+    <p class="galeria-titulo">
+        <i class="bx bx-images"></i>
+        {{ produto.imagens | length }} imagem(ns) disponível(is)
+    </p>
+
+    <div class="galeria">
+        {% for imagem in produto.imagens %}
+        <div class="galeria-item" onclick="abrirLightbox('/{{ imagem.imagem_url }}')">
+            <img src="/{{ imagem.imagem_url }}" alt="Imagem do produto {{ produto.codigo_produto }}">
+        </div>
+        {% endfor %}
+    </div>
+
+</div>
+
+<!-- LIGHTBOX -->
+<div class="lightbox" id="lightbox" onclick="fecharLightbox()">
+    <span class="lightbox-close" onclick="fecharLightbox()">&times;</span>
+    <img id="lightbox-img" src="" alt="Imagem ampliada">
+</div>
+
+<script>
+    const navBar = document.querySelector("nav"),
+        menuBtns = document.querySelectorAll(".menu-icon, .menu-icon-header"),
+        overlay = document.querySelector(".overlay");
+
+    menuBtns.forEach((menuBtn) => {
+        menuBtn.addEventListener("click", () => {
+            navBar.classList.toggle("open");
+        });
+    });
+
+    overlay.addEventListener("click", () => {
+        navBar.classList.remove("open");
+    });
+
+    function abrirLightbox(src) {
+        document.getElementById("lightbox-img").src = src;
+        document.getElementById("lightbox").classList.add("active");
+    }
+
+    function fecharLightbox() {
+        document.getElementById("lightbox").classList.remove("active");
+        document.getElementById("lightbox-img").src = "";
+    }
+
+    document.addEventListener("keydown", (e) => {
+        if (e.key === "Escape") fecharLightbox();
+    });
+</script>
+
+{% endblock %}
