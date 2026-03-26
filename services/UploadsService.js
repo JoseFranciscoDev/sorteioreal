@@ -19,10 +19,10 @@ class CatalogoService {
         
         const produtos = await this.uploadsDao.buscarImagensProdutos();
         
-        if (!produtos || produtos.lenth === 0) {
+        if (!produtos || produtos.length === 0) {
             
             return [];
-        }
+        } 
         
         
         
@@ -52,7 +52,7 @@ class CatalogoService {
         });
         
         
-        return listaFinal;
+        console.log(listaFinal);
         
        
         } 
@@ -79,7 +79,7 @@ class CatalogoService {
             
             fs.renameSync(caminhoOrigem, caminhoDestino);
             
-            const urlImagem = `/public/catalogo/${codigoProduto.toString()}/${nomeImagem}`;
+            const urlImagem = `catalogo/${codigoProduto.toString()}/${nomeImagem}`;
             
             await this.uploadsDao.salvarImagem({
                 codigo_produto: codigoProduto,
@@ -88,6 +88,37 @@ class CatalogoService {
                 codigo_usuario: usuario.codigo
             });
         }
+    }
+    
+    async removeProdutoImagemId(id) {
+        
+        const [produto] = await this.uploadsDao.buscarProdutoImagemId(id);
+       
+        
+        if (!produto) {
+            return false;
+        }
+        
+        const imagemPath = path.resolve("public", produto.imagem_url);
+        
+        
+        try {
+            
+            if (fs.existsSync(imagemPath)) {
+                fs.unlinkSync(imagemPath);
+                console.log("arquivo removido: ", imagemPath);
+            }
+            
+             const resultado = await this.uploadsDao.removeProdutoImagemId(produto.id);
+             
+             return resultado.affectedRows != 0;
+        } catch(erro) {
+            
+            console.log("Erro ao tentar remover a imagem: ", erro);
+            throw erro;
+        }               
+       
+        
     }
 }
 

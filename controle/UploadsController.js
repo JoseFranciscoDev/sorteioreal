@@ -7,10 +7,12 @@ class UploadsController {
 		this.catalogoService = catalogoService;
 	}
         
+        
         async listarProdutos(req, res) {
             
             await this.catalogoService.listarProdutos();
         }
+        
 
 	async uploadsImagens(req, res) {
 
@@ -71,6 +73,47 @@ class UploadsController {
 		}
 
 	}
+        
+        
+        async removeImagens(req, res) {
+            
+            try {
+                    const usuario = req.session.usuario;
+                    const id = req.params.id;
+                                
+                    if (!usuario) {
+                
+                            res.redirect("/login");
+                     }
+            
+            
+                     if (usuario && usuario.tipo == AUTORIZACAO.normal ) {
+                    
+                            return res.redirect("/login");
+
+                }
+                
+               const resultado = await this.catalogoService.removeProdutoImagemId(id);
+                
+                if (!resultado) {
+                    
+                    res.send("Imagem não encontrada!");
+                }
+                
+                
+                res.send("Imagem removida com sucesso!");
+            
+            
+                
+            } catch(erro) {
+                
+                res.send(erro.message);
+            }
+            
+        
+            
+            
+        }
 }
 
 
