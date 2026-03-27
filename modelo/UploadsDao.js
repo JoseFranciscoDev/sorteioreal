@@ -91,8 +91,33 @@ class ProdutoImagemDao {
         const [resultado] = await conn.query(sql, valores);
         return resultado;
     }
-
-
+    
+    
+    async buscarProdutoImagemId(id) {
+        
+        const sql = `select * from produto_imagens where produto_imagens.id = ?`;
+        
+        
+       const conn = await this.conexao();
+       
+       const [produto] =  await conn.query(sql, [id]);
+       
+       return produto;
+    }
+    
+    async removeProdutoImagemId(id) {
+        
+        const sql = `delete from produto_imagens where produto_imagens.id = ?`;
+        
+        const conn = await this.conexao();
+        
+        const [resultado] = await conn.query(sql, [id]);
+        
+        return resultado;       
+        
+    }
+    
+    
     static async criarTabela(conexao) {
 
         const sql = `create table if not exists produto_imagens (

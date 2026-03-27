@@ -15,10 +15,11 @@ const uploadsController = new UploadsController(uploadsService);
 
 
 
-router.get("/produtos", (req, res) => uploadsController.listarProdutos(req, res));
+router.get("/produtos", (req, res) => uploadsController.listarProdutos(req,res));
 router.get("/produtos/:codigo", (req, res) => uploadsController.detalhesProduto(req, res));
-router.post("/uploads", upload.array("imagens", 10), (req, res) => uploadsController.uploads(req, res));
-router.get("/uploads", (req, res) => uploadsController.uploadsImagens(req, res));
+router.post("/uploads", upload.array("imagens", 10), (req, res)=> uploadsController.uploads(req, res));
+router.get("/uploads", (req, res)=> uploadsController.uploadsImagens(req, res));
+router.delete("/uploads/:id", (req, res) => uploadsController.removeImagens(req, res));
 
 
 module.exports = router;
