@@ -28,7 +28,6 @@ class CatalogoService {
 
         const codigos = produtos.map(p => p.codigo_produto);
         const dadosProdutos = await this.uploadsDao.buscarDadosProdutos(codigos, loja);
-        console.log(dadosProdutos);
         const mapaProdutos = new Map();
         for (const item of dadosProdutos) {
             mapaProdutos.set(item.codigo, item);
@@ -42,7 +41,6 @@ class CatalogoService {
                 preco: dados?.preco || null
             };
         });
-
         return { produtos: listaFinal, totalPaginas, paginaAtual: pagina };
     }
 
@@ -60,6 +58,7 @@ class CatalogoService {
         return {
             codigo_produto,
             nome_produto: dados?.produto || null,
+            descricaoCompleta: dados?.descricaoCompleta || null,
             preco: dados?.preco || null,
             imagens
         };
