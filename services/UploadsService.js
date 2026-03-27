@@ -12,38 +12,30 @@ class CatalogoService {
     }
 
 
-    async listarProdutos() {
-
+    async listarProdutos(pagina = 1) {
         const loja = 1;
+        const limit = 10;
+        const offset = (pagina - 1) * limit;
 
+        const total = await this.uploadsDao.contarTotalImagens();
+        const totalPaginas = Math.ceil(total / limit);
 
-        const produtos = await this.uploadsDao.buscarImagensProdutos();
+        const produtos = await this.uploadsDao.buscarImagensProdutos(limit, offset);
 
         if (!produtos || produtos.length === 0) {
-
-            return [];
+            return { produtos: [], totalPaginas, paginaAtual: pagina };
         }
 
-
-
         const codigos = produtos.map(p => p.codigo_produto);
-
         const dadosProdutos = await this.uploadsDao.buscarDadosProdutos(codigos, loja);
-
-
-
+        console.log(dadosProdutos);
         const mapaProdutos = new Map();
-
-
         for (const item of dadosProdutos) {
-
             mapaProdutos.set(item.codigo, item);
         }
 
-
         const listaFinal = produtos.map(produto => {
             const dados = mapaProdutos.get(produto.codigo_produto);
-
             return {
                 ...produto,
                 nome_produto: dados?.produto || null,
@@ -51,10 +43,26 @@ class CatalogoService {
             };
         });
 
+        return { produtos: listaFinal, totalPaginas, paginaAtual: pagina };
+    }
 
-        return listaFinal;
+    async detalhesProduto(codigo_produto) {
+        const loja = 1;
+
+        const imagens = await this.uploadsDao.buscarImagensPorCodigo(codigo_produto);
 
 
+        if (!imagens || imagens.length === 0) {
+            return null;
+        }
+        const dadosProdutos = await this.uploadsDao.buscarDadosProdutos(parseInt(codigo_produto), loja);
+        const dados = dadosProdutos[0] || null;
+        return {
+            codigo_produto,
+            nome_produto: dados?.produto || null,
+            preco: dados?.preco || null,
+            imagens
+        };
     }
 
 

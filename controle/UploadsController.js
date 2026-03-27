@@ -1,27 +1,47 @@
 const { AUTORIZACAO, BASE_URL } = require("../configs.json");
 const Home = require("../controle/Home.js");
+const buscarProduto = require("../modelo/UploadsDao.js");
+
 
 class UploadsController {
 	constructor(catalogoService) {
 		this.catalogoService = catalogoService;
 	}
 	async listarProdutos(req, res) {
-		const usuario = req.session.usuario;
-		const produtos = await this.catalogoService.listarProdutos();
-		if (!usuario) {
-			return res.redirect(BASE_URL);
-		}
-		if (usuario && usuario.tipo == AUTORIZACAO.normal) {
-			return res.redirect(BASE_URL);
-		}
+		const pagina = parseInt(req.query.pagina) || 1;
+		const { produtos, totalPaginas, paginaAtual } = await this.catalogoService.listarProdutos(pagina);
 		const urls = Home.urls();
-		return res.render("catalogo.njk", { produtos, links: [urls[0], urls[1]], links2: [urls[3]] });
+		return res.render("catalogo.njk", {
+			baseUrl: BASE_URL,
+			produtos,
+			totalPaginas,
+			paginaAtual,
+			links: [urls[0], urls[1]],
+			links2: [urls[3]]
+		});
+	}
+
+	async detalhesProduto(req, res) {
+		const codigo = req.params.codigo;
+		const produto = await this.catalogoService.detalhesProduto(codigo);
+		const urls = Home.urls();
+
+		if (!produto) {
+			return res.redirect(`${BASE_URL}/produtos`);
+		}
+		console.log(produto)
+
+		return res.render("produto.njk", {
+			baseUrl: BASE_URL,
+			produto,
+			links: [urls[0], urls[1]],
+			links2: [urls[3]]
+		});
 	}
 
 	async uploadsImagens(req, res) {
-		const message = req.query.message;
 		const usuario = req.session.usuario;
-
+		const message = ""
 
 		if (!usuario) {
 
