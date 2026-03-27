@@ -52,7 +52,10 @@ class ProdutoImagemDao {
 
     async buscarDadosProdutos(codigoProduto, loja) {
 
-        const sql2 = `select round(trim(prd.no)) as codigo, prd.name as produto, prp.refprice as preco from prp inner join prd on(prd.no = prp.prdno)
+        const sql2 = `select round(trim(prd.no)) as codigo,
+        prd.name as produto,
+        prp.refprice as preco
+        from prp inner join prd on(prd.no = prp.prdno)
                        where prd.no in (?) and prp.storeno = ?`;
 
         const parametros = [codigoProduto, loja];

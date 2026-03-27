@@ -1,5 +1,7 @@
 const { AUTORIZACAO, BASE_URL } = require("../configs.json");
 const Home = require("../controle/Home.js");
+const buscarProduto = require("../modelo/UploadsDao.js");
+
 
 class UploadsController {
 	constructor(catalogoService) {
@@ -27,6 +29,7 @@ class UploadsController {
 		if (!produto) {
 			return res.redirect(`${BASE_URL}/produtos`);
 		}
+		console.log(produto)
 
 		return res.render("produto.njk", {
 			baseUrl: BASE_URL,
@@ -38,7 +41,7 @@ class UploadsController {
 
 	async uploadsImagens(req, res) {
 		const usuario = req.session.usuario;
-
+		const message = ""
 
 		if (!usuario) {
 

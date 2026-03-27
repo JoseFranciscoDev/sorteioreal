@@ -28,7 +28,7 @@ class CatalogoService {
 
         const codigos = produtos.map(p => p.codigo_produto);
         const dadosProdutos = await this.uploadsDao.buscarDadosProdutos(codigos, loja);
-
+        console.log(dadosProdutos);
         const mapaProdutos = new Map();
         for (const item of dadosProdutos) {
             mapaProdutos.set(item.codigo, item);
@@ -51,13 +51,12 @@ class CatalogoService {
 
         const imagens = await this.uploadsDao.buscarImagensPorCodigo(codigo_produto);
 
+
         if (!imagens || imagens.length === 0) {
             return null;
         }
-
-        const dadosProdutos = await this.uploadsDao.buscarDadosProdutos([codigo_produto], loja);
+        const dadosProdutos = await this.uploadsDao.buscarDadosProdutos(parseInt(codigo_produto), loja);
         const dados = dadosProdutos[0] || null;
-
         return {
             codigo_produto,
             nome_produto: dados?.produto || null,
