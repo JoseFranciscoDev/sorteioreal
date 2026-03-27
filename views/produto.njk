@@ -51,7 +51,7 @@
 <div class="produto-detalhe-wrapper">
 
     <div class="produto-info">
-        <h2>{{ produto.nome_produto if produto.nome_produto else "Produto sem nome" }}</h2>
+        <h2>{{ produto.descricaoCompleta if produto.descricaoCompleta else "Produto sem nome" }}</h2>
         <p class="codigo">Código: {{ produto.codigo_produto }}</p>
         {% if produto.preco %}
         <p class="preco">R$ {{ produto.preco }}</p>

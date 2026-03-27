@@ -54,9 +54,11 @@ class ProdutoImagemDao {
 
         const sql2 = `select round(trim(prd.no)) as codigo,
         prd.name as produto,
-        prp.refprice as preco
+        prp.refprice as preco,
+        prdnam.name as descricaoCompleta
         from prp inner join prd on(prd.no = prp.prdno)
-                       where prd.no in (?) and prp.storeno = ?`;
+        inner join prdnam on(prd.no = prdnam.prdno)
+        where prd.no in (?) and prp.storeno = ?`;
 
         const parametros = [codigoProduto, loja];
 
