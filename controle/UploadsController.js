@@ -114,7 +114,7 @@ class UploadsController {
                     
                             return res.redirect("/login");
 
-                }
+                      }
                 
                const resultado = await this.catalogoService.removeProdutoImagemId(id);
                 
@@ -137,6 +137,48 @@ class UploadsController {
             
             
         }
+        
+        
+    async uploadsImagensUpdate(req, res) {
+        try {
+                const id = req.params.id;
+                const usuario = req.session.usuario;
+                const codigoProduto = req.body.codigo_produto;
+                const arquivos = req.files;
+                
+                
+                
+                    if (!usuario) {
+                
+                            res.redirect("/login");
+                     }
+            
+            
+                     if (usuario && usuario.tipo == AUTORIZACAO.normal ) {
+                    
+                            return res.redirect("/login");
+
+                      }
+                      
+                      
+                      if (!codigoProduto) {
+				return res.send("Codigo do produto é obrigatorio");
+			}
+
+
+			if (!arquivos || arquivos.length == 0) {
+				return res.send("Nenhuma imagem enviada");
+			}
+                      
+                            
+                  await this.catalogoService.updateImagens(codigoProduto, usuario, arquivos);
+                
+        } catch (erro) {
+            
+            res.send(erro.message);
+        }
+    
+    }
 }
 
 
