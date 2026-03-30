@@ -38,6 +38,8 @@ create table if not exists usuarios(
 
 alter table usuarios modify column tipo enum("ADMIN", "ADMIN_VEND","NORMAL") not null;
 
+ALTER TABLE usuarios MODIFY COLUMN tipo ENUM('ADMIN', 'ADMIN_VEND', 'NORMAL', 'CAIXA') NOT NULL;
+
 insert into usuarios(nome, snome, email, senha, tipo) values("mateus de miranda pereirea", "mateus", "mateus.pereira@shoppingreal.net", "123", 1);
 insert into usuarios(nome, snome, email, senha, tipo) values("rian henrique", "ria", "rian.henrique@shoppingreal.net", "123", 1);
 

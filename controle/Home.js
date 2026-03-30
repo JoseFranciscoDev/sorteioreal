@@ -58,6 +58,11 @@ class Home {
                 nome: "Cadastro de Cliente"
             },
             {
+                url: `${BASE_URL}/cliente/todos`,
+                clase: "bx bxs-user icon",
+                nome: "Clientes Cadastrados"
+            },
+            {
                 url: `${BASE_URL}/produtos`,
                 clase: "bx bxs-image icon",
                 nome: "Catalogo de Produtos"
@@ -95,6 +100,11 @@ class Home {
         if (req.session.usuario && req.session.usuario.tipo == AUTORIZACAO.admin) {
             const { links, links2 } = Home.urlsAdm();
             res.render("home.html", { links, links2 })
+        }
+        if (req.session.usuario && req.session.usuario.tipo == AUTORIZACAO.caixa) {
+            const { links, links2 } = Home.urlsAdm();
+            console.log(links)
+            res.render("home.html", { links: [links[0], links[4], links[5]], links2: [links2[1]] })
         }
     }
 
