@@ -20,7 +20,7 @@ router.get("/produtos/:codigo", (req, res) => uploadsController.detalhesProduto(
 router.post("/uploads", upload.array("imagens", 10), (req, res)=> uploadsController.uploads(req, res));
 router.get("/uploads", (req, res)=> uploadsController.uploadsImagens(req, res));
 router.delete("/uploads/:id", (req, res) => uploadsController.removeImagens(req, res));
-router.update("/uploads/:id", (req,res) => uploadsController.updateImagens(req, res));
+router.patch("/uploads/:id",upload.array("imagens", 1), (req,res) => uploadsController.uploadsImagensUpdate(req, res));
 
 
 module.exports = router;
