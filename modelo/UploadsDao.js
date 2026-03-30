@@ -6,6 +6,17 @@ class ProdutoImagemDao {
         this.conexao = conexao;
         this.conexaoAWS = conexaoAWS;
     }
+    
+    
+    async buscarImagensId(id) {
+        const sql = `select * from produto_imagens where produto_imagens.id = ?`;
+        
+        const conn = await this.conexao();
+        const parametros = [id]
+        const [resultado] = await conn.query(sql, parametros);
+        
+        return resultado;
+    }
 
 
     async buscarImagensProdutos(limit, offset) {
@@ -117,6 +128,22 @@ class ProdutoImagemDao {
         
         return resultado;       
         
+    }
+    
+    
+    
+    async updateImagensProduto(id, codigoProduto, nomeImagem, urlImagem) {
+        
+        const sql = `update produto_imagens set produto_imagens.imagem_nome = ?, produto_imagens.imagem_url = ?
+                    where produto_imagens.id = ? and produto_imagens.codigo_produto = ?`;
+        
+        const parametros = [nomeImagem, urlImagem, id, codigoProduto];
+        
+        const conn = await this.conexao();
+        
+        const [resultado] = await conn.query(sql, parametros);
+        
+        return resultado;
     }
     
     

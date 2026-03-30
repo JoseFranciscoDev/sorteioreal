@@ -145,12 +145,12 @@ class UploadsController {
                 const usuario = req.session.usuario;
                 const codigoProduto = req.body.codigo_produto;
                 const arquivos = req.files;
-                
+               
                 
                 
                     if (!usuario) {
                 
-                            res.redirect("/login");
+                           return res.redirect("/login");
                      }
             
             
@@ -171,7 +171,12 @@ class UploadsController {
 			}
                       
                             
-                  await this.catalogoService.updateImagens(codigoProduto, usuario, arquivos);
+                    const resultado = await this.catalogoService.updateImagens(id,codigoProduto, usuario, arquivos);
+                    
+                    if (resultado && (resultado.sucesso == true)) {
+                        
+                        res.send("Imagem atualizada com sucesso!");
+                    }
                 
         } catch (erro) {
             

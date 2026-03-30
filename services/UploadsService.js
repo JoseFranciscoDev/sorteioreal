@@ -126,6 +126,68 @@ class CatalogoService {
        
         
     }
+    
+    async updateImagens(id,codigoProduto, usuario, arquivos) {
+            try {
+                
+                const pastaProduto = path.resolve("public/catalogo", codigoProduto.toString());
+                       
+                const [imagem] = await this.uploadsDao.buscarImagensId(id);
+                
+                if (!imagem || !imagem.imagem_url) {
+                    
+                    throw new Error("Imamgem não encontrada our url invalida");
+                }
+              
+                const imagemPath = path.resolve("public", imagem.imagem_url);
+                 
+                if ((imagem.id == id) && (imagem.codigo_produto == codigoProduto)) {                   
+                
+                     if (fs.existsSync(imagemPath)) {                         
+                         fs.unlinkSync(imagemPath);                         
+                    
+                    }
+                    
+                    if (!fs.existsSync(pastaProduto)) {
+                         fs.mkdirSync(pastaProduto, { recursive: true });
+                    }
+                    
+                    
+                    for (const arquivo of arquivos) {
+                         const nomeImagem = arquivo.filename;
+                         const caminhoOrigem = arquivo.path;
+                         
+                         if (!nomeImagem || !caminhoOrigem) {
+                             throw new Error("Arquivo invalido no upload");
+                         }
+                         
+                         const caminhoDestino = path.resolve(pastaProduto, nomeImagem);
+                         
+                         fs.renameSync(caminhoOrigem, caminhoDestino);
+                          
+                         const urlImagem = `catalogo/${codigoProduto.toString()}/${nomeImagem}`;
+                           
+                            
+                        await this.uploadsDao.updateImagensProduto(id, codigoProduto, nomeImagem, urlImagem);                        
+                         
+                        
+                    }
+                    
+                    
+                    return {sucesso: true};
+                    
+                }
+                
+            } catch(erro) {
+                console.log(erro);
+                return erro;
+            }
+     
+            
+            
+        
+        
+    }
 }
 
 
