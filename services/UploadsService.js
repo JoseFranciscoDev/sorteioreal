@@ -95,98 +95,98 @@ class CatalogoService {
             });
         }
     }
-    
+
     async removeProdutoImagemId(id) {
-        
+
         const [produto] = await this.uploadsDao.buscarProdutoImagemId(id);
-       
-        
+
+
         if (!produto) {
             return false;
         }
-        
+
         const imagemPath = path.resolve("public", produto.imagem_url);
-        
-        
+
+
         try {
-            
+
             if (fs.existsSync(imagemPath)) {
                 fs.unlinkSync(imagemPath);
                 console.log("arquivo removido: ", imagemPath);
             }
-            
-             const resultado = await this.uploadsDao.removeProdutoImagemId(produto.id);
-             
-             return resultado.affectedRows != 0;
-        } catch(erro) {
-            
+
+            const resultado = await this.uploadsDao.removeProdutoImagemId(produto.id);
+
+            return resultado.affectedRows != 0;
+        } catch (erro) {
+
             console.log("Erro ao tentar remover a imagem: ", erro);
             throw erro;
-        }               
-       
-        
+        }
+
+
     }
-    
-    async updateImagens(id,codigoProduto, usuario, arquivos) {
-            try {
-                
-                const pastaProduto = path.resolve("public/catalogo", codigoProduto.toString());
-                       
-                const [imagem] = await this.uploadsDao.buscarImagensId(id);
-                
-                if (!imagem || !imagem.imagem_url) {
-                    
-                    throw new Error("Imamgem não encontrada our url invalida");
-                }
-              
-                const imagemPath = path.resolve("public", imagem.imagem_url);
-                 
-                if ((imagem.id == id) && (imagem.codigo_produto == codigoProduto)) {                   
-                
-                     if (fs.existsSync(imagemPath)) {                         
-                         fs.unlinkSync(imagemPath);                         
-                    
-                    }
-                    
-                    if (!fs.existsSync(pastaProduto)) {
-                         fs.mkdirSync(pastaProduto, { recursive: true });
-                    }
-                    
-                    
-                    for (const arquivo of arquivos) {
-                         const nomeImagem = arquivo.filename;
-                         const caminhoOrigem = arquivo.path;
-                         
-                         if (!nomeImagem || !caminhoOrigem) {
-                             throw new Error("Arquivo invalido no upload");
-                         }
-                         
-                         const caminhoDestino = path.resolve(pastaProduto, nomeImagem);
-                         
-                         fs.renameSync(caminhoOrigem, caminhoDestino);
-                          
-                         const urlImagem = `catalogo/${codigoProduto.toString()}/${nomeImagem}`;
-                           
-                            
-                        await this.uploadsDao.updateImagensProduto(id, codigoProduto, nomeImagem, urlImagem);                        
-                         
-                        
-                    }
-                    
-                    
-                    return {sucesso: true};
-                    
-                }
-                
-            } catch(erro) {
-                console.log(erro);
-                return erro;
+
+    async updateImagens(id, codigoProduto, usuario, arquivos) {
+        try {
+
+            const pastaProduto = path.resolve("public/catalogo", codigoProduto.toString());
+
+            const [imagem] = await this.uploadsDao.buscarImagensId(id);
+
+            if (!imagem || !imagem.imagem_url) {
+
+                throw new Error("Imamgem não encontrada our url invalida");
             }
-     
-            
-            
-        
-        
+
+            const imagemPath = path.resolve("public", imagem.imagem_url);
+
+            if ((imagem.id == id) && (imagem.codigo_produto == codigoProduto)) {
+
+                if (fs.existsSync(imagemPath)) {
+                    fs.unlinkSync(imagemPath);
+
+                }
+
+                if (!fs.existsSync(pastaProduto)) {
+                    fs.mkdirSync(pastaProduto, { recursive: true });
+                }
+
+
+                for (const arquivo of arquivos) {
+                    const nomeImagem = arquivo.filename;
+                    const caminhoOrigem = arquivo.path;
+
+                    if (!nomeImagem || !caminhoOrigem) {
+                        throw new Error("Arquivo invalido no upload");
+                    }
+
+                    const caminhoDestino = path.resolve(pastaProduto, nomeImagem);
+
+                    fs.renameSync(caminhoOrigem, caminhoDestino);
+
+                    const urlImagem = `catalogo/${codigoProduto.toString()}/${nomeImagem}`;
+
+
+                    await this.uploadsDao.updateImagensProduto(id, codigoProduto, nomeImagem, urlImagem, usuario);
+
+
+                }
+
+
+                return { sucesso: true };
+
+            }
+
+        } catch (erro) {
+            console.log(erro);
+            return erro;
+        }
+
+
+
+
+
     }
 }
 

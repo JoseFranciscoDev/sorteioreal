@@ -6,15 +6,15 @@ class ProdutoImagemDao {
         this.conexao = conexao;
         this.conexaoAWS = conexaoAWS;
     }
-    
-    
+
+
     async buscarImagensId(id) {
         const sql = `select * from produto_imagens where produto_imagens.id = ?`;
-        
+
         const conn = await this.conexao();
         const parametros = [id]
         const [resultado] = await conn.query(sql, parametros);
-        
+
         return resultado;
     }
 
@@ -104,49 +104,50 @@ class ProdutoImagemDao {
         const [resultado] = await conn.query(sql, valores);
         return resultado;
     }
-    
-    
+
+
     async buscarProdutoImagemId(id) {
-        
+
         const sql = `select * from produto_imagens where produto_imagens.id = ?`;
-        
-        
-       const conn = await this.conexao();
-       
-       const [produto] =  await conn.query(sql, [id]);
-       
-       return produto;
+
+
+        const conn = await this.conexao();
+
+        const [produto] = await conn.query(sql, [id]);
+
+        return produto;
     }
-    
+
     async removeProdutoImagemId(id) {
-        
+
         const sql = `delete from produto_imagens where produto_imagens.id = ?`;
-        
+
         const conn = await this.conexao();
-        
+
         const [resultado] = await conn.query(sql, [id]);
-        
-        return resultado;       
-        
+
+        return resultado;
+
     }
-    
-    
-    
-    async updateImagensProduto(id, codigoProduto, nomeImagem, urlImagem) {
-        
-        const sql = `update produto_imagens set produto_imagens.imagem_nome = ?, produto_imagens.imagem_url = ?
+
+
+
+    async updateImagensProduto(id, codigoProduto, nomeImagem, urlImagem, usuario) {
+
+        const sql = `update produto_imagens set produto_imagens.imagem_nome = ?, produto_imagens.imagem_url = ?,
+                    codigo_usuario = ?
                     where produto_imagens.id = ? and produto_imagens.codigo_produto = ?`;
-        
-        const parametros = [nomeImagem, urlImagem, id, codigoProduto];
-        
+
+        const parametros = [nomeImagem, urlImagem, usuario.codigo_usuario, id, codigoProduto];
+
         const conn = await this.conexao();
-        
+
         const [resultado] = await conn.query(sql, parametros);
-        
+
         return resultado;
     }
-    
-    
+
+
     static async criarTabela(conexao) {
 
         const sql = `create table if not exists produto_imagens (
