@@ -1,14 +1,15 @@
 const { BASE_URL } = require("../configs.json");
 const UsuariosDao = require("../modelo/UsuariosDao.js");
+const NavBar = require("../utilitarios/NavBar.js");
 
 class Administracao {
     static async index(req, res) {
         try {
-            const { links, links2 } = require("./Home.js").urlsAdm();
+            const modulos = NavBar.getModulos();
             res.render("administracao.njk", { 
-                links, 
-                links2, 
-                url: `${BASE_URL}/` 
+                modulos,
+                url: `${BASE_URL}/`,
+                BASE_URL
             });
         } catch (erro) {
             res.status(500).send("Erro ao carregar o painel de administração.");
@@ -18,13 +19,13 @@ class Administracao {
     static async listarUsuarios(req, res) {
         try {
             const usuarios = await UsuariosDao.getUsuarios();
-            const { links, links2 } = require("./Home.js").urlsAdm();
+            const modulos = NavBar.getModulos();
             
             res.render("usuarios.njk", { 
                 usuarios, 
-                links, 
-                links2, 
-                url: `${BASE_URL}/` 
+                modulos,
+                url: `${BASE_URL}/`,
+                BASE_URL
             });
         } catch (erro) {
             res.status(500).send("Erro ao carregar a lista de usuários.");

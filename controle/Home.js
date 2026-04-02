@@ -1,4 +1,5 @@
-const { BASE_URL, AUTORIZACAO } = require("../configs.json");
+const { BASE_URL, AUTORIZACAO, NavBarItems } = require("../configs.json");
+const NavBar = require("../utilitarios/NavBar.js");
 const Usuario = require("../modelo/UsuariosDao.js");
 class Home {
     static urls() {
@@ -88,24 +89,14 @@ class Home {
         ];
         return { links, links2 };
     }
+
     static index(req, res) {
-        if (req.session.usuario && req.session.usuario.tipo == AUTORIZACAO.normal) {
-            const urls = Home.urls();
-            res.render("home.html", { links: [urls[0], urls[3]], links2: [urls[4]] });
+        if (req.session.usuario) {
+            const modulos = NavBar.getModulos();
+            console.log(modulos)
+            return res.render("home.html", { modulos, BASE_URL })
         }
-        if (req.session.usuario && req.session.usuario.tipo == AUTORIZACAO.admin_vend) {
-            const urls = Home.urls();
-            res.render("home.html", { links: [urls[0], urls[1], urls[3]], links2: [urls[4]] });
-        }
-        if (req.session.usuario && req.session.usuario.tipo == AUTORIZACAO.admin) {
-            const { links, links2 } = Home.urlsAdm();
-            res.render("home.html", { links, links2 })
-        }
-        if (req.session.usuario && req.session.usuario.tipo == AUTORIZACAO.caixa) {
-            const { links, links2 } = Home.urlsAdm();
-            console.log(links)
-            res.render("home.html", { links: [links[0], links[4], links[5]], links2: [links2[1]] })
-        }
+        return res.redirect(`${BASE_URL}/`);
     }
 
     static sair(req, res) {

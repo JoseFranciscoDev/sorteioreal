@@ -1,4 +1,4 @@
-{% extends "index.html" %}
+{% extends "home.html" %}
 
 {% block css %}
 <link rel="stylesheet" type="text/css" href="/css/produto.css" />
@@ -6,41 +6,6 @@
 {% endblock %}
 
 {% block principal %}
-
-<nav>
-    <div class="logo">
-        <i class="bx bx-menu menu-icon"></i>
-    </div>
-    <div class="sidebar">
-        <div class="logo">
-            <i class="bx bx-menu menu-icon"></i>
-        </div>
-        <div class="sidebar-content">
-            <ul class="lists">
-                {% for item in links %}
-                <li class="list">
-                    <a href="{{ item.url }}" class="nav-link">
-                        <i class="{{ item.clase }}"></i>
-                        <span class="link">{{ item.nome }}</span>
-                    </a>
-                </li>
-                {% endfor %}
-            </ul>
-            <div class="bottom-cotent">
-                {% for item2 in links2 %}
-                <li class="list">
-                    <a href="{{ item2.url }}" class="nav-link">
-                        <i class="{{ item2.clase }}"></i>
-                        <span class="link">{{ item2.nome }}</span>
-                    </a>
-                </li>
-                {% endfor %}
-            </div>
-        </div>
-    </div>
-</nav>
-
-<section class="overlay"></section>
 
 <header class="cat-header">
     <div class="header-left ms-5">
@@ -83,20 +48,6 @@
 </div>
 
 <script>
-    const navBar = document.querySelector("nav"),
-        menuBtns = document.querySelectorAll(".menu-icon, .menu-icon-header"),
-        overlay = document.querySelector(".overlay");
-
-    menuBtns.forEach((menuBtn) => {
-        menuBtn.addEventListener("click", () => {
-            navBar.classList.toggle("open");
-        });
-    });
-
-    overlay.addEventListener("click", () => {
-        navBar.classList.remove("open");
-    });
-
     function abrirLightbox(src) {
         document.getElementById("lightbox-img").src = src;
         document.getElementById("lightbox").classList.add("active");
