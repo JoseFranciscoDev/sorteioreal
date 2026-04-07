@@ -14,6 +14,7 @@ const routerConfiguracoes = require("./rotas/configuracoes.js");
 const routerAdministracao = require("./rotas/administracao.js");
 const routerCliente = require("./rotas/cliente.js");
 const verificaConfig = require("./middlewares/verificaConfig.js");
+const vericaEAdmin = require("./middlewares/vericaEAdmin.js");
 const UsuarioDao = require("./modelo/UsuariosDao.js");
 const CupomDao = require("./modelo/CupomDao.js");
 const CuponsClientesDao = require("./modelo/CuponsClientesDao.js");
@@ -43,12 +44,12 @@ nunjucks.configure(path.resolve(__dirname, "./views"), { autoescape: true, expre
 app.use(BASE_URL, routerIndex);
 app.use(BASE_URL, routerCliente);
 
-app.use(BASE_URL, routerConfiguracoes);
+app.use(`${BASE_URL}/configuracoes`, vericaEAdmin, routerConfiguracoes);
 
 app.use(BASE_URL, verificaConfig, routerHome);
 app.use(BASE_URL, verificaConfig, routerPedido);
 app.use(BASE_URL, verificaConfig, routerCupom);
-app.use(BASE_URL, verificaConfig, routerAdministracao);
+app.use(`${BASE_URL}/administracao`, vericaEAdmin, routerAdministracao);
 app.use(BASE_URL, uploadRouter);
 
 

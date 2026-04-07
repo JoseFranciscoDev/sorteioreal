@@ -128,6 +128,9 @@
 
 {% block principal %}
 <div class="image-menu">
+  {% if mensagem %}
+  <p style="color: white; font-size: 20px; text-align: center;">{{ mensagem }}</p>
+  {% endif %}
   <img src="/image/logo-form.png" alt="" />
 </div>
 {% endblock %}
