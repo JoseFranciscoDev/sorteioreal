@@ -1,4 +1,5 @@
 const { BASE_URL } = require("../configs.json");
+const NavBar = require("../utilitarios/NavBar.js");
 const PedidoDao = require("../modelo/PedidoDao.js");
 const CuponsClientesDao = require("../modelo/CuponsClientesDao.js");
 const Cupom = require("./Cupom.js");
@@ -30,8 +31,8 @@ class Pedido {
     }
 
     static reimpressao(req, res) {
-        const links = Pedido.urlsAtualizarReimpressao();
-        res.render("reimpressao.html", { url: `${BASE_URL}/home/pedido/reimpressao`, links });
+        const modulos = NavBar.getModulos();
+        res.render("reimpressao.html", { url: `${BASE_URL}/home/pedido/reimpressao`, modulos, BASE_URL });
     }
     static async reimpressaoCupom(req, res) {
         try {
@@ -50,15 +51,15 @@ class Pedido {
             res.redirect(`${BASE_URL}/home/pedido`);
         } catch (erro) {
             const links = Pedido.url();
-            res.render("pedido.njk", { url: `${BASE_URL}/home/pedido`, mensagem: erro.message, links });
+            res.render("pedido.njk", { url: `${BASE_URL}/home/pedido`, mensagem: erro.message, modulos: NavBar.getModulos(), BASE_URL });
 
         }
 
     }
 
     static atualizar(req, res) {
-        const links = Pedido.urlsAtualizarReimpressao();
-        res.render("pedidoSemCliente.html", { url: `${BASE_URL}/home/atualizar/pedido`, links });
+        const modulos = NavBar.getModulos();
+        res.render("pedidoSemCliente.html", { url: `${BASE_URL}/home/atualizar/pedido`, modulos, BASE_URL });
     }
     static async atualizarPedido(req, res) {
 
@@ -105,7 +106,7 @@ class Pedido {
         } catch (erro) {
 
             const links = Pedido.url();
-            res.render("pedido.njk", { url: `${BASE_URL}/home/pedido`, mensagem: erro.message, links });
+            res.render("pedido.njk", { url: `${BASE_URL}/home/pedido`, mensagem: erro.message, modulos: NavBar.getModulos(), BASE_URL });
         }
 
 
@@ -143,12 +144,12 @@ class Pedido {
 
     }
     static async index(req, res) {
-        const links = Pedido.url();
+        const modulos = NavBar.getModulos();
         const printer = DocmentoCupom.configuracao();
         if (await printer.isPrinterConnected()) {
-            res.render("pedido.njk", { url: `${BASE_URL}/home/pedido`, links });
+            res.render("pedido.njk", { url: `${BASE_URL}/home/pedido`, modulos, BASE_URL });
         } else {
-            res.render("pedido.njk", { url: `${BASE_URL}/home/pedido`, mensagem: "Impressora não conectada!", links });;
+            res.render("pedido.njk", { url: `${BASE_URL}/home/pedido`, mensagem: "Impressora não conectada!", modulos, BASE_URL });;
         }
     }
 
@@ -197,7 +198,7 @@ class Pedido {
         } catch (erro) {
             const links = Pedido.url();
             console.log(erro);
-            res.render("pedido.njk", { url: `${BASE_URL}/home/pedido`, mensagem: erro.message, links });
+            res.render("pedido.njk", { url: `${BASE_URL}/home/pedido`, mensagem: erro.message, modulos: NavBar.getModulos(), BASE_URL });
         }
 
 

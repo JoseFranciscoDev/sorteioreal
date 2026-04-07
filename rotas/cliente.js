@@ -3,35 +3,21 @@ const ClienteDao = require("../modelo/ClienteDao.js");
 const router = express.Router();
 const { BASE_URL, INCENTIVO } = require("../configs.json");
 const ClienteNerusDao = require("../modelo/ClienteNerusDao.js");
-const Home = require("../controle/Home.js");
+const NavBar = require("../utilitarios/NavBar.js");
 const PedidoDao = require("../modelo/PedidoDao.js");
 
 router.get("/cliente", async (req, res) => {
-    const tipoUsuario = req.session.usuario.tipo;
     const erro = req.query.erro;
-    if (tipoUsuario === 1) {
-        const { links, links2 } = Home.urlsAdm();
-        res.render("cliente.njk", { links, links2, erro });
-    } else {
-        const urls = Home.urls();
-        res.render("cliente.njk", { links: [urls[1], urls[2]], links2: [urls[3]], erro });
-    }
+    const modulos = NavBar.getModulos();
+    res.render("cliente.njk", { modulos, erro, url: `${BASE_URL}/cliente`, BASE_URL });
 });
 
 
 router.get("/cliente/todos", async (req, res) => {
-    const tipoUsuario = req.session.usuario.tipo;
     const erro = req.query.erro;
     const clientes = await ClienteDao.getClientes();
-    // const pedido = await PedidoDao.getPedidoPsssorCodigoCliente(clientes[0].codigoCliente);
-    // console.log(pedido)
-    if (tipoUsuario === 1) {
-        const { links, links2 } = Home.urlsAdm();
-        res.render("clientes.njk", { links, links2, erro, clientes, BASE_URL });
-    } else {
-        const urls = Home.urls();
-        res.render("clientes.njk", { links: [urls[0], urls[1]], links2: [urls[2]], erro, clientes, BASE_URL });
-    }
+    const modulos = NavBar.getModulos();
+    res.render("clientes.njk", { modulos, erro, clientes, BASE_URL });
 });
 
 

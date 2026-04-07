@@ -1,55 +1,13 @@
-{% extends "index.html" %}
-   {% block css %}
-    <link rel="stylesheet" type="text/css" href="/css/pedido.css" media="screen" />
-    <link rel="icon" type="image/x-icon" href="/image/icon.png">
-    <link rel="stylesheet" href="https://unpkg.com/boxicons@2.1.2/css/boxicons.min.css"/>
-  {% endblock %} 
+{% extends "home.html" %}
 
-    {% block principal %}
+{% block css %}
+<link rel="stylesheet" type="text/css" href="/css/pedido.css" media="screen" />
+<link rel="icon" type="image/x-icon" href="/image/icon.png">
+<link rel="stylesheet" href="https://unpkg.com/boxicons@2.1.2/css/boxicons.min.css"/>
+{% endblock %}
 
-    <nav>
-      <div class="logo">
-        <i class="bx bx-menu menu-icon"></i>
-      </div>
-      <div class="sidebar">
-        <div class="logo">
-          <i class="bx bx-menu menu-icon"></i>
-        </div>
-       <div class="sidebar-content">
-            <ul class="lists">
-              {% for item in links %}
-              <li class="list">
-                <a href="{{item.url}}" class="nav-link">
-                  <i class="{{item.clase}}"></i>
-                  <span class="link">{{item.nome}}</span>
-                </a>
-              </li>
-             {% endfor %}
-            </ul>
-          </div>
-      </div>
-    </nav>
+{% block principal %}
 
-    <section class="overlay"></section>
-
-    <script>
-        const navBar = document.querySelector("nav"),
-        menuBtns = document.querySelectorAll(".menu-icon"),
-        overlay = document.querySelector(".overlay");
-
-        menuBtns.forEach((menuBtn) => {
-        menuBtn.addEventListener("click", () => {
-        navBar.classList.toggle("open");
-        });
-    });
-
-        overlay.addEventListener("click", () => {
-        navBar.classList.remove("open");
-    });
-    </script>
-
-
-    
     <div class="Main-container">
         <div class="container-form">
             <div class="wrap-form">
@@ -75,4 +33,5 @@
             </div>
         </div>
     </div>
-    {% endblock %}
+
+{% endblock %}

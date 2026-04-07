@@ -1,5 +1,5 @@
 const { AUTORIZACAO, BASE_URL } = require("../configs.json");
-const Home = require("../controle/Home.js");
+const NavBar = require("../utilitarios/NavBar.js");
 const buscarProduto = require("../modelo/UploadsDao.js");
 
 
@@ -10,21 +10,21 @@ class UploadsController {
 	async listarProdutos(req, res) {
 		const pagina = parseInt(req.query.pagina) || 1;
 		const { produtos, totalPaginas, paginaAtual } = await this.catalogoService.listarProdutos(pagina);
-		const urls = Home.urls();
+		const modulos = NavBar.getModulos();
 		return res.render("catalogo.njk", {
 			baseUrl: BASE_URL,
 			produtos,
 			totalPaginas,
 			paginaAtual,
-			links: [urls[0], urls[1]],
-			links2: [urls[3]]
+			modulos,
+			BASE_URL
 		});
 	}
 
 	async detalhesProduto(req, res) {
 		const codigo = req.params.codigo;
 		const produto = await this.catalogoService.detalhesProduto(codigo);
-		const urls = Home.urls();
+		const modulos = NavBar.getModulos();
 
 		if (!produto) {
 			return res.redirect(`${BASE_URL}/produtos`);
@@ -34,8 +34,8 @@ class UploadsController {
 		return res.render("produto.njk", {
 			baseUrl: BASE_URL,
 			produto,
-			links: [urls[0], urls[1]],
-			links2: [urls[3]]
+			modulos,
+			BASE_URL
 		});
 	}
 
@@ -53,8 +53,8 @@ class UploadsController {
 			return res.redirect("/login");
 
 		}
-		const urls = Home.urls();
-		return res.render("upload.njk", { baseUrl: BASE_URL + "/uploads", message, links: [urls[0], urls[2]], links2: [urls[3]] });
+		const modulos = NavBar.getModulos();
+		return res.render("upload.njk", { baseUrl: BASE_URL + "/uploads", message, modulos, BASE_URL });
 	}
 
 
@@ -75,12 +75,12 @@ class UploadsController {
 
 
 			if (!codigoProduto) {
-				return res.render("upload.njk", { erro: "Codigo do produto é obrigatorio" });
+				return res.render("upload.njk", { erro: "Codigo do produto é obrigatorio", modulos: NavBar.getModulos(), BASE_URL });
 			}
 
 
 			if (!arquivos || arquivos.length == 0) {
-				return res.render("upload.njk", { erro: "Nenhuma imagem enviada" });
+				return res.render("upload.njk", { erro: "Nenhuma imagem enviada", modulos: NavBar.getModulos(), BASE_URL });
 			}
 
 
@@ -92,7 +92,7 @@ class UploadsController {
 
 			console.error(erro);
 
-			return res.render("upload.njk", { erro: "Erro ao enviar imagens" });
+			return res.render("upload.njk", { erro: "Erro ao enviar imagens", modulos: NavBar.getModulos(), BASE_URL });
 		}
 
 	}

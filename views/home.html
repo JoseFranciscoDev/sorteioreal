@@ -1,17 +1,58 @@
-{% extends "index.html" %} {% block css %}
-<meta name="viewport" content="width=device-width, initial-scale=1.0" />
-<link rel="stylesheet" type="text/css" href="/css/home.css" media="screen" />
-<link
-  rel="stylesheet"
-  href="https://unpkg.com/boxicons@2.1.2/css/boxicons.min.css"
-/>
-<title>Shopping Real</title>
-{% endblock %} {% block principal %}
+<!DOCTYPE html>
+<html lang="pt-BR">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <link rel="icon" type="image/x-icon" href="/image/icon.png">
+  <link rel="stylesheet" type="text/css" href="/css/home.css" media="screen" />
+  <link rel="stylesheet" href="https://unpkg.com/boxicons@2.1.2/css/boxicons.min.css" />
+  <style>
+    .nav-link.dropdown {
+      cursor: pointer;
+      display: flex;
+      align-items: center;
+      position: relative;
+      user-select: none;
+    }
+    .nav-link.dropdown .dropdown-arrow {
+      margin-left: auto;
+      font-size: 1rem;
+      transition: transform 0.3s ease;
+    }
+    .list.open > .nav-link.dropdown .dropdown-arrow {
+      transform: rotate(180deg);
+    }
+    .dropdown-menu {
+      list-style: none;
+      padding: 0;
+      margin: 0;
+      max-height: 0;
+      overflow: hidden;
+      transition: max-height 0.3s ease;
+      background: rgba(0, 0, 0, 0.15);
+      border-radius: 4px;
+    }
+    .list.open > .dropdown-menu {
+      max-height: 300px;
+    }
+    .dropdown-item a {
+      display: block;
+      padding: 8px 16px 8px 48px;
+      color: inherit;
+      text-decoration: none;
+      font-size: 0.9rem;
+      opacity: 0.85;
+      transition: opacity 0.2s ease;
+    }
+    .dropdown-item a:hover {
+      opacity: 1;
+    }
+  </style>
+  {% block css %}{% endblock %}
+</head>
+<body>
 
-<div class="image-menu">
-  <img src="/image/logo-form.png" alt="" />
-</div>
-<nav>
+<nav class="open">
   <div class="logo">
     <i class="bx bx-menu menu-icon"></i>
   </div>
@@ -22,25 +63,38 @@
 
     <div class="sidebar-content">
       <ul class="lists">
-        {% for item in links %}
+        {% for modulo in modulos %}
         <li class="list">
-          <a href="{{item.url}}" class="nav-link">
-            <i class="{{item.clase}}"></i>
-            <span class="link">{{item.nome}}</span>
+          {% if modulo.url %}
+          <a href="{{BASE_URL}}/{{modulo.url}}" class="nav-link">
+            <i class="{{modulo.clase}}"></i>
+            <span class="link">{{modulo.nome}}</span>
           </a>
+          {% else %}
+          <div class="nav-link dropdown">
+            <i class="{{modulo.clase}}"></i>
+            <span class="link">{{modulo.nome}}</span>
+            <i class="bx bx-chevron-down dropdown-arrow"></i>
+          </div>
+          <ul class="dropdown-menu">
+            {% for item in modulo.items %}
+            <li class="dropdown-item">
+              <a href="{{BASE_URL}}/{{item.url}}">{{item.nome}}</a>
+            </li>
+            {% endfor %}
+          </ul>
+          {% endif %}
         </li>
         {% endfor %}
       </ul>
 
       <div class="bottom-cotent">
-        {% for item2 in links2 %}
         <li class="list">
-          <a href="{{item2.url}}" class="nav-link">
-            <i class="{{item2.clase}}"></i>
-            <span class="link">{{item2.nome}}</span>
+          <a href="{{BASE_URL}}/home/sair" class="nav-link">
+            <i class="bx bx-log-out icon"></i>
+            <span class="link">Sair</span>
           </a>
         </li>
-        {% endfor %}
       </div>
     </div>
   </div>
@@ -51,7 +105,8 @@
 <script>
   const navBar = document.querySelector("nav"),
     menuBtns = document.querySelectorAll(".menu-icon"),
-    overlay = document.querySelector(".overlay");
+    overlay = document.querySelector(".overlay"),
+    dropdowns = document.querySelectorAll(".dropdown");
 
   menuBtns.forEach((menuBtn) => {
     menuBtn.addEventListener("click", () => {
@@ -62,5 +117,23 @@
   overlay.addEventListener("click", () => {
     navBar.classList.remove("open");
   });
+
+  dropdowns.forEach((dropdownBtn) => {
+    dropdownBtn.addEventListener("click", () => {
+      const listItem = dropdownBtn.closest(".list");
+      listItem.classList.toggle("open");
+    });
+  });
 </script>
+
+{% block principal %}
+<div class="image-menu">
+  {% if mensagem %}
+  <p style="color: white; font-size: 20px; text-align: center;">{{ mensagem }}</p>
+  {% endif %}
+  <img src="/image/logo-form.png" alt="" />
+</div>
 {% endblock %}
+
+</body>
+</html>

@@ -1,52 +1,13 @@
-{% extends "index.html" %} 
-
-{% block titulo %}
-<title>Shopping Real - Cadastro de Cliente</title>
-{% endblock %}
+{% extends "home.html" %}
 
 {% block css %}
 <link rel="stylesheet" type="text/css" href="/css/cliente.css" media="screen" />
 <link rel="icon" type="image/x-icon" href="/image/icon.png">
 <link rel="stylesheet" href="https://unpkg.com/boxicons@2.1.2/css/boxicons.min.css"/>
+<title>Shopping Real - Cadastro de Cliente</title>
 {% endblock %}
 
 {% block principal %}
-
-    <nav>
-      <div class="logo">
-        <i class="bx bx-menu menu-icon"></i>
-      </div>
-      <div class="sidebar">
-        <div class="logo">
-          <i class="bx bx-menu menu-icon"></i>
-        </div>
-       <div class="sidebar-content">
-            <ul class="lists">
-              {% for item in links %}
-              <li class="list">
-                <a href="{{item.url}}" class="nav-link">
-                  <i class="{{item.clase}}"></i>
-                  <span class="link">{{item.nome}}</span>
-                </a>
-              </li>
-             {% endfor %}
-            </ul>
-
-            <div class="bottom-cotent">
-              {% for item2 in links2 %}
-              <li class="list">
-                <a href="{{item2.url}}" class="nav-link">
-                  <i class="{{item2.clase}}"></i>
-                  <span class="link">{{item2.nome}}</span>
-                </a>
-              </li>
-              {% endfor %}
-            </div>
-          </div>
-      </div>
-    </nav>
-
-    <div class="overlay"></div>
 
     <div class="container-cliente">
         <div class="wrap-cliente">
@@ -76,19 +37,4 @@
         </div>
     </div>
 
-    <script>
-        const navBar = document.querySelector("nav"),
-              menuBtns = document.querySelectorAll(".menu-icon"),
-              overlay = document.querySelector(".overlay");
-
-        menuBtns.forEach((menuBtn) => {
-            menuBtn.addEventListener("click", () => {
-                navBar.classList.toggle("open");
-            });
-        });
-
-        overlay.addEventListener("click", () => {
-            navBar.classList.remove("open");
-        });
-    </script>
 {% endblock %}
