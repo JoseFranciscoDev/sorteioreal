@@ -31,7 +31,6 @@ class DocumentoCupom {
         printer.print("45 MIL EM PRÊMIOS PRA VOCÊ!\n");
         printer.setTextSize(0, 0);
         printer.print("\n");
-        printer.print("\n");
         printer.print("CUPOM PARA SORTEIO\n");
         printer.print("\n");
         printer.setTextSize(3, 2);
@@ -61,6 +60,7 @@ class DocumentoCupom {
         printer.bold(false);
         printer.print("   (  ) Não\n");
         printer.print("\n");
+        printer.print("Regulamento disponível em: shoppingreal.com/45anos\n");
         printer.print("Ass.:_______________________________________\n");
         printer.setTypeFontA();
         printer.setTypeFontB();
@@ -70,6 +70,7 @@ class DocumentoCupom {
         printer.print("\n");
         printer.print("Sorteio às 12h de 25/12/2026\n");
         printer.setTypeFontA();
+        printer.print("*Para o recebumento de prêmios eh obrigatório estar adimplente com a empresa.\n");
         printer.cut();
         await printer.execute();
     }
