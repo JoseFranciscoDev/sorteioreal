@@ -26,9 +26,9 @@ class DocumentoCupom {
         printer.setTextSize(1, 1);
         printer.println("PROMOÇÃO DE ANIVERSÁRIO");
         printer.print("\n");
-        printer.println("42 ANOS DO SHOPPING REAL");
+        printer.println("45 ANOS DO SHOPPING REAL");
         printer.print("\n");
-        printer.print("42 Prêmios pra você!\n");
+        printer.print("45 MIL EM PRÊMIOS PRA VOCÊ!\n");
         printer.setTextSize(0, 0);
         printer.print("\n");
         printer.print("\n");
@@ -51,11 +51,15 @@ class DocumentoCupom {
         printer.bold(true);
         printer.print("Qual a melhor loja de departamentos\n");
         printer.print(" do sul do Piauí?\n");
-        printer.print("(  ) SHOPPING Real   (  ) Outra\n");
+        printer.print("(  ) SHOPPING Real");
         printer.bold(false);
+        printer.print("   (  ) Outra\n");
         printer.print("\n");
+        printer.bold(true);
         printer.print("Concorda com os termos da promoção?\n");
-        printer.print("( ) SIM  (  ) Não\n");
+        printer.print("( ) SIM");
+        printer.bold(false);
+        printer.print("   (  ) Não\n");
         printer.print("\n");
         printer.print("Ass.:_______________________________________\n");
         printer.setTypeFontA();
@@ -64,7 +68,7 @@ class DocumentoCupom {
         printer.setTypeFontB();
         printer.setTypeFontA();
         printer.print("\n");
-        printer.print("Sorteio às 12h de 31/12/2024\n");
+        printer.print("Sorteio às 12h de 25/12/2026\n");
         printer.setTypeFontA();
         printer.cut();
         await printer.execute();
