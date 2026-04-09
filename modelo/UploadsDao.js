@@ -19,22 +19,33 @@ class ProdutoImagemDao {
     }
 
 
-    async buscarImagensProdutos(limit, offset) {
-        const sql = `
-            SELECT pi.* FROM produto_imagens pi
-            INNER JOIN (
-                SELECT MIN(id) as min_id FROM produto_imagens GROUP BY codigo_produto
-            ) t ON pi.id = t.min_id
-            LIMIT ? OFFSET ?
-        `;
+    async buscarImagensProdutos(limit, offset, codigo = null) {
+        let sql;
         const conn = await this.conexao();
 
         if (!conn) {
             return [];
         }
-
-        const [produtos] = await conn.query(sql, [limit, offset]);
-        return produtos;
+        if (!codigo) {
+            sql = `
+            SELECT pi.* FROM produto_imagens pi
+            INNER JOIN (
+                SELECT MIN(id) as min_id FROM produto_imagens GROUP BY codigo_produto
+            ) t ON pi.id = t.min_id
+            LIMIT ? OFFSET ?
+            
+        `;
+            const [produtos] = await conn.query(sql, [limit, offset]);
+            return produtos;
+        } else {
+            sql = `SELECT pi.* FROM produto_imagens pi
+            INNER JOIN(
+                SELECT MIN(id) as min_id FROM produto_imagens where codigo_produto=? GROUP BY codigo_produto
+            ) t ON pi.id = t.min_id
+            LIMIT ? OFFSET ?`;
+            const [produtos] = await conn.query(sql, [codigo, limit, offset]);
+            return produtos;
+        }
     }
 
     async buscarImagensPorCodigo(codigo_produto) {

@@ -9,7 +9,8 @@ class UploadsController {
 	}
 	async listarProdutos(req, res) {
 		const pagina = parseInt(req.query.pagina) || 1;
-		const { produtos, totalPaginas, paginaAtual } = await this.catalogoService.listarProdutos(pagina);
+		const codigo = req.query.codigo ? req.query.codigo : null;
+		const { produtos, totalPaginas, paginaAtual } = await this.catalogoService.listarProdutos(pagina, codigo);
 		const modulos = NavBar.getModulos();
 		return res.render("catalogo.njk", {
 			baseUrl: BASE_URL,
@@ -76,72 +77,72 @@ class UploadsController {
 		}
 
 	}
-        
-        
-        async removeImagens(req, res) {
-            
-            try {
-                    const usuario = req.session.usuario;
-                    const id = req.params.id;
-                                
-                    if (!usuario) {
-                
-                            res.redirect("/login");
-                     }
-            
-            
-                     if (usuario && usuario.tipo == AUTORIZACAO.normal ) {
-                    
-                            return res.redirect("/login");
 
-                      }
-                
-               const resultado = await this.catalogoService.removeProdutoImagemId(id);
-                
-                if (!resultado) {
-                    
-                    res.send("Imagem não encontrada!");
-                }
-                
-                
-                res.send("Imagem removida com sucesso!");
-            
-            
-                
-            } catch(erro) {
-                
-                res.send(erro.message);
-            }
-            
-        
-            
-            
-        }
-        
-        
-    async uploadsImagensUpdate(req, res) {
-        try {
-                const id = req.params.id;
-                const usuario = req.session.usuario;
-                const codigoProduto = req.body.codigo_produto;
-                const arquivos = req.files;
-               
-                
-                
-                    if (!usuario) {
-                
-                           return res.redirect("/login");
-                     }
-            
-            
-                     if (usuario && usuario.tipo == AUTORIZACAO.normal ) {
-                    
-                            return res.redirect("/login");
 
-                      }
-                      
-                      
-                      if (!codigoProduto) {
+	async removeImagens(req, res) {
+
+		try {
+			const usuario = req.session.usuario;
+			const id = req.params.id;
+
+			if (!usuario) {
+
+				res.redirect("/login");
+			}
+
+
+			if (usuario && usuario.tipo == AUTORIZACAO.normal) {
+
+				return res.redirect("/login");
+
+			}
+
+			const resultado = await this.catalogoService.removeProdutoImagemId(id);
+
+			if (!resultado) {
+
+				res.send("Imagem não encontrada!");
+			}
+
+
+			res.send("Imagem removida com sucesso!");
+
+
+
+		} catch (erro) {
+
+			res.send(erro.message);
+		}
+
+
+
+
+	}
+
+
+	async uploadsImagensUpdate(req, res) {
+		try {
+			const id = req.params.id;
+			const usuario = req.session.usuario;
+			const codigoProduto = req.body.codigo_produto;
+			const arquivos = req.files;
+
+
+
+			if (!usuario) {
+
+				return res.redirect("/login");
+			}
+
+
+			if (usuario && usuario.tipo == AUTORIZACAO.normal) {
+
+				return res.redirect("/login");
+
+			}
+
+
+			if (!codigoProduto) {
 				return res.send("Codigo do produto é obrigatorio");
 			}
 
@@ -149,21 +150,21 @@ class UploadsController {
 			if (!arquivos || arquivos.length == 0) {
 				return res.send("Nenhuma imagem enviada");
 			}
-                      
-                            
-                    const resultado = await this.catalogoService.updateImagens(id,codigoProduto, usuario, arquivos);
-                    
-                    if (resultado && (resultado.sucesso == true)) {
-                        
-                        res.send("Imagem atualizada com sucesso!");
-                    }
-                
-        } catch (erro) {
-            
-            res.send(erro.message);
-        }
-    
-    }
+
+
+			const resultado = await this.catalogoService.updateImagens(id, codigoProduto, usuario, arquivos);
+
+			if (resultado && (resultado.sucesso == true)) {
+
+				res.send("Imagem atualizada com sucesso!");
+			}
+
+		} catch (erro) {
+
+			res.send(erro.message);
+		}
+
+	}
 }
 
 
