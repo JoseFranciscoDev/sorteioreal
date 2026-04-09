@@ -57,11 +57,17 @@ class Cupom {
     }
 
     static async imprimirCupons(cupons) {
- 
+
         await cupons.forEach(async function (cupom) {
             await DocumentoCupom.imprimir(cupom);
         });
 
+    }
+
+    static async deletar(req, res) {
+        const codigo = req.params.codigo;
+        await CupomDao.delete(codigo);
+        res.redirect(`${BASE_URL}/administracao/pedidos`);
     }
 
 }

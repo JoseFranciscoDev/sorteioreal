@@ -75,7 +75,7 @@ class Pedido {
             const [pedido] = await PedidoDao.getPedido({ codigo: req.body.pedido });
 
             if (!pedido) {
-                throw new Error("Pedido cancelado ou expierado!");
+                throw new Error("Pedido cancelado ou expirado!");
             }
 
             if (pedido.cliente) {

@@ -31,6 +31,21 @@ class ClienteDao extends Abstract {
         return clientes;
     };
 
+    static async getClientesComCupons() {
+        const conn = await this.connection();
+        const texto = `select id,
+                        codigoUsuario,
+                        codigoVendedor,
+                        codigoCliente,
+                        codigoPedido,
+                        date_format(data, "%Y%m%d") as data,
+                        time(data) as hora
+                        from vendedorclientes
+                        join cupons on vendedorclientes.codigoPedido = cupons.pedido`;
+        const [clientes] = await conn.query(texto);
+        return clientes;
+    };
+
     static async criarTabela() {
         const conn = await this.connection();
         const texto = ` create table if not exists vendedorclientes(

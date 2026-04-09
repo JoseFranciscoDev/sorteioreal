@@ -15,6 +15,7 @@ const routerAdministracao = require("./rotas/administracao.js");
 const routerCliente = require("./rotas/cliente.js");
 const verificaConfig = require("./middlewares/verificaConfig.js");
 const vericaEAdmin = require("./middlewares/vericaEAdmin.js");
+const estaLogado = require("./middlewares/estaLogado.js");
 const UsuarioDao = require("./modelo/UsuariosDao.js");
 const CupomDao = require("./modelo/CupomDao.js");
 const CuponsClientesDao = require("./modelo/CuponsClientesDao.js");
@@ -42,15 +43,15 @@ app.use(express.static(path.resolve(__dirname, "./public")));
 nunjucks.configure(path.resolve(__dirname, "./views"), { autoescape: true, express: app });
 
 app.use(BASE_URL, routerIndex);
-app.use(BASE_URL, routerCliente);
+app.use(BASE_URL, estaLogado, verificaConfig, routerCliente);
 
 app.use(`${BASE_URL}/configuracoes`, vericaEAdmin, routerConfiguracoes);
 
-app.use(BASE_URL, verificaConfig, routerHome);
-app.use(BASE_URL, verificaConfig, routerPedido);
-app.use(BASE_URL, verificaConfig, routerCupom);
-app.use(`${BASE_URL}/administracao`, vericaEAdmin, routerAdministracao);
-app.use(BASE_URL, uploadRouter);
+app.use(BASE_URL, estaLogado, verificaConfig, routerHome);
+app.use(BASE_URL, estaLogado, verificaConfig, routerPedido);
+app.use(BASE_URL, estaLogado, verificaConfig, routerCupom);
+app.use(`${BASE_URL}/administracao`, vericaEAdmin, verificaConfig, routerAdministracao);
+app.use(BASE_URL, estaLogado, verificaConfig, uploadRouter);
 
 
 app.listen(PORT, async () => {
@@ -63,12 +64,3 @@ app.listen(PORT, async () => {
     await UploadsDao.criarTabela(conexao);
     console.log("Servidor rodando na porta: " + PORT);
 });
-
-
-
-
-
-
-
-
-
