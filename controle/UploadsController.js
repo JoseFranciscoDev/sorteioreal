@@ -52,15 +52,6 @@ class UploadsController {
 			const codigoProduto = req.body.codigo_produto;
 			const usuario = req.session.usuario;
 			const arquivos = req.files;
-			console.log(arquivos)
-
-
-			if (!usuario) return res.redirect("/login");
-
-			if (usuario && usuario.tipo == AUTORIZACAO.normal) {
-
-				return res.redirect("/login");
-			}
 
 
 			if (!codigoProduto) {
