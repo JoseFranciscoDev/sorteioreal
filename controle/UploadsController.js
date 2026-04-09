@@ -40,19 +40,8 @@ class UploadsController {
 	}
 
 	async uploadsImagens(req, res) {
-		const usuario = req.session.usuario;
 		const message = ""
 
-		if (!usuario) {
-
-			return res.redirect("/login");
-		}
-
-		if (usuario && usuario.tipo == AUTORIZACAO.normal) {
-
-			return res.redirect("/login");
-
-		}
 		const modulos = NavBar.getModulos();
 		return res.render("upload.njk", { baseUrl: BASE_URL + "/uploads", message, modulos, BASE_URL });
 	}
