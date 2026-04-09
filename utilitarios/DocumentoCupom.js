@@ -70,7 +70,7 @@ class DocumentoCupom {
         printer.print("\n");
         printer.print("Sorteio às 12h de 25/12/2026\n");
         printer.setTypeFontA();
-        printer.print("*Para o recebumento de prêmios eh obrigatório estar adimplente com a empresa.\n");
+        printer.print("*Para o recebimento de prêmios eh obrigatório estar adimplente com a empresa.\n");
         printer.cut();
         await printer.execute();
     }

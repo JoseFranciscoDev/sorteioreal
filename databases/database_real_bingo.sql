@@ -74,3 +74,12 @@ create table if not exists vendedorClientes(
     codigoPedido int unique,
     data datetime not null default now()
 );
+
+/*Adicionar constraint de exclusão em cascata na tabela cuponsClientes*/
+ALTER TABLE cuponsClientes DROP FOREIGN KEY cuponsClientes_ibfk_1;
+
+ALTER TABLE cuponsClientes 
+ADD CONSTRAINT cuponsClientes_ibfk_1 
+FOREIGN KEY (codigoCupom) 
+REFERENCES cupons (codigo) 
+ON DELETE CASCADE;

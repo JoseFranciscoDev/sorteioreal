@@ -2,6 +2,24 @@ const Abstract = require("./Abstract.js");
 
 class CupomDao extends Abstract {
 
+    static async getPedidos() {
+        const conn = await this.connection();
+
+        const texto = `select codigo,
+                        pedido,
+                        date_format(data, "%d/%m/%Y") as data,
+                        valor,
+                        metodoPagamento,
+                        quantidade,
+                        cliente,
+                        nome,
+                        cpf,
+                        usuario
+                          from cupons;`;
+        const [resultado] = await conn.query(texto);
+        return resultado;
+    }
+
     static async getCupomCodigo(pedido) {
         const conn = await this.connection();
         const texto = `select
@@ -65,21 +83,20 @@ class CupomDao extends Abstract {
                  usuario)
                   values(?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?)`;
         const dados = [pedido.data, pedido.codigo, pedido.valor, pedido.metodoPagamento, pedido.quantidade,
-            pedido.cliente, pedido.nome, pedido.cpf, pedido.telefone_fisco,
-            pedido.telefone_celular, pedido.bairro, pedido.cidade,
-            pedido.cep, pedido.estado, pedido.usuario];
+        pedido.cliente, pedido.nome, pedido.cpf, pedido.telefone_fisco,
+        pedido.telefone_celular, pedido.bairro, pedido.cidade,
+        pedido.cep, pedido.estado, pedido.usuario];
         const [cupom] = await conn.query(texto, dados);
         return cupom.insertId;
 
     }
 
-    static async delete(pedido) {
+    static async delete(codigo) {
         const conn = await this.connection();
-        const texto = `delete from cupons where cupons.pedido = ?`;
-
-        const [cupom] = await conn.query(texto, [pedido.codigo]);
+        const texto = `delete from cupons where cupons.codigo = ?`;
+        
+        const [cupom] = await conn.query(texto, [codigo]);
         return cupom;
-
     }
 
     static async update(pedido) {
@@ -89,8 +106,8 @@ class CupomDao extends Abstract {
         cupons.bairro = ?, cupons.cidade = ?, cupons.estado = ?,
         cupons.cep = ? where cupons.pedido = ?`;
         const dadosPedido = [pedido.cliente, pedido.nome, pedido.cpf, pedido.telefone_fisco,
-            pedido.telefone_celular, pedido.bairro, pedido.cidade, pedido.estado, pedido.cep,
-            pedido.codigo];
+        pedido.telefone_celular, pedido.bairro, pedido.cidade, pedido.estado, pedido.cep,
+        pedido.codigo];
         const [cupom] = await conn.query(texto, dadosPedido);
         return cupom;
     }
@@ -114,7 +131,7 @@ class CupomDao extends Abstract {
                         cep varchar(255) not null,
                         estado varchar(255) not null,
                         usuario int not null)`;
-        await  conn.query(texto);
+        await conn.query(texto);
     }
 
 }
