@@ -8,7 +8,7 @@
 {% block principal %}
 
 <header class="cat-header">
-    <div class="header-left ms-5">
+    <div class="header-left ms-15">
         <h1>Catálogo de Produtos</h1>
     </div>
     <div class="search-bar">
@@ -27,7 +27,7 @@
             <h5 class="card-title">{{ produto.nome_produto if produto.nome_produto else "Sem nome" }}</h5>
             <p class="card-text">Código: {{ produto.codigo_produto }}</p>
             {% if produto.preco %}
-            <p class="preco">R$ {{ produto.preco }}</p>
+            <p class="preco">R$ {{ produto.preco / 100 }}</p>
             {% endif %}
             <a href="{{ baseUrl }}/produtos/{{ produto.codigo_produto }}" class="btn-ver">Ver produto</a>
         </div>
