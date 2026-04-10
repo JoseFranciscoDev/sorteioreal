@@ -40,7 +40,6 @@ class Administracao {
             res.render("pedidos.njk", {
                 pedidos,
                 modulos,
-                url: `${BASE_URL}/`,
                 BASE_URL
             });
         } catch (erro) {

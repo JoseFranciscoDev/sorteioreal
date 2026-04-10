@@ -1,0 +1,47 @@
+{% extends "home.html" %}
+
+{% block css %}
+<link rel="stylesheet" type="text/css" href="/css/clientes.css" media="screen" />
+<link rel="icon" type="image/x-icon" href="/image/icon.png">
+<link rel="stylesheet" href="https://unpkg.com/boxicons@2.1.2/css/boxicons.min.css" />
+<title>Shopping Real - Clientes</title>
+{% endblock %}
+
+{% block principal %}
+
+<div class="admin-container">
+    <div class="admin-header">
+        <h1 class="admin-title">Cupons do pedido {{codigoPedido}}</h1>
+    </div>
+
+    <div class="table-container">
+        <table class="admin-table">
+            <thead>
+                <tr>
+                    <th>Cod. Cupom</th>
+                    <th>Nome do cliente</th>
+                    <th>CPF</th>
+                    <th>Excluir</th>
+                </tr>
+            </thead>
+            <tbody>
+                {% if cupons.length == 0 %}
+                <tr>
+                    <td colspan="6" class="text-center">Nenhum pedido encontrado.</td>
+                </tr>
+                {% else %}
+                {% for cupom in cupons %}
+                <tr>
+                    <td class="">{{ cupom.codigo }}</td>
+                    <td>{{cupom.nome}}</td>
+                    <td>{{cupom.cpf}}</td>
+                    <td><i class="bx bx-trash abrirModal" data-codigo="{{pedido.pedido}}"></i></td>
+                </tr>
+                {% endfor %}
+                {% endif %}
+            </tbody>
+        </table>
+    </div>
+</div>
+
+{%endblock%}

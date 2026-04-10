@@ -27,6 +27,7 @@
                     <th>Nome do cliente</th>
                     <th>CPF</th>
                     <th>Excluir</th>
+                    <th></th>
                 </tr>
             </thead>
             <tbody>
@@ -46,6 +47,13 @@
                     <td>{{pedido.nome}}</td>
                     <td>{{pedido.cpf}}</td>
                     <td><i class="bx bx-trash abrirModal" data-codigo="{{pedido.pedido}}"></i></td>
+                    <td>
+                        <a href="{{BASE_URL}}/pedido/{{pedido.pedido}}">
+                            <i class="bx-discount verCupons">
+                                Ver cupons
+                            </i>
+                        </a>
+                    </td>
                 </tr>
                 {% endfor %}
                 {% endif %}
@@ -60,11 +68,17 @@
     <button id="fecharModal">Cancelar</button>
     <a id="linkConfirmar" href="#" style="text-decoration: none; color: red;"><i class="bx bx-trash"></i>Excluir</a>
 </dialog>
+<dialog id="modalCupons">
+    <p>Cupons do pedido <span id="codigoPedidoSpan"></span></p>
+    <button id="fecharModal">Cancelar</button>
+    <a id="linkConfirmar" href="#" style="text-decoration: none; color: red;"><i class="bx bx-trash"></i>Excluir</a>
+</dialog>
 <script>
     const abrirModal = document.querySelectorAll(".abrirModal");
     const fecharModal = document.getElementById("fecharModal");
     const spanCodigo = document.getElementById("codigoPedidoSpan")
     const linkConfirmar = document.getElementById("linkConfirmar")
+    const verCuponsModal = document.querySelectorAll(".verCupons")
     const modal = document.getElementById("modal");
     abrirModal.forEach((abrirModal) => {
         abrirModal.addEventListener("click", () => {

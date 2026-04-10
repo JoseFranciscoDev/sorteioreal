@@ -56,6 +56,26 @@ class CuponsClientesDao extends Abstract {
         return resultado;
     }
 
+    static async getCuponsPorPedido(pedido) {
+        const conn = await this.connection();
+        const texto = `
+                    select
+                     cuponsClientes.codigo,
+                     date_format(cuponsClientes.data, "%d/%m/%Y") as data,
+                     cupons.nome,
+                     cupons.cpf,
+                     cupons.bairro as endereco,
+                     cupons.cidade,
+                     cupons.estado,
+                     ifnull(cupons.telefone_fisco,cupons.telefone_celular) as telefone
+                    from cuponsClientes join cupons
+                         on(cuponsClientes.codigoCupom = cupons.codigo) 
+                    where cuponsClientes.pedido = ?`;
+        const [resultado] = await conn.query(texto, [pedido]);
+
+        return resultado;
+    }
+
 
 
     static async delete() {
