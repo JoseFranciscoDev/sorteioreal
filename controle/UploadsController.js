@@ -30,7 +30,7 @@ class UploadsController {
 		if (!produto) {
 			return res.redirect(`${BASE_URL}/produtos`);
 		}
-		console.log(produto)
+		
 
 		return res.render("produto.njk", {
 			baseUrl: BASE_URL,

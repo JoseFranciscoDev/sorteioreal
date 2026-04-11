@@ -84,7 +84,7 @@
         abrirModal.addEventListener("click", () => {
             const codigo = abrirModal.getAttribute("data-codigo");
             spanCodigo.innerText = codigo;
-            linkConfirmar.href = `{{ url}}pedido/delete/${codigo}`
+            linkConfirmar.href = `{{BASE_URL}}/pedido/delete/${codigo}`
             modal.showModal();
         });
     })

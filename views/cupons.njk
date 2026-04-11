@@ -27,7 +27,7 @@
             <tbody>
                 {% if cupons.length == 0 %}
                 <tr>
-                    <td colspan="6" class="text-center">Nenhum pedido encontrado.</td>
+                    <td colspan="6" class="text-center">Nenhum cupon encontrado.</td>
                 </tr>
                 {% else %}
                 {% for cupom in cupons %}
@@ -35,7 +35,7 @@
                     <td class="">{{ cupom.codigo }}</td>
                     <td>{{cupom.nome}}</td>
                     <td>{{cupom.cpf}}</td>
-                    <td><i class="bx bx-trash abrirModal" data-codigo="{{pedido.pedido}}"></i></td>
+                    <td><i class="bx bx-trash abrirModal" data-codigo="{{codigoPedido}}"></i></td>
                 </tr>
                 {% endfor %}
                 {% endif %}

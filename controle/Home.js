@@ -93,7 +93,6 @@ class Home {
     static index(req, res) {
         if (req.session.usuario) {
             const modulos = NavBar.getModulos();
-            console.log(modulos)
             return res.render("home.html", { modulos, BASE_URL })
         }
         return res.redirect(`${BASE_URL}/`);
