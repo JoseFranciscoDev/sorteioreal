@@ -100,6 +100,23 @@ class CuponsClientesDao extends Abstract {
         await conn.query(texto);
 
     }
+    static async verificarCuponsImpressos(pedidos) {
+        const conn = await this.connection();
+
+        const texto = `select
+                        c.pedido as codigoPedido,
+                        count(cc.codigo) as quantidadeImpressa,
+                        c.quantidade as quantidadeCuponsPedido,
+                        count(cc.codigo)=c.quantidade as todosCuponImpressos
+                        from cupons c 
+                        left join cuponsClientes cc on (c.pedido=cc.pedido and c.codigo=cc.codigoCupom)
+                        where c.pedido in (?)
+                        group by c.pedido;
+                        `;
+        const [resultado] = await conn.query(texto, [pedidos])
+
+        return resultado
+    }
 }
 
 module.exports = CuponsClientesDao;
