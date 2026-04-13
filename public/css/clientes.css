@@ -44,6 +44,14 @@ body, html {
   margin: auto;
 }
 
+.abrirModal:hover {
+    cursor: pointer;
+}
+
+.verCupons {
+    color: #fff;
+}
+
 /* ---- Navbar / Sidebar ---- */
 nav {
     position: fixed;

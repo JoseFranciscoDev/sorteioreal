@@ -61,7 +61,6 @@ class CuponsClientesDao extends Abstract {
         const texto = `
                     select
                      cuponsClientes.codigo,
-                     cuponsClientes.codigoPedido
                      date_format(cuponsClientes.data, "%d/%m/%Y") as data,
                      cupons.nome,
                      cupons.cpf,
@@ -70,9 +69,10 @@ class CuponsClientesDao extends Abstract {
                      cupons.estado,
                      ifnull(cupons.telefone_fisco,cupons.telefone_celular) as telefone
                     from cuponsClientes join cupons
-                         on(cuponsClientes.codigoCupom = cupons.codigo and codigoClientes.pedido = cupons.pedido) 
-                    where cuponsClientes.pedido = ?`;
-        const [resultado] = await conn.query(texto, [pedido]);
+                         on(cuponsClientes.codigoCupom = cupons.codigo and cuponsClientes.pedido = cupons.pedido) 
+                    where cuponsClientes.pedido in (?)`;
+
+        const [resultado] = await conn.query(texto, [parseInt(pedido)]);
 
         return resultado;
     }
@@ -99,6 +99,23 @@ class CuponsClientesDao extends Abstract {
                             foreign key (codigoCupom) references cupons (codigo) on delete cascade)`;
         await conn.query(texto);
 
+    }
+    static async verificarCuponsImpressos(pedidos) {
+        const conn = await this.connection();
+
+        const texto = `select
+                        c.pedido as codigoPedido,
+                        count(cc.codigo) as quantidadeImpressa,
+                        c.quantidade as quantidadeCuponsPedido,
+                        count(cc.codigo)=c.quantidade as todosCuponImpressos
+                        from cupons c 
+                        left join cuponsClientes cc on (c.pedido=cc.pedido and c.codigo=cc.codigoCupom)
+                        where c.pedido in (?)
+                        group by c.pedido;
+                        `;
+        const [resultado] = await conn.query(texto, [pedidos])
+
+        return resultado
     }
 }
 
