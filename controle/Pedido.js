@@ -144,10 +144,11 @@ class Pedido {
 
     }
     static async index(req, res) {
+        const mensagem = req.query.mensagem;
         const modulos = NavBar.getModulos();
         const printer = DocmentoCupom.configuracao();
         if (await printer.isPrinterConnected()) {
-            res.render("pedido.njk", { url: `${BASE_URL}/home/pedido`, modulos, BASE_URL });
+            res.render("pedido.njk", { url: `${BASE_URL}/home/pedido`, mensagem: mensagem, modulos, BASE_URL });
         } else {
             res.render("pedido.njk", { url: `${BASE_URL}/home/pedido`, mensagem: "Impressora não conectada!", modulos, BASE_URL });;
         }

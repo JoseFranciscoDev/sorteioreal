@@ -6,47 +6,55 @@ const { BASE_URL } = require("../configs.json");
 
 class Cupom {
     static async adiciona(req, res) {
-        req.body.usuario = req.session.usuario.codigo;
-        const [pedido] = await PedidoDao.getPedido({ codigo: req.body.pedido });
-        req.body.data = pedido.data;
-        const [cliente] = await PedidoDao.getCliente({ codigo: req.body.cliente });
-        req.body.cidade = cliente.cidade;
-        req.body.estado = cliente.estado;
-        req.body.cep = cliente.cep;
+        try {
+            req.body.usuario = req.session.usuario.codigo;
+            const [pedido] = await PedidoDao.getPedido({ codigo: req.body.pedido });
+            req.body.data = pedido.data;
+            const [cliente] = await PedidoDao.getCliente({ codigo: req.body.cliente });
+            req.body.cidade = cliente.cidade;
+            req.body.estado = cliente.estado;
+            req.body.cep = cliente.cep;
 
-        const cupom = {
-            codigo: req.body.pedido,
-            data: req.body.data,
-            valor: req.body.valor,
-            metodoPagamento: req.body.metodoPagamento,
-            quantidade: req.body.quantidade,
-            cliente: req.body.cliente,
-            nome: req.body.nome,
-            cpf: req.body.cpf,
-            telefone_fisco: req.body.telefone_fisco,
-            telefone_celular: req.body.telefone_celular,
-            bairro: req.body.bairro,
-            cidade: req.body.cidade,
-            cep: req.body.cep,
-            estado: req.body.estado,
-            usuario: req.body.usuario
-        };
+            const cupom = {
+                codigo: req.body.pedido,
+                data: req.body.data,
+                valor: req.body.valor,
+                metodoPagamento: req.body.metodoPagamento,
+                quantidade: req.body.quantidade,
+                cliente: req.body.cliente,
+                nome: req.body.nome,
+                cpf: req.body.cpf,
+                telefone_fisco: req.body.telefone_fisco,
+                telefone_celular: req.body.telefone_celular,
+                bairro: req.body.bairro,
+                cidade: req.body.cidade,
+                cep: req.body.cep,
+                estado: req.body.estado,
+                usuario: req.body.usuario
+            };
 
-        const codigoCupom = await CupomDao.setCupom(cupom);
+            const codigoCupom = await CupomDao.setCupom(cupom);
 
-        await Cupom.adicionaCuponsClientes(
-            {
-                codigoCupom,
-                cliente: cupom.cliente,
-                pedido: cupom.codigo,
-                valor: cupom.valor,
-                data: cupom.data
-            }, cupom.quantidade);
+            await Cupom.adicionaCuponsClientes(
+                {
+                    codigoCupom,
+                    cliente: cupom.cliente,
+                    pedido: cupom.codigo,
+                    valor: cupom.valor,
+                    data: cupom.data
+                }, cupom.quantidade);
 
-        const cupons = await CuponsClientesDao.getCupom({ codigoCupom });
+            const cupons = await CuponsClientesDao.getCupom({ codigoCupom });
 
-        await Cupom.imprimirCupons(cupons);
-        res.redirect(`${BASE_URL}/home/pedido`);
+            await Cupom.imprimirCupons(cupons);
+            res.redirect(`${BASE_URL}/home/pedido`);
+
+        } catch (err) {
+            if (err.code === 'ER_DUP_ENTRY') {
+                return res.redirect(`${BASE_URL}/home/pedido?mensagem=Pedido Duplicado. Por favor exclua o registro desse pedido ou tente reimprimir!`);
+            }
+            throw err;
+        }
     }
     static async adicionaCuponsClientes(cupom, quantidade) {
 
