@@ -23,11 +23,13 @@
                     <th>Data</th>
                     <th>Valor</th>
                     <th>Método de Pagamento</th>
-                    <th>Quantidade de Cupons</th>
+                    <th>Quantidade impressa</th>
                     <th>Nome do cliente</th>
                     <th>CPF</th>
+                    <th>Todos Os cupons Foram impressos?</th>
+                    <th>Quantidade Esperada</th>
                     <th>Excluir</th>
-                    <th></th>
+                    <th>Ver cupons do pedido</th>
                 </tr>
             </thead>
             <tbody>
@@ -46,9 +48,11 @@
                     <td>{{pedido.quantidade}}</td>
                     <td>{{pedido.nome}}</td>
                     <td>{{pedido.cpf}}</td>
+                    <td>{{ "Sim" if pedido.todoCuponsImpressos else "Não" }}</td>
+                    <td>{{pedido.quantidadeImpressa }}</td>
                     <td><i class="bx bx-trash abrirModal" data-codigo="{{pedido.pedido}}"></i></td>
-                    <td>
-                        <a href="{{BASE_URL}}/pedido/{{pedido.pedido}}">
+                    <td style="background-color: #6c757d;"">
+                        <a href="{{BASE_URL}}/pedido/{{pedido.pedido}}" style="text-decoration:none;">
                             <i class="bx-discount verCupons">
                                 Ver cupons
                             </i>

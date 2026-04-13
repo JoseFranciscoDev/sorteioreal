@@ -61,7 +61,6 @@ class CuponsClientesDao extends Abstract {
         const texto = `
                     select
                      cuponsClientes.codigo,
-                     cuponsClientes.codigoPedido
                      date_format(cuponsClientes.data, "%d/%m/%Y") as data,
                      cupons.nome,
                      cupons.cpf,
@@ -70,9 +69,10 @@ class CuponsClientesDao extends Abstract {
                      cupons.estado,
                      ifnull(cupons.telefone_fisco,cupons.telefone_celular) as telefone
                     from cuponsClientes join cupons
-                         on(cuponsClientes.codigoCupom = cupons.codigo and codigoClientes.pedido = cupons.pedido) 
-                    where cuponsClientes.pedido = ?`;
-        const [resultado] = await conn.query(texto, [pedido]);
+                         on(cuponsClientes.codigoCupom = cupons.codigo and cuponsClientes.pedido = cupons.pedido) 
+                    where cuponsClientes.pedido in (?)`;
+
+        const [resultado] = await conn.query(texto, [parseInt(pedido)]);
 
         return resultado;
     }

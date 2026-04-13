@@ -42,10 +42,10 @@ class Administracao {
 
             // Indexa pelo codigoPedido para evitar mapeamento errado por posição
             const cuponsMap = new Map(verificarCuponsImpressos.map(r => [r.codigoPedido, r]))
-
             for (const pedido of pedidos) {
                 const info = cuponsMap.get(pedido.pedido)
-                pedido.completo = info ? Boolean(info.todosCuponImpressos) : false
+                pedido.todoCuponsImpressos = info ? Boolean(info.todosCuponImpressos) : false
+                pedido.quantidadeImpressa = info.quantidadeImpressa
             }
 
             res.render("pedidos.njk", {
