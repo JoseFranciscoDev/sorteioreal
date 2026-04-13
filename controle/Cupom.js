@@ -51,7 +51,7 @@ class Cupom {
 
         } catch (err) {
             if (err.code === 'ER_DUP_ENTRY') {
-                return res.redirect(`${BASE_URL}/home/pedido?mensagem=Pedido Duplicado. Por favor exclua o registro desse pedido ou tente reimprimir!`);
+                return res.redirect(`${BASE_URL}/home/pedido?mensagem=Pedido Duplicado. Por favor tente reimprimir!`);
             }
             throw err;
         }
