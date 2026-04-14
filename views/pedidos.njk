@@ -26,10 +26,10 @@
                     <th>Quantidade de Cupons Esperada</th>
                     <th>Nome do cliente</th>
                     <th>CPF</th>
-                    <th>Todos Os cupons Foram impressos?</th>
                     <th>Quantidade de Cupons Impressa</th>
-                    <th>Excluir</th>
                     <th>Ver cupons do pedido</th>
+                    <th>Todos Os cupons Foram impressos?</th>
+                    <th>Excluir</th>
                 </tr>
             </thead>
             <tbody>
@@ -39,7 +39,7 @@
                 </tr>
                 {% else %}
                 {% for pedido in pedidos %}
-                <tr>
+                <tr class="{{ 'row-success' if pedido.todoCuponsImpressos else 'row-error' }}">
                     <td class="">{{ pedido.pedido }}</td>
                     <td>{{ pedido.cliente }}</td>
                     <td>{{ pedido.data }}</td>
@@ -48,9 +48,7 @@
                     <td>{{pedido.quantidade}}</td>
                     <td>{{pedido.nome}}</td>
                     <td>{{pedido.cpf}}</td>
-                    <td>{{ "Sim" if pedido.todoCuponsImpressos else "Não" }}</td>
                     <td>{{pedido.quantidadeImpressa }}</td>
-                    <td><i class="bx bx-trash abrirModal" data-codigo="{{pedido.pedido}}"></i></td>
                     <td style="background-color: #6c757d;"">
                         <a href="{{BASE_URL}}/pedido/{{pedido.pedido}}" style="text-decoration:none;">
                             <i class="bx-discount verCupons">
@@ -58,6 +56,8 @@
                             </i>
                         </a>
                     </td>
+                    <td>{{ "Sim" if pedido.todoCuponsImpressos else "Não" }}</td>
+                    <td><i class="bx bx-trash abrirModal" data-codigo="{{pedido.pedido}}"></i></td>
                 </tr>
                 {% endfor %}
                 {% endif %}
