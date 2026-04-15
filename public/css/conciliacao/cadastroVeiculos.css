@@ -1,0 +1,269 @@
+@import url('https://fonts.googleapis.com/css2?family=Poppins:wght@300;400;500;600;700&display=swap');
+
+/* ============================================================
+   cadastroVeiculos.css — Cadastro de Veículos (Conciliação)
+   Tema: Vermelho (#d1121d) e Branco — alinhado ao projeto
+   ============================================================ */
+
+:root {
+    --primary-color:  #d1121d;
+    --primary-light:  #e63946;
+    --primary-dark:   #a50e17;
+    --bg-page:        #f4f6f9;
+    --bg-card:        #ffffff;
+    --text-main:      #333333;
+    --text-muted:     #666666;
+    --border-color:   #e0e0e0;
+    --input-focus:    #d1121d;
+    --shadow-sm:      0 2px 4px rgba(0, 0, 0, 0.06);
+    --shadow-md:      0 4px 12px rgba(0, 0, 0, 0.10);
+    --shadow-lg:      0 12px 30px rgba(0, 0, 0, 0.12);
+    --transition:     all 0.3s ease;
+    --radius-sm:      8px;
+    --radius-md:      12px;
+    --radius-lg:      16px;
+}
+
+/* overflow-x controlado pelo home.css */
+body { overflow-x: hidden; }
+
+/* ---- Página principal ---- */
+.veiculo-page {
+    min-height: 100vh;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    padding: 90px 20px 40px;
+    background: linear-gradient(135deg, var(--bg-page) 0%, #ffe5e5 100%);
+}
+
+/* ---- Card do formulário ---- */
+.veiculo-card {
+    background: var(--bg-card);
+    border-radius: var(--radius-lg);
+    box-shadow: var(--shadow-lg);
+    width: 100%;
+    max-width: 680px;
+    overflow: hidden;
+    animation: slideUp 0.45s ease both;
+}
+
+@keyframes slideUp {
+    from { opacity: 0; transform: translateY(30px); }
+    to   { opacity: 1; transform: translateY(0); }
+}
+
+/* ---- Cabeçalho do card ---- */
+.veiculo-card-header {
+    background: linear-gradient(135deg, var(--primary-color) 0%, var(--primary-dark) 100%);
+    padding: 28px 36px;
+    display: flex;
+    align-items: center;
+    gap: 16px;
+}
+
+.veiculo-card-header i {
+    font-size: 2.2rem;
+    color: #fff;
+    opacity: 0.95;
+}
+
+.veiculo-card-header h1 {
+    font-size: 1.45rem;
+    font-weight: 700;
+    color: #fff;
+    line-height: 1.3;
+}
+
+.veiculo-card-header p {
+    font-size: 0.82rem;
+    color: rgba(255, 255, 255, 0.78);
+    margin-top: 2px;
+}
+
+/* ---- Body do card ---- */
+.veiculo-card-body {
+    padding: 36px;
+}
+
+/* ---- Grid de campos ---- */
+.form-grid {
+    display: grid;
+    grid-template-columns: 1fr 1fr;
+    gap: 20px;
+}
+
+.form-grid .field-full {
+    grid-column: 1 / -1;
+}
+
+/* ---- Grupo de campo ---- */
+.field-group {
+    display: flex;
+    flex-direction: column;
+    gap: 6px;
+}
+
+.field-group label {
+    font-size: 0.82rem;
+    font-weight: 600;
+    color: var(--text-muted);
+    text-transform: uppercase;
+    letter-spacing: 0.5px;
+}
+
+.field-group label span.required {
+    color: var(--primary-color);
+    margin-left: 2px;
+}
+
+/* ---- Wrapper do input (ícone + input) ---- */
+.input-wrapper {
+    position: relative;
+    display: flex;
+    align-items: center;
+}
+
+.input-wrapper i {
+    position: absolute;
+    left: 14px;
+    font-size: 1.15rem;
+    color: var(--text-muted);
+    pointer-events: none;
+    transition: color 0.25s ease;
+}
+
+.input-wrapper input,
+.input-wrapper select {
+    width: 100%;
+    height: 48px;
+    padding: 0 14px 0 42px;
+    border: 1.5px solid var(--border-color);
+    border-radius: var(--radius-sm);
+    font-family: 'Poppins', sans-serif;
+    font-size: 0.92rem;
+    color: var(--text-main);
+    background: #fafafa;
+    outline: none;
+    transition: var(--transition);
+    appearance: none;
+}
+
+.input-wrapper input:focus,
+.input-wrapper select:focus {
+    border-color: var(--input-focus);
+    background: #fff;
+    box-shadow: 0 0 0 3px rgba(209, 18, 29, 0.10);
+}
+
+.input-wrapper input:focus + i,
+.input-wrapper:focus-within i {
+    color: var(--primary-color);
+}
+
+.input-wrapper input::placeholder {
+    color: #b0b0b0;
+    font-size: 0.88rem;
+}
+
+/* ---- Hint de validação ---- */
+.field-hint {
+    font-size: 0.75rem;
+    color: #aaa;
+    margin-top: 2px;
+}
+
+/* ---- Divisor ---- */
+.form-divider {
+    border: none;
+    border-top: 1px solid var(--border-color);
+    margin: 28px 0 6px;
+}
+
+/* ---- Ações ---- */
+.form-actions {
+    display: flex;
+    gap: 14px;
+    margin-top: 30px;
+}
+
+.btn-submit {
+    flex: 1;
+    height: 50px;
+    background: linear-gradient(135deg, var(--primary-color) 0%, var(--primary-dark) 100%);
+    color: #fff;
+    border: none;
+    border-radius: var(--radius-sm);
+    font-family: 'Poppins', sans-serif;
+    font-size: 0.95rem;
+    font-weight: 600;
+    cursor: pointer;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    gap: 10px;
+    transition: var(--transition);
+    box-shadow: 0 4px 14px rgba(209, 18, 29, 0.30);
+    letter-spacing: 0.3px;
+}
+
+.btn-submit:hover {
+    transform: translateY(-2px);
+    box-shadow: 0 8px 22px rgba(209, 18, 29, 0.38);
+    background: linear-gradient(135deg, var(--primary-light) 0%, var(--primary-color) 100%);
+}
+
+.btn-submit:active {
+    transform: translateY(0);
+}
+
+.btn-cancel {
+    height: 50px;
+    padding: 0 24px;
+    background: transparent;
+    color: var(--text-muted);
+    border: 1.5px solid var(--border-color);
+    border-radius: var(--radius-sm);
+    font-family: 'Poppins', sans-serif;
+    font-size: 0.92rem;
+    font-weight: 500;
+    cursor: pointer;
+    display: flex;
+    align-items: center;
+    gap: 8px;
+    transition: var(--transition);
+    text-decoration: none;
+}
+
+.btn-cancel:hover {
+    border-color: var(--primary-color);
+    color: var(--primary-color);
+    background: rgba(209, 18, 29, 0.04);
+}
+
+/* ---- Responsivo ---- */
+@media (max-width: 640px) {
+    .form-grid {
+        grid-template-columns: 1fr;
+    }
+
+    .form-grid .field-full {
+        grid-column: 1;
+    }
+
+    .veiculo-card-body {
+        padding: 24px 20px;
+    }
+
+    .veiculo-card-header {
+        padding: 22px 20px;
+    }
+
+    .form-actions {
+        flex-direction: column;
+    }
+
+    .btn-cancel {
+        justify-content: center;
+    }
+}

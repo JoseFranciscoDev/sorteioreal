@@ -1,0 +1,162 @@
+/* ============================================================
+   navbar.css — Estilos globais da Navbar / Sidebar / Overlay
+   Incluído em home.html — fonte única de verdade para a navbar
+   ============================================================ */
+
+/* ---- Barra de navegação (wrapper fixo) ---- */
+nav {
+    position: fixed;
+    top: 0;
+    left: 0;
+    height: 70px;
+    display: flex;
+    align-items: center;
+    box-sizing: border-box;
+    font-family: 'Poppins', sans-serif;
+    z-index: 1100;
+}
+
+nav .logo {
+    display: flex;
+    align-items: center;
+    margin: 0 19px;
+}
+
+.logo .menu-icon {
+    color: #000000;
+    font-size: 50px;
+    margin-right: 14px;
+    cursor: pointer;
+    transition: all 0.3s ease;
+}
+
+/* ---- Sidebar (painel lateral) ---- */
+nav .sidebar {
+    position: fixed;
+    top: 0;
+    left: -100%;
+    height: 100%;
+    width: 269px;
+    padding: 20px 0;
+    background-color: #fff;
+    box-shadow: 0 5px 20px rgba(0, 0, 0, 0.15);
+    transition: all 0.4s ease;
+    z-index: 1200;
+}
+
+nav.open .sidebar {
+    left: 0;
+}
+
+.sidebar .sidebar-content {
+    display: flex;
+    height: 86%;
+    flex-direction: column;
+    justify-content: space-between;
+    padding: 25px 16px;
+}
+
+/* ---- Itens do menu ---- */
+.sidebar-content .list {
+    list-style: none;
+}
+
+.list .nav-link {
+    display: flex;
+    align-items: center;
+    margin: 0;
+    padding: 10px 10px;
+    border-radius: 8px;
+    text-decoration: none;
+    transition: all 0.3s ease;
+}
+
+.lists .nav-link:hover {
+    background-color: #f04141;
+}
+
+.nav-link .icon {
+    margin-right: 14px;
+    font-size: 20px;
+    color: #707070;
+}
+
+.nav-link .link {
+    font-size: 16px;
+    color: #707070;
+    font-weight: 400;
+}
+
+.lists .nav-link:hover .icon,
+.lists .nav-link:hover .link {
+    color: #fff;
+}
+
+/* ---- Overlay (escurece o fundo ao abrir a sidebar) ---- */
+.overlay {
+    position: fixed;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 100%;
+    background: rgba(0, 0, 0, 0.45);
+    opacity: 0;
+    visibility: hidden;
+    pointer-events: none;
+    transition: opacity 0.4s ease, visibility 0.4s ease;
+    z-index: 1050;
+}
+
+nav.open ~ .overlay {
+    opacity: 1;
+    visibility: visible;
+    pointer-events: auto;
+}
+
+/* ---- Dropdown / Submenu ---- */
+.nav-link.dropdown {
+    cursor: pointer;
+    display: flex;
+    align-items: center;
+    position: relative;
+    user-select: none;
+}
+
+.nav-link.dropdown .dropdown-arrow {
+    margin-left: auto;
+    font-size: 1rem;
+    transition: transform 0.3s ease;
+}
+
+.list.open > .nav-link.dropdown .dropdown-arrow {
+    transform: rotate(180deg);
+}
+
+.dropdown-menu {
+    list-style: none;
+    padding: 0;
+    margin: 0;
+    max-height: 0;
+    overflow: hidden;
+    transition: max-height 0.3s ease;
+    background: rgba(0, 0, 0, 0.15);
+    border-radius: 4px;
+}
+
+.list.open > .dropdown-menu {
+    max-height: 300px;
+}
+
+.dropdown-item a {
+    display: block;
+    padding: 8px 16px 8px 48px;
+    color: inherit;
+    text-decoration: none;
+    font-size: 0.9rem;
+    opacity: 0.85;
+    transition: opacity 0.2s ease;
+}
+
+.dropdown-item a:hover {
+    opacity: 1;
+}
