@@ -5,49 +5,8 @@
   <meta name="viewport" content="width=device-width, initial-scale=1.0" />
   <link rel="icon" type="image/x-icon" href="/image/icon.png">
   <link rel="stylesheet" type="text/css" href="/css/home.css" media="screen" />
+  <link rel="stylesheet" type="text/css" href="/css/navbar.css" media="screen" />
   <link rel="stylesheet" href="https://unpkg.com/boxicons@2.1.2/css/boxicons.min.css" />
-  <style>
-    .nav-link.dropdown {
-      cursor: pointer;
-      display: flex;
-      align-items: center;
-      position: relative;
-      user-select: none;
-    }
-    .nav-link.dropdown .dropdown-arrow {
-      margin-left: auto;
-      font-size: 1rem;
-      transition: transform 0.3s ease;
-    }
-    .list.open > .nav-link.dropdown .dropdown-arrow {
-      transform: rotate(180deg);
-    }
-    .dropdown-menu {
-      list-style: none;
-      padding: 0;
-      margin: 0;
-      max-height: 0;
-      overflow: hidden;
-      transition: max-height 0.3s ease;
-      background: rgba(0, 0, 0, 0.15);
-      border-radius: 4px;
-    }
-    .list.open > .dropdown-menu {
-      max-height: 300px;
-    }
-    .dropdown-item a {
-      display: block;
-      padding: 8px 16px 8px 48px;
-      color: inherit;
-      text-decoration: none;
-      font-size: 0.9rem;
-      opacity: 0.85;
-      transition: opacity 0.2s ease;
-    }
-    .dropdown-item a:hover {
-      opacity: 1;
-    }
-  </style>
   {% block css %}{% endblock %}
 </head>
 <body>

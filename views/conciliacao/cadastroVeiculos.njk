@@ -1,0 +1,125 @@
+{% extends "home.html" %}
+
+{% block css %}
+<link rel="stylesheet" type="text/css" href="/css/conciliacao/cadastroVeiculos.css" media="screen" />
+{% endblock %}
+
+{% block principal %}
+<div class="veiculo-page">
+  <div class="veiculo-card">
+
+    <!-- Cabeçalho do card -->
+    <div class="veiculo-card-header">
+      <i class="bx bx-car"></i>
+      <div>
+        <h1>Cadastro de Veículo</h1>
+        <p>Preencha os dados do veículo para registrá-lo no sistema.</p>
+      </div>
+    </div>
+
+    <!-- Corpo do card -->
+    <div class="veiculo-card-body">
+      <form method="POST" action="{{ BASE_URL }}/conciliacao/cadastro/veiculos" id="form-cadastro-veiculo">
+
+        <div class="form-grid">
+
+          <!-- Nome do Veículo (campo inteiro) -->
+          <div class="field-group field-full">
+            <label for="nomeVeiculo">Nome do Veículo <span class="required">*</span></label>
+            <div class="input-wrapper">
+              <i class="bx bx-purchase-tag"></i>
+              <input
+                type="text"
+                id="nomeVeiculo"
+                name="nomeVeiculo"
+                placeholder="Ex: Carro do Maicon"
+                maxlength="100"
+                required
+              />
+            </div>
+          </div>
+
+          <!-- Modelo -->
+          <div class="field-group">
+            <label for="modelo">Modelo <span class="required">*</span></label>
+            <div class="input-wrapper">
+              <i class="bx bx-category"></i>
+              <input
+                type="text"
+                id="modelo"
+                name="modelo"
+                placeholder="Ex: Strada 1.4"
+                maxlength="80"
+                required
+              />
+            </div>
+          </div>
+
+          <!-- Cor -->
+          <div class="field-group">
+            <label for="cor">Cor <span class="required">*</span></label>
+            <div class="input-wrapper">
+              <i class="bx bx-palette"></i>
+              <input
+                type="text"
+                id="cor"
+                name="cor"
+                placeholder="Ex: Branco Polar"
+                maxlength="40"
+                required
+              />
+            </div>
+          </div>
+
+          <!-- Placa -->
+          <div class="field-group">
+            <label for="placa">Placa <span class="required">*</span></label>
+            <div class="input-wrapper">
+              <i class="bx bx-id-card"></i>
+              <input
+                type="text"
+                id="placa"
+                name="placa"
+                placeholder="Ex: ABC-1234"
+                maxlength="8"
+                required
+              />
+            </div>
+            <span class="field-hint">Formato: AAA-0000 ou AAA-0A00 (Mercosul)</span>
+          </div>
+
+          <!-- Chassi (campo inteiro) -->
+          <div class="field-group field-full">
+            <label for="chassi">Chassi (VIN) <span class="required">*</span></label>
+            <div class="input-wrapper">
+              <i class="bx bx-hash"></i>
+              <input
+                type="text"
+                id="chassi"
+                name="chassi"
+                placeholder="Ex: 9BWZZZ377VT004251"
+                maxlength="17"
+                minlength="17"
+                required
+              />
+            </div>
+            <span class="field-hint">17 caracteres alfanuméricos</span>
+          </div>
+
+        </div><!-- /.form-grid -->
+
+        <hr class="form-divider" />
+
+        <div class="form-actions">
+          <button type="submit" class="btn-submit" id="btn-cadastrar">
+            <i class="bx bx-save"></i>
+            Cadastrar Veículo
+          </button>
+        </div>
+
+      </form>
+    </div><!-- /.veiculo-card-body -->
+
+  </div><!-- /.veiculo-card -->
+</div><!-- /.veiculo-page -->
+{% endblock %}

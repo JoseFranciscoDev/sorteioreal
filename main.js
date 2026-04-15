@@ -13,6 +13,7 @@ const routerCupom = require("./rotas/cupom.js");
 const routerConfiguracoes = require("./rotas/configuracoes.js");
 const routerAdministracao = require("./rotas/administracao.js");
 const routerCliente = require("./rotas/cliente.js");
+const routerConciliacao = require("./rotas/conciliacao.js");
 const verificaConfig = require("./middlewares/verificaConfig.js");
 const vericaEAdmin = require("./middlewares/vericaEAdmin.js");
 const estaLogado = require("./middlewares/estaLogado.js");
@@ -52,7 +53,7 @@ app.use(BASE_URL, estaLogado, verificaConfig, routerPedido);
 app.use(BASE_URL, estaLogado, verificaConfig, routerCupom);
 app.use(`${BASE_URL}/administracao`, vericaEAdmin, verificaConfig, routerAdministracao);
 app.use(BASE_URL, estaLogado, verificaConfig, uploadRouter);
-
+app.use(BASE_URL, estaLogado, routerConciliacao);
 
 app.listen(PORT, async () => {
     await AbstractNerusAWS.connection();
