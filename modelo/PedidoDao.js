@@ -46,13 +46,17 @@ class PedidoDao extends AbstractNerusAWS {
                             custp.nei1 as bairro,
                             custp.city1 as cidade,
                             ifnull(substring_index(custp.zip, " ", 1), " ") as cep,
-                            custp.state1 as estado
-                            
-                            from custp where custp.no = ?`;
+                            custp.state1 as estado,
+                            case
+                                when emp.cpf is not null then 1
+                                else 0
+                                end as e_funcionario
+                            from custp
+                            left join emp on (custp.cpf_cgc=emp.cpf) 
+                            where custp.no = ?`;
         const [cliente] = await conn.query(texto, [pedido.codigo]);
 
         return cliente;
-
     }
 }
 

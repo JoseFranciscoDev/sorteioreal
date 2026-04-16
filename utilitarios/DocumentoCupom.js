@@ -29,7 +29,7 @@ class DocumentoCupom {
         printer.print("45 PRÊMIOS PRA VOCÊ!\n");
         printer.setTextSize(0, 0);
         printer.print("\n");
-        printer.print("CUPOM PARA SORTEIO EMISSAO: " + cupom.data + "\n");
+        printer.print("CUPOM PARA SORTEIO EMISSAO: " + cupom.data + cupom.horario + "\n");
         printer.setTextSize(3, 2);
         printer.print(this.adicionarZeroAEsqueda(cupom.codigo) + "\n");
         printer.setTextSize(0, 0);
