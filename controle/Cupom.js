@@ -3,7 +3,7 @@ const CupomDao = require("../modelo/CupomDao.js");
 const CuponsClientesDao = require("../modelo/CuponsClientesDao.js");
 const DocumentoCupom = require("../utilitarios/DocumentoCupom.js");
 const { BASE_URL } = require("../configs.json");
-
+const verificarCnpj = require("../utilitarios/VerificarCnpj.js");
 class Cupom {
     static async adiciona(req, res) {
         try {
@@ -11,13 +11,26 @@ class Cupom {
             const [pedido] = await PedidoDao.getPedido({ codigo: req.body.pedido });
             req.body.data = pedido.data;
             const [cliente] = await PedidoDao.getCliente({ codigo: req.body.cliente });
+
+            if (cliente.e_funcionario) {
+                return res.redirect(`${BASE_URL}/home/pedido?mensagem=Funcionarios não podem participar!`)
+            }
+            const eCnpj = verificarCnpj(cliente.cpf);
+            if (eCnpj) {
+                return res.redirect(`${BASE_URL}/home/pedido?mensagem=Apenas pedidos feitos por CPF podem participar!`)
+            }
+            const date = new Date()
+            const horario = date.toLocaleTimeString('pt-BR')
             req.body.cidade = cliente.cidade;
             req.body.estado = cliente.estado;
             req.body.cep = cliente.cep;
+            req.body.horario = horario;
+
 
             const cupom = {
                 codigo: req.body.pedido,
                 data: req.body.data,
+                horario: req.body.horario,
                 valor: req.body.valor,
                 metodoPagamento: req.body.metodoPagamento,
                 quantidade: req.body.quantidade,

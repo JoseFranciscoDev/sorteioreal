@@ -8,6 +8,7 @@ class CupomDao extends Abstract {
         const texto = `select codigo,
                         pedido,
                         date_format(data, "%d/%m/%Y") as data,
+                        horario,
                         valor,
                         metodoPagamento,
                         quantidade,
@@ -26,6 +27,7 @@ class CupomDao extends Abstract {
                         cupons.codigo,
                         cupons.pedido,
                         date_format(cupons.data, "%d/%m/%Y") as data,
+                        time_format(cupons.horario, " %H:%i:%s") as horario,
                         cupons.valor,
                         cupons.cliente,
                         cupons.nome,
@@ -48,6 +50,7 @@ class CupomDao extends Abstract {
                         cupons.codigo,
                         cupons.pedido,
                         date_format(cupons.data, "%d/%m/%Y") as data,
+                        time_format(cupons.horario, " %H:%i:%s") as horario,
                         cupons.valor,
                         cupons.cliente,
                         cupons.nome,
@@ -80,12 +83,13 @@ class CupomDao extends Abstract {
                  cupons.cidade,
                  cupons.cep,
                  cupons.estado,
+                 cupons.horario,
                  usuario)
-                  values(?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?)`;
+                  values(?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?)`;
         const dados = [pedido.data, pedido.codigo, pedido.valor, pedido.metodoPagamento, pedido.quantidade,
         pedido.cliente, pedido.nome, pedido.cpf, pedido.telefone_fisco,
         pedido.telefone_celular, pedido.bairro, pedido.cidade,
-        pedido.cep, pedido.estado, pedido.usuario];
+        pedido.cep, pedido.estado, pedido.horario, pedido.usuario];
         const [cupom] = await conn.query(texto, dados);
         return cupom.insertId;
 
@@ -130,6 +134,7 @@ class CupomDao extends Abstract {
                         cidade varchar(255) not null,
                         cep varchar(255) not null,
                         estado varchar(255) not null,
+                        horario time,
                         usuario int not null)`;
         await conn.query(texto);
     }

@@ -18,9 +18,10 @@ class CuponsClientesDao extends Abstract {
     static async getCupom(cupom) {
         const conn = await this.connection();
         const texto = `
-                    select
+                     select
                      cuponsClientes.codigo,
                      date_format(cuponsClientes.data, "%d/%m/%Y") as data,
+                     time_format(cupons.horario, " %H:%i:%s") as horario,
                      cupons.nome,
                      cupons.cpf,
                      cupons.bairro as endereco,
@@ -41,6 +42,7 @@ class CuponsClientesDao extends Abstract {
                     select
                      cuponsClientes.codigo,
                      date_format(cuponsClientes.data, "%d/%m/%Y") as data,
+                     time_format(cupons.horario, " %H:%i:%s") as horario,
                      cupons.nome,
                      cupons.cpf,
                      cupons.bairro as endereco,
@@ -62,6 +64,7 @@ class CuponsClientesDao extends Abstract {
                     select
                      cuponsClientes.codigo,
                      date_format(cuponsClientes.data, "%d/%m/%Y") as data,
+                     time_format(cupons.horario, " %H:%i:%s") as horario,
                      cupons.nome,
                      cupons.cpf,
                      cupons.bairro as endereco,
