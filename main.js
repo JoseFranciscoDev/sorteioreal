@@ -51,7 +51,7 @@ app.use(`${BASE_URL}/configuracoes`, vericaEAdmin, routerConfiguracoes);
 app.use(BASE_URL, estaLogado, verificaConfig, routerHome);
 app.use(BASE_URL, estaLogado, verificaConfig, routerPedido);
 app.use(BASE_URL, estaLogado, verificaConfig, routerCupom);
-app.use(`${BASE_URL}/administracao`, vericaEAdmin, verificaConfig, routerAdministracao);
+app.use(`${BASE_URL}/administracao`, verificaConfig, routerAdministracao);
 app.use(BASE_URL, estaLogado, verificaConfig, uploadRouter);
 app.use(BASE_URL, estaLogado, routerConciliacao);
 

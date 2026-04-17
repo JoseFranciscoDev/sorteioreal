@@ -105,7 +105,8 @@ class Home {
         res.redirect(`${BASE_URL}/`);
     }
     static criarUsuario(req, res) {
-        res.render("CriarUsuario.njk", { url: `${BASE_URL}/` });
+        const modulos = NavBar.getModulos()
+        res.render("CriarUsuario.njk", { url: `${BASE_URL}/`, modulos, BASE_URL });
     }
 
     static async criarUsuarioPost(req, res) {
