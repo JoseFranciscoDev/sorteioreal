@@ -4,7 +4,10 @@ const {v4: uuid4 } = require("uuid");
 const fs = require("fs");
 
 
-const storage = multer.diskStorage({
+
+function criarUpload(tiposPermitidos) {
+    
+    const storage = multer.diskStorage({
     
     destination: (req, file, callback)=> {
         
@@ -32,12 +35,12 @@ const storage = multer.diskStorage({
 
 const fileFilter = (req, file, callback) => {
     
-       const tiposPermitidos = [
+       /*const tiposPermitidos = [
            "image/jpeg",
            "image/png",
            "image/jpg",
            "image/webp"
-       ];
+       ];*/
        
        if (tiposPermitidos.includes(file.mimetype)) {
            
@@ -58,8 +61,13 @@ const upload = multer({
         fileSize: 52 * 1024 * 1024
     }
 });
+    
+   return upload; 
+    
+}
 
-module.exports = upload;
+
+module.exports = criarUpload;
 
 
 
