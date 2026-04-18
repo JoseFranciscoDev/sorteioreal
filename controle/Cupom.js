@@ -77,10 +77,15 @@ class Cupom {
         }
     }
 
+    static delay(ms) {
+        return new Promise(resolve => setTimeout(resolve, ms));
+    }
+
     static async imprimirCupons(cupons) {
 
         for (const cupom of cupons) {
             await DocumentoCupom.imprimir(cupom);
+            await Cupom.delay(800);
         }
 
     }
