@@ -79,9 +79,9 @@ class Cupom {
 
     static async imprimirCupons(cupons) {
 
-        await cupons.forEach(async function (cupom) {
+        for (const cupom of cupons) {
             await DocumentoCupom.imprimir(cupom);
-        });
+        }
 
     }
 
