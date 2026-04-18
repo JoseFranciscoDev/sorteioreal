@@ -86,8 +86,8 @@ class Cupom {
     }
 
     static async deletar(req, res) {
-        const codigo = req.params.codigo;
-        await CupomDao.delete(codigo);
+        const {codigo, pedido} = req.params;
+        await CupomDao.delete(codigo, pedido);
         res.redirect(`${BASE_URL}/administracao/pedidos`);
     }
 
