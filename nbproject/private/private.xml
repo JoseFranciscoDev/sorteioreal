@@ -3,10 +3,8 @@
     <editor-bookmarks xmlns="http://www.netbeans.org/ns/editor-bookmarks/2" lastBookmarkId="0"/>
     <open-files xmlns="http://www.netbeans.org/ns/projectui-open-files/2">
         <group>
-            <file>file:/home/mateus/projetosReal/sorteioreal/services/UploadsService.js</file>
+            <file>file:/home/mateus/projetosReal/sorteioreal/middlewares/Uploads.js</file>
             <file>file:/home/mateus/projetosReal/sorteioreal/rotas/uploads.js</file>
-            <file>file:/home/mateus/projetosReal/sorteioreal/controle/UploadsController.js</file>
-            <file>file:/home/mateus/projetosReal/sorteioreal/modelo/UploadsDao.js</file>
         </group>
     </open-files>
 </project-private>
