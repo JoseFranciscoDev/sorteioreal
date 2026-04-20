@@ -1,6 +1,6 @@
 const express = require("express");
 const router = express.Router();
-const criarUploads = require("../middlewares/Uploads.js");
+const {uploadImagens, uploadArquivos} = require("../middlewares/Uploads.js");
 const UploadsController = require("../controle/UploadsController.js");
 const UploadsService = require("../services/UploadsService.js"); 
 const UploadsDao = require("../modelo/UploadsDao.js");
@@ -13,12 +13,7 @@ const uploadsService = new UploadsService(uploadsDao);
 
 const uploadsController = new UploadsController(uploadsService);
 
-const uploadImagens = criarUploads([
-           "image/jpeg",
-           "image/png",
-           "image/jpg",
-           "image/webp"
-       ]);
+
 
 router.get("/produtos", (req, res) => uploadsController.listarProdutos(req,res));
 router.get("/produtos/:codigo", (req, res) => uploadsController.detalhesProduto(req, res));

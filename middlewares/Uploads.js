@@ -67,7 +67,14 @@ const upload = multer({
 }
 
 
-module.exports = criarUpload;
+const uploadImagens = criarUpload(["image/jpeg","image/png","image/jpg","image/webp"]);
+       
+
+const uploadArquivos = criarUpload(["text/csv", "text/plain", "application/vnd.ms-excel"]);
+       
+
+
+module.exports = {uploadImagens, uploadArquivos};
 
 
 
