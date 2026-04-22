@@ -57,6 +57,7 @@ app.use(BASE_URL, estaLogado, verificaConfig, uploadRouter);
 app.use(BASE_URL, estaLogado, routerConciliacao);
 app.use(uploadClienteNegativadosProtesto);
 
+console.log("base_url", BASE_URL);
 app.listen(PORT, async () => {
     await AbstractNerusAWS.connection();
     await conexaoLocal.connection();

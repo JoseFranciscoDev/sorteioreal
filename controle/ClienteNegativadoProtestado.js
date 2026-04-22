@@ -1,9 +1,15 @@
-
+const lerArquvioUniversal = require("../utilitarios/LerArquivo.js");
 
 class ClienteNegativadoProtestado {
+
+
     
     uploads(req, res) {
-        console.log(req.file);
+        
+        
+        const [arquivoUrl] = req.files;
+        lerArquvioUniversal(arquivoUrl.path);
+
             
         
     }
