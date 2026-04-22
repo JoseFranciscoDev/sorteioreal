@@ -1,133 +1,69 @@
-{% extends "index.html" %} 
+{% extends "home.html" %}
 {% block css %}
-<meta name="viewport" content="width=device-width, initial-scale=1.0" />
-<link rel="stylesheet" type="text/css" href="/css/home.css" media="screen" />
-<link rel="stylesheet" type="text/css" href="/css/CriarUsuario.css" media="screen" />
-<link rel="stylesheet" href="https://unpkg.com/boxicons@2.1.2/css/boxicons.min.css" />
-<title>Criar Novo Usuário - Shopping Real</title>
-{% endblock %} 
-
+  <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
+  <link rel="stylesheet" type="text/css" href="/css/home.css" media="screen"/>
+  <link rel="stylesheet" type="text/css" href="/css/navbar.css" media="screen"/>
+  <link rel="stylesheet" type="text/css" href="/css/CriarUsuario.css" media="screen"/>
+  <link rel="stylesheet" href="https://unpkg.com/boxicons@2.1.2/css/boxicons.min.css"/>
+  <title>Criar Novo Usuário - Shopping Real</title>
+{% endblock %}
 {% block principal %}
-<nav>
-  <div class="logo">
-    <i class="bx bx-menu menu-icon"></i>
-  </div>
-  <div class="sidebar">
-    <div class="logo">
-      <i class="bx bx-menu menu-icon"></i>
-    </div>
-    <div class="sidebar-content">
-      <ul class="lists">
-        <li class="list">
-            <a href="{{ url }}home/pedido" class="nav-link">
-              <i class="bx bx-plus-circle icon"></i>
-              <span class="link">Modulo de Sorteio</span>
-            </a>
-          </li>
-          <li class="list">
-            <a href="{{ url }}administracao" class="nav-link">
-              <i class="bx bxs-user icon"></i>
-              <span class="link">Administração</span>
-            </a>
-          </li>
-      </ul>
-      <div class="bottom-cotent">
-          <li class="list">
-            <a href="{{ url }}home/sair" class="nav-link">
-              <i class="bx bx-log-out icon"></i>
-              <span class="link">Sair</span>
-            </a>
-          </li>
-      </div>
-    </div>
-  </div>
-</nav>
-
-<section class="overlay"></section>
-
-<div class="create-user-container">
+  <div class="create-user-container">
     <div class="create-user-card">
-        <div class="create-user-header">
-            <i class='bx bxs-user-plus'></i>
-            <h1>Criar Novo Usuário</h1>
-            <p>Preencha os dados abaixo para cadastrar um usuário ou administrador.</p>
-        </div>
-
-        {% if mensagem %}
+      <div class="create-user-header">
+        <i class='bx bxs-user-plus'></i>
+        <h1>Criar Novo Usuário</h1>
+        <p>Preencha os dados abaixo para cadastrar um usuário ou administrador.</p>
+      </div>
+      {% if mensagem %}
         <div class="alert-message">
-            <i class='bx bxs-error-circle'></i>
-            <span>{{ mensagem }}</span>
+          <i class='bx bxs-error-circle'></i>
+          <span>{{ mensagem }}</span>
         </div>
-        {% endif %}
-
-        <form action="{{ url }}home/criarusuario" method="post" class="create-user-form">
-            <div class="form-group">
-                <label for="nome">Nome Completo</label>
-                <div class="input-wrapper">
-                    <i class='bx bx-user'></i>
-                    <input type="text" id="nome" name="nome" placeholder="Digite o nome completo" required>
-                </div>
+      {% endif %}
+      <form action="{{ url }}home/criarusuario" method="post" class="create-user-form">
+        <div class="form-group">
+          <label for="nome">Nome Completo</label>
+          <div class="input-wrapper">
+            <i class='bx bx-user'></i>
+            <input type="text" id="nome" name="nome" placeholder="Digite o nome completo" required></div>
+          </div>
+          <div class="form-group">
+            <label for="snome">Nome de Usuário</label>
+            <div class="input-wrapper">
+              <i class='bx bx-id-card'></i>
+              <input type="text" id="snome" name="snome" placeholder="Digite o login de acesso" required></div>
             </div>
-
             <div class="form-group">
-                <label for="snome">Nome de Usuário</label>
-                <div class="input-wrapper">
-                    <i class='bx bx-id-card'></i>
-                    <input type="text" id="snome" name="snome" placeholder="Digite o login de acesso" required>
-                </div>
-            </div>
-
-            <div class="form-group">
-                <label for="email">E-mail</label>
-                <div class="input-wrapper">
-                    <i class='bx bx-envelope'></i>
-                    <input type="email" id="email" name="email" placeholder="exemplo@email.com" required>
-                </div>
-            </div>
-
-            <div class="form-group">
+              <label for="email">E-mail</label>
+              <div class="input-wrapper">
+                <i class='bx bx-envelope'></i>
+                <input type="email" id="email" name="email" placeholder="exemplo@email.com" required></div>
+              </div>
+              <div class="form-group">
                 <label for="senha">Senha</label>
                 <div class="input-wrapper">
-                    <i class='bx bx-lock-alt'></i>
-                    <input type="password" id="senha" name="senha" placeholder="Digite a senha de acesso" required>
+                  <i class='bx bx-lock-alt'></i>
+                  <input type="password" id="senha" name="senha" placeholder="Digite a senha de acesso" required></div>
                 </div>
-            </div>
-
-            <div class="form-group">
-                <label for="tipo">Nível de Acesso</label>
-                <div class="input-wrapper select-wrapper">
+                <div class="form-group">
+                  <label for="tipo">Nível de Acesso</label>
+                  <div class="input-wrapper select-wrapper">
                     <i class='bx bx-shield-quarter'></i>
                     <select name="tipo" id="tipo" required>
-                        <option value="ADMIN">Administrador</option>
-                        <option value="NORMAL">Normal</option>
-                        <option value="ADMIN_VEND">Vendedor Administrador</option>
-                        <option value="CAIXA">Caixa</option>
+                      <option value="ADMIN">Administrador</option>
+                      <option value="NORMAL">Normal</option>
+                      <option value="ADMIN_VEND">Vendedor Administrador</option>
+                      <option value="CAIXA">Caixa</option>
                     </select>
+                  </div>
                 </div>
+                <button type="submit" class="btn-submit">
+                  <i class='bx bx-check'></i>
+                  Cadastrar Usuário
+                </button>
+                <a href="{{ url }}administracao/usuarios" class="btn-cancel">Cancelar e Voltar</a>
+              </form>
             </div>
-
-            <button type="submit" class="btn-submit">
-                <i class='bx bx-check'></i> 
-                Cadastrar Usuário
-            </button>
-            <a href="{{ url }}administracao/usuarios" class="btn-cancel">Cancelar e Voltar</a>
-        </form>
-    </div>
-</div>
-
-<script>
-  const navBar = document.querySelector("nav"),
-    menuBtns = document.querySelectorAll(".menu-icon"),
-    overlay = document.querySelector(".overlay");
-
-  menuBtns.forEach((menuBtn) => {
-    menuBtn.addEventListener("click", () => {
-      navBar.classList.toggle("open");
-    });
-  });
-
-  overlay.addEventListener("click", () => {
-    navBar.classList.remove("open");
-  });
-</script>
-{% endblock %}
+          </div>
+        {% endblock %}

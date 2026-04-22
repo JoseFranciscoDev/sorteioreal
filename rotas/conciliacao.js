@@ -2,6 +2,8 @@ const express = require("express");
 const router = express.Router();
 const NavBar = require("../utilitarios/NavBar");
 const { BASE_URL } = require("../configs.json")
+
+
 router.get("/conciliacao/cadastro/veiculos", (req, res) => {
     const modulos = NavBar.getModulos()
     res.render("conciliacao/cadastroVeiculos.njk", { modulos, BASE_URL });

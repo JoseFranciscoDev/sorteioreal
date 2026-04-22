@@ -95,11 +95,11 @@ class CupomDao extends Abstract {
 
     }
 
-    static async delete(codigo) {
+    static async delete(codigo, pedido) {
         const conn = await this.connection();
-        const texto = `delete from cupons where cupons.codigo = ?`;
-        
-        const [cupom] = await conn.query(texto, [codigo]);
+        const texto = `delete from cupons where cupons.codigo = ? and cupons.pedido = ?`;
+
+        const [cupom] = await conn.query(texto, [codigo, pedido]);
         return cupom;
     }
 

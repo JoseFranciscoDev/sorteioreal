@@ -83,3 +83,5 @@ ADD CONSTRAINT cuponsClientes_ibfk_1
 FOREIGN KEY (codigoCupom) 
 REFERENCES cupons (codigo) 
 ON DELETE CASCADE;
+
+ALTER TABLE cupons ADD COLUMN horario TIME;

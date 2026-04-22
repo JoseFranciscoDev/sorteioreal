@@ -77,17 +77,22 @@ class Cupom {
         }
     }
 
+    static delay(ms) {
+        return new Promise(resolve => setTimeout(resolve, ms));
+    }
+
     static async imprimirCupons(cupons) {
 
-        await cupons.forEach(async function (cupom) {
+        for (const cupom of cupons) {
             await DocumentoCupom.imprimir(cupom);
-        });
+            await Cupom.delay(800);
+        }
 
     }
 
     static async deletar(req, res) {
-        const codigo = req.params.codigo;
-        await CupomDao.delete(codigo);
+        const {codigo, pedido} = req.params;
+        await CupomDao.delete(codigo, pedido);
         res.redirect(`${BASE_URL}/administracao/pedidos`);
     }
 
