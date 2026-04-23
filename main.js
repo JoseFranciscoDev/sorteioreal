@@ -20,6 +20,7 @@ const estaLogado = require("./middlewares/estaLogado.js");
 const UsuarioDao = require("./modelo/UsuariosDao.js");
 const CupomDao = require("./modelo/CupomDao.js");
 const CuponsClientesDao = require("./modelo/CuponsClientesDao.js");
+const ConciliacaoDao = require("./modelo/ConciliacaoDao.js")
 const cors = require("cors");
 const AbstractNerusAWS = require("./modelo/AbstractNerusAWS.js");
 const conexaoLocal = require("./modelo/AbstractUsuarios.js");
@@ -63,5 +64,6 @@ app.listen(PORT, async () => {
     await CuponsClientesDao.criarTabela();
     await ClienteDao.criarTabela();
     await UploadsDao.criarTabela(conexao);
+    await ConciliacaoDao.criarTodasTabelasConciliacao()
     console.log("Servidor rodando na porta: " + PORT);
 });
