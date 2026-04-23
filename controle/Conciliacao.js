@@ -49,14 +49,12 @@ class Conciliacao {
         res.send(req.body);
     }
 
-    static visualizar(req, res) {
+    static async visualizar(req, res) {
         const modulos = NavBar.getModulos();
 
         // Dados Mockados
-        const veiculos = [
-            { id: 1, placa: "ABC-1234", modelo: "Honda CG 160", tipo: "Moto", kmAtual: "12.500" },
-            { id: 2, placa: "XYZ-9876", modelo: "Fiat Uno M", tipo: "Carro", kmAtual: "145.000" }
-        ];
+        const veiculos = await ConciliacaoDao.getVeiculos()
+        console.log(veiculos)
 
         const visitas = [
             { id: 1, data: "15/04/2026", cobrador: "João Silva", saida: "08:00", retorno: "12:00", veiculo: "ABC-1234", totalCorridas: 3 },

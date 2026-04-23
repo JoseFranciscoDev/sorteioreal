@@ -85,3 +85,70 @@ REFERENCES cupons (codigo)
 ON DELETE CASCADE;
 
 ALTER TABLE cupons ADD COLUMN horario TIME;
+
+
+  CREATE TABLE IF NOT EXISTS veiculos (
+    codigo INT AUTO_INCREMENT PRIMARY KEY,
+    nome VARCHAR(100) NOT NULL UNIQUE,
+    modelo VARCHAR(80) NOT NULL,
+    cor VARCHAR(40) NOT NULL,
+    placa VARCHAR(8) NOT NULL UNIQUE,
+    chassi VARCHAR(17) NOT NULL UNIQUE
+);
+
+  CREATE TABLE IF NOT EXISTS rotas (
+	codigo INT AUTO_INCREMENT PRIMARY KEY,
+    nome varchar(60) NOT NULL UNIQUE,
+    codigoVeiculo INT,
+    codigoCobrador INT,
+    data date not null,
+    saida time not null,
+    chegada time not null,
+    kmComeco DECIMAL(10,1) DEFAULT 0,
+    kmFinal DECIMAL(10,1) DEFAULT 0,
+    CONSTRAINT fk_cobrador
+    FOREIGN KEY (codigoCobrador) REFERENCES usuarios(codigo),
+    CONSTRAINT fk_veiculos
+    FOREIGN KEY (codigoVeiculo) REFERENCES veiculos(codigo)
+ );
+
+CREATE TABLE IF NOT EXISTS visitas (
+    codigo            INT          AUTO_INCREMENT PRIMARY KEY,
+    codigoRota        INT          NOT NULL,
+    codigoCliente     INT          NOT NULL,
+    endereco          VARCHAR(200) NOT NULL,
+    horario           TIME         NOT NULL,
+    encontrado        TINYINT      NOT NULL DEFAULT 0,
+    coordenadas       VARCHAR(50),
+    fotoResidencia    TINYINT      DEFAULT 0,
+    fotoResidenciaUrl VARCHAR(255),
+    fotoDoc           TINYINT      DEFAULT 0,
+    fotoDocUrl        VARCHAR(255),
+    renegociado       TINYINT      NOT NULL DEFAULT 0,
+    agendamento       TINYINT      NOT NULL DEFAULT 0,
+    data_agendamento  DATE,
+    novoTelefone          VARCHAR(20),
+    observacoes       VARCHAR(500),
+    CONSTRAINT fk_visita_rota FOREIGN KEY (codigoRota) REFERENCES rotas(codigo) ON DELETE CASCADE
+);
+
+CREATE TABLE IF NOT EXISTS pagamentos (
+    codigo INT AUTO_INCREMENT PRIMARY KEY,
+    codigoVisita INT NOT NULL UNIQUE,
+    contrato VARCHAR(50) NOT NULL,
+    parcelas INT NOT NULL,
+    valor DECIMAL(10,2) NOT NULL,
+    CONSTRAINT fk_pagamento_visita
+        FOREIGN KEY (codigoCorrida) REFERENCES visitas(codigo) ON DELETE CASCADE
+);
+
+CREATE TABLE IF NOT EXISTS renegociacoes (
+    codigo INT AUTO_INCREMENT PRIMARY KEY,
+    codigoVisita INT NOT NULL,
+    contrato VARCHAR(50) NOT NULL,
+    parcelas INT NOT NULL,
+    valor DECIMAL(10,2) NOT NULL,
+    data_registro DATETIME DEFAULT CURRENT_TIMESTAMP,
+    CONSTRAINT fk_renegociacao_visita 
+        FOREIGN KEY (codigoVisita) REFERENCES visitas(codigo) ON DELETE CASCADE
+);
