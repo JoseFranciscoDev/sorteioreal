@@ -9,12 +9,32 @@ async function lerArquvioUniversal(caminhoArquivo) {
          const extensao = path.extname(caminhoArquivo).toLocaleLowerCase();
 
     if (extensao == ".xlsx" || extensao == ".xls" || extensao == ".csv") {
-        const workbook = xlsx.readFile(caminhoArquivo, { codepage: 65001 });
+        const workbook = xlsx.readFile(caminhoArquivo, { encoding: "latin1", dateNF: "dd/mm/yyyy"});
         const primeiraAba = workbook.SheetNames[0];
-        const dados = xlsx.utils.sheet_to_json(workbook.Sheets[primeiraAba]);
+        const dados = xlsx.utils.sheet_to_json(workbook.Sheets[primeiraAba], {defval: "", raw: false});
 
       //  dados.forEach(linha => console.log(linha));
-        return dados;
+
+      const dadosTratos = dados.map(linha => {
+            const novoObejto = {};
+
+            for (let chaveOriginal in linha) {
+                const chaveLimpa = chaveOriginal
+                .normalize("NFD")
+                .replace(/[\u0300-\u036f]/g, "")
+                .toLowerCase()
+                .replace(/[^a-z0-9]/g, "_")
+                .replace(/_+/g, "_")
+                .replace(/^_|_$/g, "");
+
+                novoObejto[chaveLimpa] = linha[chaveOriginal];
+            }
+
+            return novoObejto;
+      });
+
+
+        return dadosTratos;
     }
 
     if (extensao == ".txt") {
