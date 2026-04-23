@@ -35,13 +35,7 @@ function criarUpload(tiposPermitidos) {
 
 const fileFilter = (req, file, callback) => {
     
-       /*const tiposPermitidos = [
-           "image/jpeg",
-           "image/png",
-           "image/jpg",
-           "image/webp"
-       ];*/
-       
+      
        if (tiposPermitidos.includes(file.mimetype)) {
            
            callback(null, true);
@@ -70,7 +64,8 @@ const upload = multer({
 const uploadImagens = criarUpload(["image/jpeg","image/png","image/jpg","image/webp"]);
        
 
-const uploadArquivos = criarUpload(["text/csv", "text/plain", "application/vnd.ms-excel"]);
+const uploadArquivos = criarUpload(["text/csv", "text/plain", "application/vnd.ms-excel",
+     "application/vnd.openxmlformats-officedocument.spreadsheetml.sheet"]);
        
 
 

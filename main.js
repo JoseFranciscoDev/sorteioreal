@@ -28,6 +28,7 @@ const ClienteDao = require("./modelo/ClienteDao.js");
 const UploadsDao = require("./modelo/UploadsDao.js");
 const conexao = require("./databases/conexao.js");
 const uploadRouter = require("./rotas/uploads.js");
+const uploadClienteNegativadosProtesto = require("./rotas/ClienteNegativadoProtestado.js");
 
 app.use(cors({
     origen: "*"
@@ -55,6 +56,7 @@ app.use(BASE_URL, estaLogado, verificaConfig, routerCupom);
 app.use(`${BASE_URL}/administracao`, verificaConfig, routerAdministracao);
 app.use(BASE_URL, estaLogado, verificaConfig, uploadRouter);
 app.use(BASE_URL, estaLogado, routerConciliacao);
+app.use(uploadClienteNegativadosProtesto);
 
 app.listen(PORT, async () => {
     await AbstractNerusAWS.connection();
