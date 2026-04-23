@@ -1,89 +1,359 @@
 {% extends "home.html" %}
-
 {% block css %}
-<link rel="stylesheet" type="text/css" href="/css/conciliacao/cadastroCobranca.css" media="screen" />
+  <link rel="stylesheet" href="/css/navbar.css" media="screen"/>
+  <link rel="stylesheet" type="text/css" href="/css/conciliacao/cadastroCorrida.css" media="screen"/>
 {% endblock %}
-
 {% block principal %}
-<div class="visita-page">
-  <div class="visita-card">
-
-    <!-- ===== Cabeçalho ===== -->
-    <div class="visita-header">
-      <i class="bx bx-map-pin"></i>
-      <div>
-        <h1>REGISTRO DE VISITA TÉCNICA</h1>
-        <p>Registre as informações da cobrança e das corridas realizadas.</p>
+  <div class="corrida-page">
+    <div
+      class="corrida-card">
+      <!-- ===== Cabeçalho ===== -->
+      <div class="corrida-header">
+        <i class="bx bx-briefcase-alt"></i>
+        <div>
+          <h1>REGISTRO DE VISITA</h1>
+          <p>Preencha os dados da cobrança realizada nesta visita.</p>
+        </div>
       </div>
-    </div>
-
-    <!-- ===== Corpo ===== -->
-    <div class="visita-body">
-      <form method="POST" action="{{ BASE_URL }}/conciliacao/cadastro/visita" id="form-visita-tecnica"
-        enctype="multipart/form-data">
-        <div class="form-section">
-          <div class="section-title">
-            <i class="bx bx-info-circle"></i>
-            Seção 1 — Informações Gerais
-          </div>
-
-          <div class="form-grid">
-
-            <!-- Data (automática) -->
-            <div class="field-group">
-              <label for="data">Data</label>
-              <div class="input-wrapper">
-                <i class="bx bx-calendar"></i>
-                <input type="text" id="data" name="data" readonly />
-              </div>
-              <span class="field-hint">Preenchida automaticamente pelo sistema.</span>
+      <!-- ===== Corpo ===== -->
+      <div class="corrida-body">
+        <form method="POST" action="{{ BASE_URL }}/conciliacao/cadastro/visita" id="form-cadastro-corrida" enctype="multipart/form-data">
+          <div class="form-section">
+            <div class="section-title">
+              <i class="bx bx-info-circle"></i>
+              Informações da Corrida
             </div>
-
-            <!-- Cobrador (automático pelo login) -->
-            <div class="field-group">
-              <label for="cobrador">Cobrador</label>
-              <div class="input-wrapper">
-                <i class="bx bx-user"></i>
-                <input type="text" id="cobrador" name="cobrador" value="{{ cobrador }}" readonly />
+            <div
+              class="form-grid">
+              <!-- rota -->
+              <div class="field-group field-full">
+                <label for="visita_id">Rota
+                  <span class="required">*</span>
+                </label>
+                <div class="input-wrapper">
+                  <i class="bx bx-map-pin"></i>
+                  <select id="visita_id" name="visita_id" required>
+                    <option value="" disabled selected>Selecione de qual rota é esta corrida</option>
+                    <!-- Dados mockados -->
+                    <option value="1">Visita #001 - 15/04/2026 (Moto)</option>
+                    <option value="2">Visita #002 - 15/04/2026 (Veículo)</option>
+                  </select>
+                </div>
               </div>
-              <span class="field-hint">Preenchido pelo sistema via login.</span>
-            </div>
-
-            <!-- Saída -->
-            <div class="field-group">
-              <label for="saida">Saída <span class="required">*</span></label>
-              <div class="input-wrapper">
-                <i class="bx bx-log-out"></i>
-                <input type="time" id="saida" name="saida" required />
+              <!-- Registro (Automático) -->
+              <div class="field-group">
+                <label for="registro">Registro</label>
+                <div class="input-wrapper">
+                  <i class="bx bx-barcode"></i>
+                  <input type="text" id="registro" name="registro" value="CR-90210" readonly/>
+                </div>
+                <span class="field-hint">Numeração sequencial gerada pelo sistema.</span>
               </div>
-            </div>
-
-            <!-- Retorno -->
-            <div class="field-group">
-              <label for="retorno">Retorno</label>
-              <div class="input-wrapper">
-                <i class="bx bx-log-in"></i>
-                <input type="time" id="retorno" name="retorno" />
+              <!-- Cód Cliente -->
+              <div class="field-group">
+                <label for="cod_cliente">Cód Cliente
+                  <span class="required">*</span>
+                </label>
+                <div class="input-wrapper">
+                  <i class="bx bx-user"></i>
+                  <input type="text" id="cod_cliente" name="cod_cliente" required/>
+                </div>
               </div>
-            </div>
-
-            <!-- Veículo -->
-            <div class="field-group field-full">
-              <label for="veiculo">Veículo <span class="required">*</span></label>
-              <div class="input-wrapper">
-                <i class="bx bx-car"></i>
-                <select id="veiculo" name="veiculo" required>
-                  <option value="" disabled selected>Selecione o veículo utilizado</option>
-                  <option value="moto">Moto</option>
-                  <option value="veiculo">Veículo</option>
-                </select>
+              <!-- Horário -->
+              <div class="field-group">
+                <label for="horario">Horário
+                  <span class="required">*</span>
+                </label>
+                <div class="input-wrapper">
+                  <i class="bx bx-time"></i>
+                  <input type="time" id="horario" name="horario" required/>
+                </div>
               </div>
-            </div>
-
-          </div><!-- /.form-grid -->
-        </div><!-- /seção 1 -->
-      </form>
-    </div>
-  </div>
-</div>
-{% endblock %}
+              <!-- Endereço -->
+              <div class="field-group">
+                <label for="endereco">Endereço
+                  <span class="required">*</span>
+                </label>
+                <div class="input-wrapper">
+                  <i class="bx bx-map"></i>
+                  <input type="text" id="endereco" name="endereco" required/>
+                </div>
+              </div>
+              <!-- Encontrado? -->
+              <div class="field-group">
+                <label>Encontrado?</label>
+                <div class="radio-group">
+                  <label class="radio-option">
+                    <input type="radio" name="encontrado" value="sim">
+                      Sim
+                    </label>
+                    <label class="radio-option selected-nao">
+                      <input type="radio" name="encontrado" value="nao" checked>
+                        Não
+                      </label>
+                    </div>
+                  </div>
+                  <!-- Coordenadas? -->
+                  <div class="field-group">
+                    <label>Coordenadas?</label>
+                    <div class="radio-group" data-target="cond-coordenadas">
+                      <label class="radio-option">
+                        <input type="radio" name="has_coordenadas" value="sim">
+                          Sim
+                        </label>
+                        <label class="radio-option selected-nao">
+                          <input type="radio" name="has_coordenadas" value="nao" checked>
+                            Não
+                          </label>
+                        </div>
+                        <div class="conditional-field" id="cond-coordenadas">
+                          <div class="conditional-label">Informar Coordenadas</div>
+                          <div class="input-wrapper">
+                            <i class="bx bx-current-location"></i>
+                            <input type="text" name="coordenadas" placeholder="Ex: -23.550520, -46.633308"></div>
+                          </div>
+                        </div>
+                        <!-- Foto Resid.? -->
+                        <div class="field-group">
+                          <label>Foto Resid.?</label>
+                          <div class="radio-group" data-target="cond-foto-resid">
+                            <label class="radio-option">
+                              <input type="radio" name="has_foto_resid" value="sim">
+                                Sim
+                              </label>
+                              <label class="radio-option selected-nao">
+                                <input type="radio" name="has_foto_resid" value="nao" checked>
+                                  Não
+                                </label>
+                              </div>
+                              <div class="conditional-field" id="cond-foto-resid">
+                                <div class="conditional-label">Anexar Foto da Residência</div>
+                                <label class="upload-area">
+                                  <i class="bx bx-image-add"></i>
+                                  <span class="file-name-label">Clique para selecionar a imagem...</span>
+                                  <input type="file" name="foto_resid" accept="image/*" class="file-input"></label>
+                                </div>
+                              </div>
+                              <!-- Foto Doc.? -->
+                              <div class="field-group">
+                                <label>Foto Doc.?</label>
+                                <div class="radio-group" data-target="cond-foto-doc">
+                                  <label class="radio-option">
+                                    <input type="radio" name="has_foto_doc" value="sim">
+                                      Sim
+                                    </label>
+                                    <label class="radio-option selected-nao">
+                                      <input type="radio" name="has_foto_doc" value="nao" checked>
+                                        Não
+                                      </label>
+                                    </div>
+                                    <div class="conditional-field" id="cond-foto-doc">
+                                      <div class="conditional-label">Anexar Foto do Documento</div>
+                                      <label class="upload-area">
+                                        <i class="bx bx-image-add"></i>
+                                        <span class="file-name-label">Clique para selecionar a imagem...</span>
+                                        <input type="file" name="foto_doc" accept="image/*" class="file-input"></label>
+                                      </div>
+                                    </div>
+                                    <!-- Houve Pagamento? -->
+                                    <div class="field-group field-full">
+                                      <label>Houve Pagamento?</label>
+                                      <div class="radio-group" data-target="cond-pagamento">
+                                        <label class="radio-option">
+                                          <input type="radio" name="has_pagamento" value="sim">
+                                            Sim
+                                          </label>
+                                          <label class="radio-option selected-nao">
+                                            <input type="radio" name="has_pagamento" value="nao" checked>
+                                              Não
+                                            </label>
+                                          </div>
+                                          <div class="conditional-field" id="cond-pagamento">
+                                            <div class="conditional-label">Detalhes do Pagamento</div>
+                                            <div class="payment-grid">
+                                              <div class="field-group">
+                                                <label>Contrato</label>
+                                                <div class="input-wrapper">
+                                                  <i class="bx bx-file"></i>
+                                                  <input type="text" name="pg_contrato"></div>
+                                                </div>
+                                                <div class="field-group">
+                                                  <label>Parcelas</label>
+                                                  <div class="input-wrapper">
+                                                    <i class="bx bx-list-ol"></i>
+                                                    <input type="number" name="pg_parcelas"></div>
+                                                  </div>
+                                                  <div class="field-group">
+                                                    <label>Valor (R$)</label>
+                                                    <div class="input-wrapper">
+                                                      <i class="bx bx-money"></i>
+                                                      <input type="text" name="pg_valor" placeholder="150,00"></div>
+                                                    </div>
+                                                  </div>
+                                                </div>
+                                              </div>
+                                              <!-- Foi renegociado -->
+                                              <div class="field-group field-full">
+                                                <label>Foi renegociado?</label>
+                                                <div class="radio-group" data-target="cond-novo-contrato">
+                                                  <label class="radio-option">
+                                                    <input type="radio" name="has_novo_contrato" value="sim">
+                                                      Sim
+                                                    </label>
+                                                    <label class="radio-option selected-nao">
+                                                      <input type="radio" name="has_novo_contrato" value="nao" checked>
+                                                        Não
+                                                      </label>
+                                                    </div>
+                                                    <div class="conditional-field" id="cond-novo-contrato">
+                                                      <div class="conditional-label">Detalhes do Novo Contrato</div>
+                                                      <div class="payment-grid">
+                                                        <div class="field-group">
+                                                          <label>Contrato</label>
+                                                          <div class="input-wrapper">
+                                                            <i class="bx bx-file"></i>
+                                                            <input type="text" name="nc_contrato"></div>
+                                                          </div>
+                                                          <div class="field-group">
+                                                            <label>Parcelas</label>
+                                                            <div class="input-wrapper">
+                                                              <i class="bx bx-list-ol"></i>
+                                                              <input type="number" name="nc_parcelas"></div>
+                                                            </div>
+                                                            <div class="field-group">
+                                                              <label>Valor (R$)</label>
+                                                              <div class="input-wrapper">
+                                                                <i class="bx bx-money"></i>
+                                                                <input type="text" name="nc_valor" placeholder="200,00"></div>
+                                                              </div>
+                                                            </div>
+                                                          </div>
+                                                        </div>
+                                                        <!-- Houve Agendamento? -->
+                                                        <div class="field-group field-full">
+                                                          <label>Houve Agendamento?</label>
+                                                          <div class="radio-group" data-target="cond-agendamento">
+                                                            <label class="radio-option">
+                                                              <input type="radio" name="has_agendamento" value="sim">
+                                                                Sim
+                                                              </label>
+                                                              <label class="radio-option selected-nao">
+                                                                <input type="radio" name="has_agendamento" value="nao" checked>
+                                                                  Não
+                                                                </label>
+                                                              </div>
+                                                              <div class="conditional-field" id="cond-agendamento">
+                                                                <div class="conditional-label">Detalhes do Agendamento</div>
+                                                                <div class="input-wrapper">
+                                                                  <i class="bx bx-calendar-event"></i>
+                                                                  <input type="date" name="data_agendamento"></div>
+                                                                </div>
+                                                              </div>
+                                                              <!-- Atualizar Telefone? -->
+                                                              <div class="field-group field-full">
+                                                                <label>Atualizar Telefone?</label>
+                                                                <div class="radio-group" data-target="cond-telefone">
+                                                                  <label class="radio-option">
+                                                                    <input type="radio" name="has_telefone" value="sim">
+                                                                      Sim
+                                                                    </label>
+                                                                    <label class="radio-option selected-nao">
+                                                                      <input type="radio" name="has_telefone" value="nao" checked>
+                                                                        Não
+                                                                      </label>
+                                                                    </div>
+                                                                    <div class="conditional-field" id="cond-telefone">
+                                                                      <div class="conditional-label">Novo Telefone do Cliente</div>
+                                                                      <div class="input-wrapper">
+                                                                        <i class="bx bx-phone"></i>
+                                                                        <input type="tel" name="telefone" placeholder="Ex: (44) 99999-9999"></div>
+                                                                      </div>
+                                                                    </div>
+                                                                    <!-- Observações -->
+                                                                    <div class="field-group field-full">
+                                                                      <label for="observacoes">Observações</label>
+                                                                      <div class="input-wrapper">
+                                                                        <i class="bx bx-message-square-detail" style="top: 15px;"></i>
+                                                                        <textarea id="observacoes" name="observacoes" placeholder="Alguma observação adicional?"></textarea>
+                                                                      </div>
+                                                                    </div>
+                                                                  </div>
+                                                                  <!-- /.form-grid -->
+                                                                  <div class="form-actions">
+                                                                    <button type="submit" class="btn-submit">
+                                                                      <i class="bx bx-save"></i>
+                                                                      Salvar Corrida
+                                                                    </button>
+                                                                  </div>
+                                                                </div>
+                                                                <!-- /seção -->
+                                                              </form>
+                                                            </div>
+                                                          </div>
+                                                        </div>
+                                                        <script>
+                                                          document.addEventListener('DOMContentLoaded', () => { // Atualizar labels dos inputs de arquivo
+                                                            const fileInputs = document.querySelectorAll('.file-input');
+                                                            fileInputs.forEach(input => {
+                                                              input.addEventListener('change', (e) => {
+                                                                const fileNameLabel = e
+                                                                  .target
+                                                                  .closest('.upload-area')
+                                                                  .querySelector('.file-name-label');
+                                                                if (e.target.files && e
+                                                                    .target
+                                                                    .files
+                                                                    .length > 0) {
+                                                                  fileNameLabel.textContent = e
+                                                                    .target
+                                                                    .files[0]
+                                                                    .name;
+                                                                  fileNameLabel.style.color = 'var(--primary)';
+                                                                } else {
+                                                                  fileNameLabel.textContent = 'Clique para selecionar a imagem...';
+                                                                  fileNameLabel.style.color = 'var(--text-muted)';
+                                                                }
+                                                              });
+                                                            });
+                                                            // Lógica dos radio buttons e campos condicionais
+                                                            const radioGroups = document.querySelectorAll('.radio-group');
+                                                            radioGroups.forEach(group => {
+                                                              const radios = group.querySelectorAll('input[type="radio"]');
+                                                              const targetId = group.getAttribute('data-target');
+                                                              const conditionalField = targetId
+                                                                ? document.getElementById(targetId)
+                                                                : null;
+                                                              radios.forEach(radio => {
+                                                                radio.addEventListener('change', (e) => { // Remover classes de seleção
+                                                                  const allLabels = group.querySelectorAll('.radio-option');
+                                                                  allLabels.forEach(lbl => {
+                                                                    lbl.classList.remove('selected-sim', 'selected-nao');
+                                                                  });
+                                                                  const parentLabel = e.target.closest('.radio-option');
+                                                                  if (e.target.value === 'sim') {
+                                                                    parentLabel.classList.add('selected-sim');
+                                                                    if (conditionalField) {
+                                                                      conditionalField.classList.add('visible');
+                                                                    }
+                                                                  } else {
+                                                                    parentLabel.classList.add('selected-nao');
+                                                                    if (conditionalField) {
+                                                                      conditionalField.classList.remove('visible');
+                                                                      // Limpar valores se oculto
+                                                                      const inputs = conditionalField.querySelectorAll('input, select');
+                                                                      inputs.forEach(input => {
+                                                                        input.value = '';
+                                                                      });
+                                                                      const fileNameLabel = conditionalField.querySelector('.file-name-label');
+                                                                      if (fileNameLabel) {
+                                                                        fileNameLabel.textContent = 'Clique para selecionar a imagem...';
+                                                                        fileNameLabel.style.color = 'var(--text-muted)';
+                                                                      }
+                                                                    }
+                                                                  }
+                                                                });
+                                                              });
+                                                            });
+                                                          });
+                                                        </script>
+                                                      {% endblock %}
