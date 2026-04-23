@@ -33,10 +33,16 @@ class Conciliacao {
     }
 
 
-    static cadastroRota(req, res) {
+    static async cadastroRota(req, res) {
+        console.log(req.body);
         const modulos = NavBar.getModulos();
         const cobrador = req.session.usuario.codigo;
-        res.render("conciliacao/cadastroRota.njk", { modulos, BASE_URL, cobrador });
+        const veiculos = await ConciliacaoDao.getVeiculos()
+        res.render("conciliacao/cadastroRota.njk", { modulos, BASE_URL, cobrador, veiculos });
+    }
+
+    static async cadastroRotaPost(req, res) {
+        res.redirect("conciliacao/cadastro/rotas");
     }
 
     static cadastroVisita(req, res) {
