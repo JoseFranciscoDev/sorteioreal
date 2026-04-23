@@ -4,11 +4,14 @@ class ClienteNegativadoProtestado {
 
 
     
-    uploads(req, res) {
+    async uploads(req, res) {
         
         
         const [arquivoUrl] = req.files;
-        lerArquvioUniversal(arquivoUrl.path);
+      const dados = await  lerArquvioUniversal(arquivoUrl.path);
+
+
+      return res.json({dados});
 
             
         

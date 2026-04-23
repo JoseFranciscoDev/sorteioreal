@@ -13,21 +13,41 @@ async function lerArquvioUniversal(caminhoArquivo) {
         const primeiraAba = workbook.SheetNames[0];
         const dados = xlsx.utils.sheet_to_json(workbook.Sheets[primeiraAba]);
 
-        dados.forEach(linha => console.log(linha));
+      //  dados.forEach(linha => console.log(linha));
         return dados;
     }
 
     if (extensao == ".txt") {
         const linhas = [];
+        let cabecalho = null;
+
         const rl = readline.createInterface({
-            input: fs.createReadStream(caminhoArquivo),
+            input: fs.createReadStream(caminhoArquivo, {encoding: "latin1"}),
             terminal: false
         });
 
         for await (const linha of rl) {
-            console.log(linha);
+           // console.log(linha);
 
-            linhas.push(linha);
+           if (!cabecalho) {
+                cabecalho = linha.split(";").map(item => 
+                    item.trim()
+                    .normalize("NFD")
+                    .replace(/[\u0300-\u036f]/g, "")
+                    .toLowerCase()
+                    .replace(/[/.]/g, "")
+                    .replace(/\s+/g, "_"));
+                continue;
+           }
+
+           const valores = linha.split(";").map(item => item.trim());
+           const clienteNegativados =  {};
+
+           cabecalho.forEach((propriedade, indice) => {
+                clienteNegativados[propriedade] = valores[indice] || "";
+           });
+
+            linhas.push(clienteNegativados);
         }
 
         return linhas;

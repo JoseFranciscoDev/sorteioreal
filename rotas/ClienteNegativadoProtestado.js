@@ -2,7 +2,7 @@ const express = require("express");
 const router = express.Router();
 const {uploadArquivos} = require("../middlewares//Uploads.js");
 const ClienteNegativadoProtesto = require("../controle/ClienteNegativadoProtestado.js");
-const lerArquvio = require("../utilitarios/LerArquivo.js");
+
 
 const clienteNegativadoProtesto = new ClienteNegativadoProtesto();
 
