@@ -86,5 +86,25 @@ async function lerArquvioUniversal(caminhoArquivo) {
 
 
 
+async function removerArquivo(arquivoUrl) {
 
-module.exports = lerArquvioUniversal;
+    try {
+        await fs.promises.unlink(arquivourl);
+        console.log("O arquvio em " + arquivoUrl + "foi removido com sucesso");
+    } catch(error) {
+
+        if(error.code === "ENOENT") {
+            throw new Error("Erro: o arquivo não encontrado.")
+        } else {
+            console.error(error.message);
+            throw new Error("Erro ao remover o arquivo: " + arquivoUrl);
+        }
+
+    }
+
+}
+
+
+
+
+module.exports = {lerArquvioUniversal, removerArquivo};
