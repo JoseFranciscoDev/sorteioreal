@@ -18,7 +18,6 @@ class Conciliacao {
             placa: req.body.placa,
             chassi: req.body.chassi
         };
-        //veiculo.modelo, veiculo.cor, veiculo.placa, veiculo.chassi
         try {
             await ConciliacaoDao.setVeiculo(novoVeiculo);
             res.redirect(`${BASE_URL}/conciliacao/cadastro/veiculos`);
@@ -34,15 +33,27 @@ class Conciliacao {
 
 
     static async cadastroRota(req, res) {
-        console.log(req.body);
+        const mensagem = req.query.mensagem;
         const modulos = NavBar.getModulos();
         const cobrador = req.session.usuario.codigo;
         const veiculos = await ConciliacaoDao.getVeiculos()
-        res.render("conciliacao/cadastroRota.njk", { modulos, BASE_URL, cobrador, veiculos });
+        return res.render("conciliacao/cadastroRota.njk", { modulos, BASE_URL, cobrador, veiculos, mensagem });
     }
 
     static async cadastroRotaPost(req, res) {
-        res.redirect("conciliacao/cadastro/rotas");
+        const novaRota = req.body
+        novaRota.codigoCobrador = req.session.usuario.usuario
+        try {
+            await ConciliacaoDao.setRota(novaRota)
+            return res.redirect("rotas");
+        }
+        catch (erro) {
+            if (erro.code == 'ER_DUP_ENTRY') {
+                const mensagem = "Rota de mesmo nome cadastrada"
+                return res.redirect(BASE_URL + "/conciliacao/cadastro/rota?mensagem=" + mensagem)
+            }
+            return res.redirect(BASE_URL + "/conciliacao/cadastro/rota?mensagem=" + erro)
+        }
     }
 
     static cadastroVisita(req, res) {

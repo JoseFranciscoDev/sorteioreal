@@ -1,97 +1,115 @@
 {% extends "home.html" %}
 {% block css %}
-  <link rel="stylesheet" type="text/css" href="/css/conciliacao/cadastroCobranca.css" media="screen"/>
+    <link rel="stylesheet" type="text/css" href="/css/conciliacao/cadastroCobranca.css" media="screen"/>
+    <link rel="stylesheet" type="text/css" href="/css/erros.css" media="screen"/>
 {% endblock %}
 {% block principal %}
-  <div class="visita-page">
-    <div
-      class="visita-card">
-      <!-- ===== Cabeçalho ===== -->
-      <div class="visita-header">
-        <i class="bx bx-map-pin"></i>
-        <div>
-          <h1>REGISTRO DE ROTA</h1>
-          <p>Registre as informações da cobrança e as visitas.</p>
+    <div class="visita-page">
+        <div
+            class="visita-card">
+            <!-- ===== Cabeçalho ===== -->
+            <div class="visita-header">
+                <i class="bx bx-map-pin"></i>
+                <div>
+                    <h1>REGISTRO DE ROTA</h1>
+                    <p>Registre as informações da cobrança e as visitas.</p>
+                </div>
+            </div>
+            <!-- ===== Corpo ===== -->
+            <div class="visita-body">
+                <form method="POST" action="{{ BASE_URL }}/conciliacao/cadastro/rota" id="form-visita-tecnica">
+                    <div class="form-section">
+                        {% if mensagem %}
+                            <div class="alert-erro">
+                                <div class="alert-erro__icon">
+                                    <i class="bx bx-error-alt"></i>
+                                </div>
+                                <div class="alert-erro__body">
+                                    <div class="alert-erro__title">Atenção</div>
+                                    <p class="alert-erro__msg">{{ mensagem }}</p>
+                                </div>
+                            </div>
+                        {% endif %}
+                        <div class="section-title">
+                            <i class="bx bx-info-circle"></i>
+                            Seção 1 — Informações Gerais
+                        </div>
+                        <div
+                            class="form-grid">
+                            <!-- Nome da Rota -->
+                            <div class="field-group field-full">
+                                <label for="nomeRota">Nome da Rota
+                                    <span class="required">*</span>
+                                </label>
+                                <div class="input-wrapper">
+                                    <i class="bx bx-tag"></i>
+                                    <input type="text" id="nomeRota" name="nome" placeholder="Ex: Rota Centro - Manhã" maxlength="60" required/>
+                                </div>
+                                <span class="field-hint">Identificador único desta rota (máx. 60 caracteres).</span>
+                            </div>
+                            <!-- Data (automática) -->
+                            <div class="field-group">
+                                <label for="data">Data</label>
+                                <div class="input-wrapper">
+                                    <i class="bx bx-calendar"></i>
+                                    <input type="date" id="data" name="data"/>
+                                </div>
+                                <span class="field-hint">Só é possível registrar rotas de no máximo um dia útil atrás.</span>
+                            </div>
+                            <!-- Cobrador (automático pelo login) -->
+                            <div class="field-group">
+                                <label for="cobrador">Cobrador</label>
+                                <div class="input-wrapper">
+                                    <i class="bx bx-user"></i>
+                                    <input type="text" id="cobrador" name="cobrador" value="{{ cobrador }}" readonly/>
+                                </div>
+                                <span class="field-hint">Preenchido pelo sistema via login.</span>
+                            </div>
+                            <!-- Saída -->
+                            <div class="field-group">
+                                <label for="saida">Saída
+                                    <span class="required">*</span>
+                                </label>
+                                <div class="input-wrapper">
+                                    <i class="bx bx-log-out"></i>
+                                    <input type="time" id="saida" name="saida" required/>
+                                </div>
+                            </div>
+                            <!-- Retorno -->
+                            <div class="field-group">
+                                <label for="retorno">Retorno</label>
+                                <div class="input-wrapper">
+                                    <i class="bx bx-log-in"></i>
+                                    <input type="time" id="retorno" name="chegada"/>
+                                </div>
+                            </div>
+                            <!-- Veículo -->
+                            <div class="field-group field-full">
+                                <label for="veiculo">Veículo
+                                    <span class="required">*</span>
+                                </label>
+                                <div class="input-wrapper">
+                                    <i class="bx bx-car"></i>
+                                    <select id="veiculo" name="codigoVeiculo" required>
+                                        <option value="" disabled selected>Selecione o veículo utilizado</option>
+                                        {% for veiculo in veiculos %}
+                                            <option value="{{ veiculo.codigo }}">{{ veiculo.nome }}</option>
+                                        {% endfor %}
+                                    </select>
+                                </div>
+                            </div>
+                        </div>
+                        <!-- /.form-grid -->
+                    </div>
+                    <div class="form-actions">
+                        <button type="submit" class="btn-submit">
+                            <i class="bx bx-save"></i>
+                            Cadastrar Rota
+                        </button>
+                    </div>
+                    <!-- /seção 1 -->
+                </form>
+            </div>
         </div>
-      </div>
-      <!-- ===== Corpo ===== -->
-      <div class="visita-body">
-        <form method="POST" action="{{ BASE_URL }}/conciliacao/cadastro/rota" id="form-visita-tecnica" enctype="multipart/form-data">
-          <div class="form-section">
-            <div class="section-title">
-              <i class="bx bx-info-circle"></i>
-              Seção 1 — Informações Gerais
-            </div>
-            <div
-              class="form-grid">
-              <!-- Nome da Rota -->
-              <div class="field-group field-full">
-                <label for="nomeRota">Nome da Rota
-                  <span class="required">*</span>
-                </label>
-                <div class="input-wrapper">
-                  <i class="bx bx-tag"></i>
-                  <input type="text" id="nomeRota" name="nomeRota" placeholder="Ex: Rota Centro - Manhã" maxlength="60" required/>
-                </div>
-                <span class="field-hint">Identificador único desta rota (máx. 60 caracteres).</span>
-              </div>
-              <!-- Data (automática) -->
-              <div class="field-group">
-                <label for="data">Data</label>
-                <div class="input-wrapper">
-                  <i class="bx bx-calendar"></i>
-                  <input type="date" id="data" name="data"/>
-                </div>
-                <span class="field-hint">Só é possível registrar rotas de no máximo um dia útil atrás.</span>
-              </div>
-              <!-- Cobrador (automático pelo login) -->
-              <div class="field-group">
-                <label for="cobrador">Cobrador</label>
-                <div class="input-wrapper">
-                  <i class="bx bx-user"></i>
-                  <input type="text" id="cobrador" name="cobrador" value="{{ cobrador }}" readonly/>
-                </div>
-                <span class="field-hint">Preenchido pelo sistema via login.</span>
-              </div>
-              <!-- Saída -->
-              <div class="field-group">
-                <label for="saida">Saída
-                  <span class="required">*</span>
-                </label>
-                <div class="input-wrapper">
-                  <i class="bx bx-log-out"></i>
-                  <input type="time" id="saida" name="saida" required/>
-                </div>
-              </div>
-              <!-- Retorno -->
-              <div class="field-group">
-                <label for="retorno">Retorno</label>
-                <div class="input-wrapper">
-                  <i class="bx bx-log-in"></i>
-                  <input type="time" id="retorno" name="retorno"/>
-                </div>
-              </div>
-              <!-- Veículo -->
-              <div class="field-group field-full">
-                <label for="veiculo">Veículo
-                  <span class="required">*</span>
-                </label>
-                <div class="input-wrapper">
-                  <i class="bx bx-car"></i>
-                  <select id="veiculo" name="veiculo" required>
-                    <option value="" disabled selected>Selecione o veículo utilizado</option>
-                    {% for veiculo in veiculos %}
-                      <option value="{{ veiculo.codigo }}">{{ veiculo.nome }}</option>
-                    {% endfor %}
-                  </select>
-                </div>
-              </div>
-            </div>
-            <!-- /.form-grid -->
-          </div>
-          <!-- /seção 1 -->
-        </form>
-      </div>
     </div>
-  </div>
 {% endblock %}

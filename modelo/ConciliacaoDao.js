@@ -125,8 +125,8 @@ class ConciliacaoDao extends Abstract {
             VALUES (?, ?, ?, ?, ?, ?, ?, ?)`;
         const dados = [
             rota.nome, rota.codigoVeiculo, rota.codigoCobrador,
-            rota.data, rota.saida, rota.chegada ?? null,
-            rota.kmComeco ?? 0, rota.kmFinal ?? 0
+            rota.data, rota.saida, rota.chegada,
+            rota.kmComeco, rota.kmFinal
         ];
         const [resultado] = await conn.query(sql, dados);
         return resultado;

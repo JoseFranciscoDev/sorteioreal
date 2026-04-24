@@ -379,6 +379,61 @@ body { overflow-x: hidden; }
     border-color: var(--primary);
 }
 
+/* ================================================================
+   ALERTA DE ERRO INLINE (mensagem do servidor)
+   ================================================================ */
+.alert-erro {
+    display: flex;
+    align-items: flex-start;
+    gap: 14px;
+    padding: 16px 20px;
+    margin-bottom: 24px;
+    background: #fff5f5;
+    border: 1px solid rgba(209, 18, 29, 0.25);
+    border-left: 4px solid var(--primary);
+    border-radius: var(--radius-sm);
+    box-shadow: 0 2px 8px rgba(209, 18, 29, 0.08);
+    animation: alertSlideIn 0.35s ease both;
+}
+
+@keyframes alertSlideIn {
+    from { opacity: 0; transform: translateY(-8px); }
+    to   { opacity: 1; transform: translateY(0); }
+}
+
+.alert-erro__icon {
+    flex-shrink: 0;
+    width: 36px;
+    height: 36px;
+    background: var(--primary);
+    border-radius: 50%;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    color: #fff;
+    font-size: 1.1rem;
+}
+
+.alert-erro__body {
+    flex: 1;
+}
+
+.alert-erro__title {
+    font-size: 0.8rem;
+    font-weight: 700;
+    color: var(--primary-dark);
+    text-transform: uppercase;
+    letter-spacing: 0.5px;
+    margin-bottom: 4px;
+}
+
+.alert-erro__msg {
+    font-size: 0.875rem;
+    color: #7a1a1a;
+    line-height: 1.5;
+    margin: 0;
+}
+
 /* ---- Ações ---- */
 .form-actions {
     display: flex;
