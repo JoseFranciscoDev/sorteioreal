@@ -2,6 +2,13 @@ const { BASE_URL } = require("../configs.json");
 const NavBar = require("../utilitarios/NavBar.js");
 const ConciliacaoDao = require("../modelo/ConciliacaoDao.js");
 
+// Converte toda string vazia do objeto para null
+function nullifyEmpty(obj) {
+    return Object.fromEntries(
+        Object.entries(obj).map(([k, v]) => [k, v === '' ? null : v])
+    );
+}
+
 class Conciliacao {
 
     static cadastroVeiculos(req, res) {
@@ -35,9 +42,7 @@ class Conciliacao {
     static async cadastroRota(req, res) {
         const mensagem = req.query.mensagem;
         const modulos = NavBar.getModulos();
-        const cobrador = req.session.usuario.codigo;
-        const veiculos = await ConciliacaoDao.getVeiculos()
-        return res.render("conciliacao/cadastroRota.njk", { modulos, BASE_URL, cobrador, veiculos, mensagem });
+        return res.render("conciliacao/cadastroRota.njk", { modulos, BASE_URL, mensagem });
     }
 
     static async cadastroRotaPost(req, res) {
@@ -45,7 +50,7 @@ class Conciliacao {
         novaRota.codigoCobrador = req.session.usuario.usuario
         try {
             await ConciliacaoDao.setRota(novaRota)
-            return res.redirect("rotas");
+            return res.redirect("rota");
         }
         catch (erro) {
             if (erro.code == 'ER_DUP_ENTRY') {
@@ -56,14 +61,25 @@ class Conciliacao {
         }
     }
 
-    static cadastroVisita(req, res) {
+    static async cadastroVisita(req, res) {
         const modulos = NavBar.getModulos();
-        res.render("conciliacao/cadastroVisita.njk", { modulos, BASE_URL });
+        const cobrador = req.session.usuario.codigo
+        const veiculos = await ConciliacaoDao.getVeiculos()
+        const rotas = await ConciliacaoDao.getRotas()
+        res.render("conciliacao/cadastroVisita.njk", { modulos, BASE_URL, cobrador, veiculos, rotas });
     }
 
-    static cadastroVisitaPost(req, res) {
-        console.log(req.body);
-        res.send(req.body);
+    static async cadastroVisitaPost(req, res) {
+        try {
+            const dados = nullifyEmpty(req.body);
+            const novaVisita = await ConciliacaoDao.setVisita(dados)
+            return res.send(novaVisita)
+        }
+        catch (erro) {
+            console.log(erro)
+            console.log(req.body);
+            res.send(req.body);
+        }
     }
 
     static async visualizar(req, res) {
