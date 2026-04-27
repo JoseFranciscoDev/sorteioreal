@@ -77,7 +77,9 @@ class ClienteSpc {
     _textoParaValorInteiro(texto) {
         return parseInt(texto);
     }
-        
+
+
+            
 }
 
 
