@@ -1,4 +1,6 @@
 const SpcStrategy = require("./SpcStrategy");
+const SerasaStrategy = require("./SerasaStrategy");
+const ProtestoStrategy = require("./ProtestoStrategy");
 
 class ProcessorFactory {
     static Processor(tipo) {

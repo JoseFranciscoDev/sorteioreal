@@ -3,7 +3,7 @@ class ProtestoStrategy {
 
     map(dados) {
         return  dados.map(cliente => {
-          return new ClienteSpc(
+          return new ClienteProtesto(
           cliente.codigo_spc,
           cliente.cpf_cnpj,
           cliente.consumidor,

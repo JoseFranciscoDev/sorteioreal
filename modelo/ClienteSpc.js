@@ -1,4 +1,5 @@
 const Data = require("../utilitarios/Data.js");
+const ConverterNumero = require("../utilitarios/ConverterNumero.js");
 
 class ClienteSpc {
 
@@ -6,18 +7,18 @@ class ClienteSpc {
         dataExclusao, tipoNotificacao, codigoNotificacao, codAssociado) {
 
 
-        this._codigoSpc = this._textoParaValorInteiro(codigoSpc);
+        this._codigoSpc = ConveterNumero.textoParaValorInteiro(codigoSpc);
         this._cpfCnpj = cpfCnpj;
         this._consumidor = consumidor;
         this._contrato = contrato;
         this._dataVencimento = Data.textoParaData(dataVencimento);
-        this._valorDebito = this._textoParaValorDouble(valorDebito);
+        this._valorDebito = ConveterNumero.textoParaValorDouble(valorDebito);
         this._dataInclusao = Data.textoParaData(dataInclusao);
         this._horaInclusao = horaInclusao;
         this._dataExclusao = Data.textoParaData(dataExclusao);
         this._tipoNotificacao = tipoNotificacao;
-        this._codigoNotificacao = this._textoParaValorInteiro(codigoNotificacao);
-        this._codAssociado = this._textoParaValorInteiro(codAssociado);
+        this._codigoNotificacao = ConveterNumero.textoParaValorInteiro(codigoNotificacao);
+        this._codAssociado = ConveterNumero.textoParaValorInteiro(codAssociado);
 
         }
 
@@ -70,13 +71,7 @@ class ClienteSpc {
         return this._codAssociado;
     }
 
-    _textoParaValorDouble(texto) {
-        return parseFloat(texto);
-    }
-
-    _textoParaValorInteiro(texto) {
-        return parseInt(texto);
-    }
+  
 
 
             

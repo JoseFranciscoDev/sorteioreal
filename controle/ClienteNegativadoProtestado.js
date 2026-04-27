@@ -9,11 +9,11 @@ class ClienteNegativadoProtestado {
     
     async uploads(req, res) {
         const [arquivoUrl] = req.files;
-        const {tipoArquvio} = req.body;
+        const {tipoArquivo} = req.body;
         const caminhoArquivo = arquivoUrl.path;
       try {
        
-        const processor = ProcessorFactory.Processor(tipoArquvio);
+        const processor = ProcessorFactory.Processor(tipoArquivo);
 
         if (!processor) {
           return res.status(400).json({error: "Tipo de arquivo invalido"});

@@ -1,21 +1,21 @@
+const ClienteSerasa = require("./ClienteSerasa");
 
 class SerasaStrategy {
 
     map(dados) {
         return  dados.map(cliente => {
-          return new ClienteSpc(
-          cliente.codigo_spc,
-          cliente.cpf_cnpj,
-          cliente.consumidor,
-          cliente.contrato,
-          cliente.data_vencimento,
-          cliente.valor_debito,
-          cliente.data_inclusao,
-          cliente.hora_inclusao,
-          cliente.data_exclusao,
-          cliente.tipo_notificacao,
-          cliente.codigo_notificacao,
-          cliente.cod_associado); 
+            
+          return new ClienteSerasa(
+          cliente.status,
+          cliente.id,
+          cliente.nome_do_devedor_principal,
+          cliente.tipo_de_pessoa,
+          cliente.documento,
+          cliente.natureza,
+          cliente.valor,
+          cliente.data_de_cadastro,
+          cliente.data_de_ocorrencia_vencimento,
+          cliente.operacao); 
 
         });
     }
