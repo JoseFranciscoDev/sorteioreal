@@ -32,22 +32,23 @@
                 </label>
                 <div class="input-wrapper">
                   <i class="bx bx-map-pin"></i>
-                  <select id="visita_id" name="visita_id" required>
+                  <select id="visita_id" name="codigoRota" required>
                     <option value="" disabled selected>Selecione de qual rota é esta corrida</option>
                     <!-- Dados mockados -->
-                    <option value="1">Visita #001 - 15/04/2026 (Moto)</option>
-                    <option value="2">Visita #002 - 15/04/2026 (Veículo)</option>
+                    {% for rota in rotas %}
+                      <option value="{{ rota.codigo }}">{{ rota.nome }}</option>
+                    {% endfor %}
                   </select>
                 </div>
               </div>
-              <!-- Registro (Automático) -->
+              <!-- Cobrador (automático pelo login) -->
               <div class="field-group">
-                <label for="registro">Registro</label>
+                <label for="cobrador">Cobrador</label>
                 <div class="input-wrapper">
-                  <i class="bx bx-barcode"></i>
-                  <input type="text" id="registro" name="registro" value="CR-90210" readonly/>
+                  <i class="bx bx-user"></i>
+                  <input type="text" id="cobrador" name="cobrador" value="{{ cobrador }}" readonly/>
                 </div>
-                <span class="field-hint">Numeração sequencial gerada pelo sistema.</span>
+                <span class="field-hint">Preenchido pelo sistema via login.</span>
               </div>
               <!-- Cód Cliente -->
               <div class="field-group">
@@ -56,7 +57,7 @@
                 </label>
                 <div class="input-wrapper">
                   <i class="bx bx-user"></i>
-                  <input type="text" id="cod_cliente" name="cod_cliente" required/>
+                  <input type="text" id="cod_cliente" name="codigoCliente" required/>
                 </div>
               </div>
               <!-- Horário -->
@@ -79,16 +80,31 @@
                   <input type="text" id="endereco" name="endereco" required/>
                 </div>
               </div>
+              <!-- Veículo -->
+              <div class="field-group field-full">
+                <label for="veiculo">Veículo
+                  <span class="required">*</span>
+                </label>
+                <div class="input-wrapper">
+                  <i class="bx bx-car"></i>
+                  <select id="veiculo" name="codigoVeiculo" required>
+                    <option value="" disabled selected>Selecione o veículo utilizado</option>
+                    {% for veiculo in veiculos %}
+                      <option value="{{ veiculo.codigo }}">{{ veiculo.nome }}</option>
+                    {% endfor %}
+                  </select>
+                </div>
+              </div>
               <!-- Encontrado? -->
               <div class="field-group">
                 <label>Encontrado?</label>
                 <div class="radio-group">
                   <label class="radio-option">
-                    <input type="radio" name="encontrado" value="sim">
+                    <input type="radio" name="encontrado" value="1">
                       Sim
                     </label>
                     <label class="radio-option selected-nao">
-                      <input type="radio" name="encontrado" value="nao" checked>
+                      <input type="radio" name="encontrado" value="0" checked>
                         Não
                       </label>
                     </div>
@@ -98,11 +114,11 @@
                     <label>Coordenadas?</label>
                     <div class="radio-group" data-target="cond-coordenadas">
                       <label class="radio-option">
-                        <input type="radio" name="has_coordenadas" value="sim">
+                        <input type="radio" name="has_coordenadas" value="1">
                           Sim
                         </label>
                         <label class="radio-option selected-nao">
-                          <input type="radio" name="has_coordenadas" value="nao" checked>
+                          <input type="radio" name="has_coordenadas" value="0" checked>
                             Não
                           </label>
                         </div>
@@ -118,11 +134,11 @@
                           <label>Foto Resid.?</label>
                           <div class="radio-group" data-target="cond-foto-resid">
                             <label class="radio-option">
-                              <input type="radio" name="has_foto_resid" value="sim">
+                              <input type="radio" name="has_foto_resid" value="1">
                                 Sim
                               </label>
                               <label class="radio-option selected-nao">
-                                <input type="radio" name="has_foto_resid" value="nao" checked>
+                                <input type="radio" name="has_foto_resid" value="0" checked>
                                   Não
                                 </label>
                               </div>
@@ -139,11 +155,11 @@
                                 <label>Foto Doc.?</label>
                                 <div class="radio-group" data-target="cond-foto-doc">
                                   <label class="radio-option">
-                                    <input type="radio" name="has_foto_doc" value="sim">
+                                    <input type="radio" name="has_foto_doc" value="1">
                                       Sim
                                     </label>
                                     <label class="radio-option selected-nao">
-                                      <input type="radio" name="has_foto_doc" value="nao" checked>
+                                      <input type="radio" name="has_foto_doc" value="0" checked>
                                         Não
                                       </label>
                                     </div>
@@ -160,11 +176,11 @@
                                       <label>Houve Pagamento?</label>
                                       <div class="radio-group" data-target="cond-pagamento">
                                         <label class="radio-option">
-                                          <input type="radio" name="has_pagamento" value="sim">
+                                          <input type="radio" name="has_pagamento" value="1">
                                             Sim
                                           </label>
                                           <label class="radio-option selected-nao">
-                                            <input type="radio" name="has_pagamento" value="nao" checked>
+                                            <input type="radio" name="has_pagamento" value="0" checked>
                                               Não
                                             </label>
                                           </div>
@@ -197,11 +213,11 @@
                                                 <label>Foi renegociado?</label>
                                                 <div class="radio-group" data-target="cond-novo-contrato">
                                                   <label class="radio-option">
-                                                    <input type="radio" name="has_novo_contrato" value="sim">
+                                                    <input type="radio" name="has_novo_contrato" value="1">
                                                       Sim
                                                     </label>
                                                     <label class="radio-option selected-nao">
-                                                      <input type="radio" name="has_novo_contrato" value="nao" checked>
+                                                      <input type="radio" name="has_novo_contrato" value="0" checked>
                                                         Não
                                                       </label>
                                                     </div>
@@ -234,11 +250,11 @@
                                                           <label>Houve Agendamento?</label>
                                                           <div class="radio-group" data-target="cond-agendamento">
                                                             <label class="radio-option">
-                                                              <input type="radio" name="has_agendamento" value="sim">
+                                                              <input type="radio" name="has_agendamento" value="1">
                                                                 Sim
                                                               </label>
                                                               <label class="radio-option selected-nao">
-                                                                <input type="radio" name="has_agendamento" value="nao" checked>
+                                                                <input type="radio" name="has_agendamento" value="0" checked>
                                                                   Não
                                                                 </label>
                                                               </div>

@@ -22,17 +22,11 @@ class ConciliacaoDao extends Abstract {
             CREATE TABLE IF NOT EXISTS rotas (
                 codigo        INT          AUTO_INCREMENT PRIMARY KEY,
                 nome          VARCHAR(60)  NOT NULL UNIQUE,
-                codigoVeiculo INT,
-                codigoCobrador INT,
                 data          DATE         NOT NULL,
-                saida         TIME         NOT NULL,
+                saida         TIME,
                 chegada       TIME,
                 kmComeco      DECIMAL(10,1) DEFAULT 0,
-                kmFinal       DECIMAL(10,1) DEFAULT 0,
-                CONSTRAINT fk_cobrador
-                    FOREIGN KEY (codigoCobrador) REFERENCES usuarios(codigo),
-                CONSTRAINT fk_veiculos
-                    FOREIGN KEY (codigoVeiculo)  REFERENCES veiculos(codigo)
+                kmFinal       DECIMAL(10,1) DEFAULT 0
             )`;
         await conn.query(sql);
     }
@@ -44,6 +38,8 @@ class ConciliacaoDao extends Abstract {
                 codigo            INT           AUTO_INCREMENT PRIMARY KEY,
                 codigoRota        INT           NOT NULL,
                 codigoCliente     INT           NOT NULL,
+                codigoVeiculo     INT           NOT NULL,
+                codigoCobrador    INT           NOT NULL,
                 endereco          VARCHAR(200)  NOT NULL,
                 horario           TIME          NOT NULL,
                 encontrado        TINYINT       NOT NULL DEFAULT 0,
@@ -58,7 +54,11 @@ class ConciliacaoDao extends Abstract {
                 telefone          VARCHAR(20),
                 observacoes       VARCHAR(500),
                 CONSTRAINT fk_visita_rota
-                    FOREIGN KEY (codigoRota) REFERENCES rotas(codigo) ON DELETE CASCADE
+                    FOREIGN KEY (codigoRota) REFERENCES rotas(codigo) ON DELETE CASCADE,
+                CONSTRAINT fk_veiculos
+                FOREIGN KEY (codigoVeiculo)  REFERENCES veiculos(codigo),
+                CONSTRAINT fk_cobrador
+                    FOREIGN KEY (codigoCobrador) REFERENCES usuarios(codigo)
             )`;
         await conn.query(sql);
     }
@@ -121,14 +121,21 @@ class ConciliacaoDao extends Abstract {
     static async setRota(rota) {
         const conn = await this.connection();
         const sql = `
-            INSERT INTO rotas (nome, codigoVeiculo, codigoCobrador, data, saida, chegada, kmComeco, kmFinal)
-            VALUES (?, ?, ?, ?, ?, ?, ?, ?)`;
+            INSERT INTO rotas (nome,  data)
+            VALUES (?, ?)`;
         const dados = [
-            rota.nome, rota.codigoVeiculo, rota.codigoCobrador,
-            rota.data, rota.saida, rota.chegada ?? null,
-            rota.kmComeco ?? 0, rota.kmFinal ?? 0
+            rota.nome, rota.data,
         ];
         const [resultado] = await conn.query(sql, dados);
+        return resultado;
+    }
+
+    static async getRotas() {
+        const conn = await this.connection();
+        const sql = `
+            SELECT * FROM rotas;
+        `;
+        const [resultado] = await conn.query(sql);
         return resultado;
     }
 
@@ -136,13 +143,13 @@ class ConciliacaoDao extends Abstract {
         const conn = await this.connection();
         const sql = `
             INSERT INTO visitas (
-                codigoRota, codigoCliente, endereco, horario, encontrado,
+                codigoRota, codigoCliente, codigoVeiculo, codigoCobrador, endereco, horario, encontrado,
                 coordenadas, fotoResidencia, fotoResidenciaUrl,
                 fotoDoc, fotoDocUrl, renegociado, agendamento,
                 data_agendamento, telefone, observacoes
-            ) VALUES (?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?)`;
+            ) VALUES (?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?)`;
         const dados = [
-            visita.codigoRota, visita.codigoCliente, visita.endereco, visita.horario,
+            visita.codigoRota, visita.codigoCliente, visita.codigoVeiculo, visita.cobrador, visita.endereco, visita.horario,
             visita.encontrado ?? 0, visita.coordenadas ?? null,
             visita.fotoResidencia ?? 0, visita.fotoResidenciaUrl ?? null,
             visita.fotoDoc ?? 0, visita.fotoDocUrl ?? null,
