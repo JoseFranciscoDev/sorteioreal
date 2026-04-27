@@ -270,7 +270,7 @@
                                                                 <label>Atualizar Telefone?</label>
                                                                 <div class="radio-group" data-target="cond-telefone">
                                                                   <label class="radio-option">
-                                                                    <input type="radio" name="has_telefone" value="sim">
+                                                                    <input type="radio" name="has_telefone" value="1">
                                                                       Sim
                                                                     </label>
                                                                     <label class="radio-option selected-nao">
@@ -346,7 +346,7 @@
                                                                     lbl.classList.remove('selected-sim', 'selected-nao');
                                                                   });
                                                                   const parentLabel = e.target.closest('.radio-option');
-                                                                  if (e.target.value === 'sim') {
+                                                                  if (e.target.value === '1') {
                                                                     parentLabel.classList.add('selected-sim');
                                                                     if (conditionalField) {
                                                                       conditionalField.classList.add('visible');

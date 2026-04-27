@@ -1,8 +1,10 @@
 const { BASE_URL } = require("../configs.json");
 const NavBar = require("../utilitarios/NavBar.js");
 const ConciliacaoDao = require("../modelo/ConciliacaoDao.js");
+const fs = require("fs");
+const path = require("path");
 
-// Converte toda string vazia do objeto para null
+
 function nullifyEmpty(obj) {
     return Object.fromEntries(
         Object.entries(obj).map(([k, v]) => [k, v === '' ? null : v])
@@ -72,13 +74,48 @@ class Conciliacao {
     static async cadastroVisitaPost(req, res) {
         try {
             const dados = nullifyEmpty(req.body);
-            await ConciliacaoDao.setVisita(dados)
-            return res.redirect("visitas?mensagem=Visita Cadastrado")
-        }
-        catch (erro) {
-            console.log(erro)
+
+            const resultado = await ConciliacaoDao.setVisita(dados);
+            const visitaId = resultado.insertId;
+
+            const arquivos = req.files
+
+            const fotoResidArquivo = arquivos.foto_resid?.[0] ?? 0;
+            const fotoDocArquivo = arquivos.foto_doc?.[0] ?? 0;
+
+            let fotoResidenciaUrl = null;
+            let fotoDocUrl = null;
+
+            if (fotoResidArquivo || fotoDocArquivo) {
+
+
+                const pastaDestino = path.resolve("public", "visitas", visitaId.toString());
+                if (!fs.existsSync(pastaDestino)) {
+                    fs.mkdirSync(pastaDestino, { recursive: true });
+                }
+
+                if (fotoResidArquivo) {
+                    const destino = path.resolve(pastaDestino, fotoResidArquivo.filename);
+                    fs.renameSync(fotoResidArquivo.path, destino);
+                    fotoResidenciaUrl = `visitas/${visitaId}/${fotoResidArquivo.filename}`;
+                }
+
+                if (fotoDocArquivo) {
+                    const destino = path.resolve(pastaDestino, fotoDocArquivo.filename);
+                    fs.renameSync(fotoDocArquivo.path, destino);
+                    fotoDocUrl = `visitas/${visitaId}/${fotoDocArquivo.filename}`;
+                }
+
+
+                await ConciliacaoDao.updateFotosVisita(visitaId, { fotoResidenciaUrl, fotoDocUrl });
+            }
+
+            return res.redirect("visita?mensagem=Visita Cadastrada");
+
+        } catch (erro) {
+            console.log(erro);
             console.log(req.body);
-            res.send(req.body);
+            res.send(erro.message);
         }
     }
 
