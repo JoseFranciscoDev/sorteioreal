@@ -72,8 +72,8 @@ class Conciliacao {
     static async cadastroVisitaPost(req, res) {
         try {
             const dados = nullifyEmpty(req.body);
-            const novaVisita = await ConciliacaoDao.setVisita(dados)
-            return res.send(novaVisita)
+            await ConciliacaoDao.setVisita(dados)
+            return res.redirect("visitas?mensagem=Visita Cadastrado")
         }
         catch (erro) {
             console.log(erro)
