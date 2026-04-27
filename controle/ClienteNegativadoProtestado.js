@@ -37,7 +37,7 @@ class ClienteNegativadoProtestado {
          try {
             await removerArquivo(caminhoArquivo);
          } catch(error2) {
-            console.error("Falha na ao remover o arquivo", error2.message);
+            console.error("Falha ao tentar remover o arquivo", error2.message);
          }
       }
 
