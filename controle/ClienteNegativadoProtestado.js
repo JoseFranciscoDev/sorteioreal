@@ -3,14 +3,12 @@ const Data = require("../utilitarios/Data.js")
 const ProcessorFactory = require("../modelo/ProcessorFactory.js");
 
 class ClienteNegativadoProtestado {
-
-
-
     
     async uploads(req, res) {
         const [arquivoUrl] = req.files;
         const {tipoArquivo} = req.body;
         const caminhoArquivo = arquivoUrl.path;
+        
       try {
        
         const processor = ProcessorFactory.Processor(tipoArquivo);
