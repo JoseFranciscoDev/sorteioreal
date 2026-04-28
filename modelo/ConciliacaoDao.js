@@ -180,6 +180,26 @@ class ConciliacaoDao extends Abstract {
         const [resultado] = await conn.query(sql, dados);
         return resultado;
     }
+
+    static async updateFotosVisita(codigoVisita, { fotoResidenciaUrl, fotoDocUrl }) {
+        const conn = await this.connection();
+        const sql = `
+            UPDATE visitas
+            SET fotoResidencia    = ?,
+                fotoResidenciaUrl = ?,
+                fotoDoc           = ?,
+                fotoDocUrl        = ?
+            WHERE codigo = ?`;
+        const dados = [
+            fotoResidenciaUrl ? 1 : 0,
+            fotoResidenciaUrl ?? null,
+            fotoDocUrl ? 1 : 0,
+            fotoDocUrl ?? null,
+            codigoVisita
+        ];
+        const [resultado] = await conn.query(sql, dados);
+        return resultado;
+    }
 }
 
 module.exports = ConciliacaoDao;
