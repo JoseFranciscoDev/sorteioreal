@@ -80,15 +80,13 @@ class Conciliacao {
 
             const arquivos = req.files
 
-            const fotoResidArquivo = arquivos.foto_resid?.[0] ?? 0;
-            const fotoDocArquivo = arquivos.foto_doc?.[0] ?? 0;
+            const fotoResidArquivo = arquivos?.foto_resid?.[0] ?? null;
+            const fotoDocArquivo = arquivos?.foto_doc?.[0] ?? null;
 
             let fotoResidenciaUrl = null;
             let fotoDocUrl = null;
 
             if (fotoResidArquivo || fotoDocArquivo) {
-
-
                 const pastaDestino = path.resolve("public", "visitas", visitaId.toString());
                 if (!fs.existsSync(pastaDestino)) {
                     fs.mkdirSync(pastaDestino, { recursive: true });
@@ -105,9 +103,25 @@ class Conciliacao {
                     fs.renameSync(fotoDocArquivo.path, destino);
                     fotoDocUrl = `visitas/${visitaId}/${fotoDocArquivo.filename}`;
                 }
-
-
                 await ConciliacaoDao.updateFotosVisita(visitaId, { fotoResidenciaUrl, fotoDocUrl });
+            }
+            if (req.body.pg_contrato) {
+                const novoPagamento = {
+                    contrato: req.body.pg_contrato,
+                    codigoVisita: visitaId,
+                    parcelas: req.body.pg_parcelas,
+                    valor: req.body.pg_valor
+                };
+                ConciliacaoDao.setPagamento(novoPagamento);
+            }
+            if (req.body.nc_contrato) {
+                const renegociacao = {
+                    codigoVisita: visitaId,
+                    contrato: req.body.nc_contrato,
+                    parcelas: req.body.nc_parcelas,
+                    valor: req.body.nc_valor
+                }
+                ConciliacaoDao.setRenegociacao(renegociacao);
             }
 
             return res.redirect("visita?mensagem=Visita Cadastrada");
@@ -115,7 +129,7 @@ class Conciliacao {
         } catch (erro) {
             console.log(erro);
             console.log(req.body);
-            res.send(erro.message);
+            return res.redirect("visita?mensagem=Erro: " + erro);
         }
     }
 
