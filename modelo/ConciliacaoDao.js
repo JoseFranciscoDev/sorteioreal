@@ -134,12 +134,19 @@ class ConciliacaoDao extends Abstract {
         return resultado;
     }
 
-    static async getRotas() {
+    static async getRotas(skip, limit) {
         const conn = await this.connection();
         const sql = `
-            SELECT * FROM rotas;
+            SELECT rotas.codigo as codigoRota,
+            rotas.nome as nomeRota,
+            count(visitas.codigo) as quantidadeDeVisitas
+            FROM rotas
+            LEFT JOIN visitas on visitas.codigoRota = rotas.codigo
+            SKIP ? LIMIT ? 
+            GROUP BY rotas.nome;
         `;
-        const [resultado] = await conn.query(sql);
+        const parametrosPaginacao = [skip, limit]
+        const [resultado] = await conn.query(sql, parametrosPaginacao);
         return resultado;
     }
 
