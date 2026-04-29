@@ -152,3 +152,24 @@ CREATE TABLE IF NOT EXISTS renegociacoes (
     CONSTRAINT fk_renegociacao_visita 
         FOREIGN KEY (codigoVisita) REFERENCES visitas(codigo) ON DELETE CASCADE
 );
+
+
+
+create table if not exists protesto (
+    numero_pedido integer not null,
+    comarca_cartorio varchar(255) not null,
+    data_solicitacao date not null,
+    comarca_devedor varchar(255) not null,
+    devedor varchar(255) not null,
+    doc_devedor varchar(255) not null,
+    numero_titulo integer not null,
+    valor_titulo decimal(15,6) not null,
+    valor_protestado decimal(15,6) not null,
+    protocolo integer,
+    data_protocolo date,
+    especie varchar(255) not null,
+    status_pedido varchar(255) not null,
+    irregularidade varchar(255),
+    ocorrencia_titulo varchar(255),
+    data_ocorrencia date null
+);

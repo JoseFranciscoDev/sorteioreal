@@ -7,18 +7,18 @@ class ClienteSpc {
         dataExclusao, tipoNotificacao, codigoNotificacao, codAssociado) {
 
 
-        this._codigoSpc = ConveterNumero.textoParaValorInteiro(codigoSpc);
+        this._codigoSpc = ConverterNumero.textoParaValorInteiro(codigoSpc);
         this._cpfCnpj = cpfCnpj;
         this._consumidor = consumidor;
         this._contrato = contrato;
         this._dataVencimento = Data.textoParaData(dataVencimento);
-        this._valorDebito = ConveterNumero.textoParaValorDouble(valorDebito);
+        this._valorDebito = ConverterNumero.textoParaValorDouble(valorDebito);
         this._dataInclusao = Data.textoParaData(dataInclusao);
         this._horaInclusao = horaInclusao;
         this._dataExclusao = Data.textoParaData(dataExclusao);
         this._tipoNotificacao = tipoNotificacao;
-        this._codigoNotificacao = ConveterNumero.textoParaValorInteiro(codigoNotificacao);
-        this._codAssociado = ConveterNumero.textoParaValorInteiro(codAssociado);
+        this._codigoNotificacao = ConverterNumero.textoParaValorInteiro(codigoNotificacao);
+        this._codAssociado = ConverterNumero.textoParaValorInteiro(codAssociado);
 
         }
 

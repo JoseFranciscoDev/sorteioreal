@@ -1,28 +1,35 @@
+const ClienteProtesto = require("./ClienteProtesto.js");
 
 class ProtestoStrategy {
 
     map(dados) {
         return  dados.map(cliente => {
+            console.log(dados);
           return new ClienteProtesto(
-          cliente.codigo_spc,
-          cliente.cpf_cnpj,
-          cliente.consumidor,
-          cliente.contrato,
-          cliente.data_vencimento,
-          cliente.valor_debito,
-          cliente.data_inclusao,
-          cliente.hora_inclusao,
-          cliente.data_exclusao,
-          cliente.tipo_notificacao,
-          cliente.codigo_notificacao,
-          cliente.cod_associado); 
+          cliente.n_pedido,
+          cliente.comarca_cartorio,
+          cliente.data_solicitacao,
+          cliente.comarca_devedor,
+          cliente.devedor,
+          cliente.doc_devedor,
+          cliente.n_titulo,
+          cliente.valor_titulo,
+          cliente.valor_protestado,
+          cliente.protocolo,
+          cliente.data_protocolo,
+          cliente.especie,
+          cliente.status_pedido,
+          cliente.status_pedido,
+          cliente.irregularidade,
+          cliente.ocorrencia_titulo,
+          cliente.data_ocorrencia); 
 
         });
     }
 
 
     salvar(dados) {
-
+        console.log(dados)
     }
 }
 
