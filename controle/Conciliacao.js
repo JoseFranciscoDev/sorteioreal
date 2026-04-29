@@ -60,7 +60,7 @@ class Conciliacao {
                 return res.redirect(BASE_URL + "/conciliacao/cadastro/rota?mensagem=" + mensagem)
             }
             return res.redirect(BASE_URL + "/conciliacao/cadastro/rota?mensagem=" + erro)
-        }
+        } 
     }
 
     static async cadastroVisita(req, res) {

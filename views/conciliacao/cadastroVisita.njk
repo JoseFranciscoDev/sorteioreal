@@ -60,16 +60,6 @@
                   <input type="text" id="cod_cliente" name="codigoCliente" required/>
                 </div>
               </div>
-              <!-- Horário -->
-              <div class="field-group">
-                <label for="horario">Horário
-                  <span class="required">*</span>
-                </label>
-                <div class="input-wrapper">
-                  <i class="bx bx-time"></i>
-                  <input type="time" id="horario" name="horario" required/>
-                </div>
-              </div>
               <!-- Endereço -->
               <div class="field-group">
                 <label for="endereco">Endereço
@@ -93,6 +83,52 @@
                       <option value="{{ veiculo.codigo }}">{{ veiculo.nome }}</option>
                     {% endfor %}
                   </select>
+                </div>
+              </div>
+              <!-- Data -->
+              <div class="field-group">
+                <label for="data">Data
+                  <span class="required">*</span>
+                </label>
+                <div class="input-wrapper">
+                  <i class="bx bx-calendar"></i>
+                  <input type="date" id="data" name="data" required/>
+                </div>
+              </div>
+              <!-- Saída -->
+              <div class="field-group">
+                <label for="saida">Saída
+                  <span class="required">*</span>
+                </label>
+                <div class="input-wrapper">
+                  <i class="bx bx-log-out"></i>
+                  <input type="time" id="saida" name="saida" required/>
+                </div>
+              </div>
+              <!-- Chegada -->
+              <div class="field-group">
+                <label for="chegada">Chegada
+                  <span class="required">*</span>
+                </label>
+                <div class="input-wrapper">
+                  <i class="bx bx-log-in"></i>
+                  <input type="time" id="chegada" name="chegada" required/>
+                </div>
+              </div>
+              <!-- KM Início -->
+              <div class="field-group">
+                <label for="kmComeco">KM Início</label>
+                <div class="input-wrapper">
+                  <i class="bx bx-tachometer"></i>
+                  <input type="number" id="kmComeco" name="kmComeco" step="0.1" min="0" placeholder="0.0"/>
+                </div>
+              </div>
+              <!-- KM Final -->
+              <div class="field-group">
+                <label for="kmFinal">KM Final</label>
+                <div class="input-wrapper">
+                  <i class="bx bx-tachometer"></i>
+                  <input type="number" id="kmFinal" name="kmFinal" step="0.1" min="0" placeholder="0.0"/>
                 </div>
               </div>
               <!-- Encontrado? -->
@@ -282,7 +318,7 @@
                                                                       <div class="conditional-label">Novo Telefone do Cliente</div>
                                                                       <div class="input-wrapper">
                                                                         <i class="bx bx-phone"></i>
-                                                                        <input type="tel" name="telefone" placeholder="Ex: (44) 99999-9999"></div>
+                                                                        <input type="tel" name="novoTelefone" placeholder="Ex: (44) 99999-9999"></div>
                                                                       </div>
                                                                     </div>
                                                                     <!-- Observações -->
