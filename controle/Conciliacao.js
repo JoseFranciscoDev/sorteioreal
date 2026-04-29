@@ -60,7 +60,7 @@ class Conciliacao {
                 return res.redirect(BASE_URL + "/conciliacao/cadastro/rota?mensagem=" + mensagem)
             }
             return res.redirect(BASE_URL + "/conciliacao/cadastro/rota?mensagem=" + erro)
-        } 
+        }
     }
 
     static async cadastroVisita(req, res) {
@@ -135,33 +135,22 @@ class Conciliacao {
 
     static async visualizar(req, res) {
         const modulos = NavBar.getModulos();
-
-        // Dados Mockados
+        const { page = 1, porPagina = 10 } = req.query
+        const offset = (page - 1) * porPagina
         const veiculos = await ConciliacaoDao.getVeiculos()
-        console.log(veiculos)
 
-        const visitas = [
-            { id: 1, data: "15/04/2026", cobrador: "João Silva", saida: "08:00", retorno: "12:00", veiculo: "ABC-1234", totalCorridas: 3 },
-            { id: 2, data: "15/04/2026", cobrador: "Maria Souza", saida: "13:30", retorno: "18:00", veiculo: "XYZ-9876", totalCorridas: 5 }
-        ];
-
-        res.render("conciliacao/visualizarVisitas.njk", { modulos, BASE_URL, veiculos, visitas });
+        const rotas = await ConciliacaoDao.getRotas(offset, porPagina)
+        res.render("conciliacao/visualizarRotas.njk", { modulos, BASE_URL, veiculos, rotas });
     }
 
-    static visualizarCorridas(req, res) {
+    static async visualizarVisitas(req, res) {
         const modulos = NavBar.getModulos();
-        const visitaId = req.params.id;
+        const rotaId = req.params.codigo;
 
-        // Dados Mockados
-        const visita = { id: visitaId, data: "15/04/2026", cobrador: "João Silva", veiculo: "ABC-1234" };
 
-        const corridas = [
-            { id: 101, horario: "08:30", cliente: "Cod: 12345", endereco: "Rua das Flores, 123", encontrado: "Sim", renegociado: "Não", pagou: "Não", valor: "0,00" },
-            { id: 102, horario: "09:15", cliente: "Cod: 67890", endereco: "Av. Principal, 456", encontrado: "Sim", renegociado: "Sim", pagou: "Sim", valor: "150,00" },
-            { id: 103, horario: "10:00", cliente: "Cod: 54321", endereco: "Beco Escuro, 78", encontrado: "Não", renegociado: "Não", pagou: "Não", valor: "0,00" },
-        ];
-
-        res.render("conciliacao/visualizarCorridas.njk", { modulos, BASE_URL, visita, corridas });
+        const visitas = await ConciliacaoDao.getVisitasPorCodigoRota(rotaId)
+        console.log(visitas)
+        res.render("conciliacao/visualizarVisitas.njk", { modulos, BASE_URL, visitas, rotaId });
     }
 }
 

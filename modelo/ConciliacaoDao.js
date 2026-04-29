@@ -134,7 +134,7 @@ class ConciliacaoDao extends Abstract {
         return resultado;
     }
 
-    static async getRotas(skip, limit) {
+    static async getRotas(offset, limit) {
         const conn = await this.connection();
         const sql = `
             SELECT rotas.codigo as codigoRota,
@@ -142,10 +142,11 @@ class ConciliacaoDao extends Abstract {
             count(visitas.codigo) as quantidadeDeVisitas
             FROM rotas
             LEFT JOIN visitas on visitas.codigoRota = rotas.codigo
-            SKIP ? LIMIT ? 
-            GROUP BY rotas.nome;
+            GROUP BY rotas.nome
+            ORDER BY rotas.codigo
+            LIMIT 10 OFFSET 0
         `;
-        const parametrosPaginacao = [skip, limit]
+        const parametrosPaginacao = [offset, limit]
         const [resultado] = await conn.query(sql, parametrosPaginacao);
         return resultado;
     }
@@ -179,6 +180,21 @@ class ConciliacaoDao extends Abstract {
         const [resultado] = await conn.query(sql, dados);
         return resultado;
     }
+
+    static async getVisitasPorCodigoRota(codigoRota) {
+        const conn = await this.connection();
+        const sql = `
+        SELECT
+            visitas.*,
+            rotas.codigo as codigoRota,
+            rotas.nome as nomeRota
+        FROM visitas
+        JOIN rotas ON visitas.codigoRota = rotas.codigo
+        WHERE rotas.codigo = ?
+            `;
+        const [resultado] = await conn.query(sql, codigoRota)
+        return resultado
+    };
 
     static async setPagamento(pagamento) {
         const conn = await this.connection();
