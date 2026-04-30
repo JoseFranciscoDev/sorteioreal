@@ -38,15 +38,19 @@
                             <span class="tag-simples">
                                 <i class="bx bx-target-lock"></i>
                                 Encontrado:
-                                <span class="{% if visita.encontrado == 'Sim' %}badge badge-sim{% else %}badge badge-nao{% endif %}">
-                                    {{ visita.encontrado }}
-                                </span>
+                                <span class="{% if visita.encontrado == 1 %}badge badge-sim">
+                                    Sim {% else %}badge badge-nao"> Não{% endif %}
                             </span>
-                            <span class="tag-simples">
-                                <i class="bx bx-handshake"></i>
-                                Renegociado:
-                                <span class="{% if visita.renegociado == 'Sim' %}badge badge-sim{% else %}badge badge-nao{% endif %}">
-                                    {{ visita.renegociado }}
+                        </span>
+                        <span class="tag-simples">
+                            <i class="bx bx-handshake"></i>
+                            Renegociado:
+                            {% if visita.renegociado == 1 %}
+                                <span class="badge badge-sim">Sim
+                                {% else %}
+                                    <span class="badge badge-nao">
+                                        Não
+                                    {% endif %}
                                 </span>
                             </span>
                         </div>
