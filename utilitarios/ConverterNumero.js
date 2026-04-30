@@ -5,16 +5,24 @@ class ConverterNumero {
 
         if (!texto) return 0;
 
-        const valor = texto.toString().replace(/[^\d,]/g, "")
-                        .replace(/\./g, "")
-                        .replace(",", ".");
+        let valor = texto.toString().replace("R$", "").trim();
 
-        return parseFloat(valor) || 0;
+        valor = valor.split(",").join("");
+
+        const resultado = parseFloat(valor);
+
+        return isNaN(resultado) ? null : resultado;
+
     }
 
 
-   static textoParaValorInteiro(texto) {
-        return parseInt(texto);
+    static textoParaValorInteiro(texto) {
+
+        if (!texto) return 0;
+
+        const valor = parseInt(texto);
+
+        return isNaN(valor) ? null : valor;
     }
 }
 

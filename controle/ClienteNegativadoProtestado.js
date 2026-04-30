@@ -20,11 +20,11 @@ class ClienteNegativadoProtestado {
 
 
         const dados = await  lerArquvioUniversal(caminhoArquivo);
-
+        
         const ClientesFormatados = processor.map(dados);
         await processor.salvar(ClientesFormatados);
 
-
+        //console.log(dados);
         return res.json({mensagem: "Processado com sucesso!", total: ClientesFormatados.length});
 
 

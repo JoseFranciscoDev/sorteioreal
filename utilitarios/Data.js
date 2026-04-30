@@ -14,10 +14,18 @@ class Data {
 
         const dataLimpa = texto.trim();
 
-        if (dataLimpa.includes("/") && /^\d{2}\/\d{2}\/\d{4}$/.test(dataLimpa)) {
-            const [dia, mes, ano] = dataLimpa.split("/");
+        if (dataLimpa.includes("/") && /^\d{2}\/\d{2}\/\d{2,4}$/.test(dataLimpa)) {
+            let [dia, mes, ano] = dataLimpa.split("/");
 
-            return new Date(ano, mes - 1, dia);
+            if (ano.length === 2) {
+                ano = "20" + ano;
+            }
+
+        
+
+            const dataObjeto = new Date(ano, mes - 1, dia);
+
+            return isNaN(dataObjeto.getTime()) ? null : dataObjeto;
         }
 
         if (texto.includes("-") && /^\d{4}-\d{2}-\d{2}$/.test(dataLimpa)) {

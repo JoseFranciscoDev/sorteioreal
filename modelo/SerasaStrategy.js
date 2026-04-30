@@ -1,4 +1,6 @@
 const ClienteSerasa = require("./ClienteSerasa");
+const Data = require("../utilitarios/Data.js");
+const conexao = require("../databases/conexao.js");
 
 class SerasaStrategy {
 
@@ -21,7 +23,36 @@ class SerasaStrategy {
     }
 
 
-    salvar(dados) {
+  async  salvar(dados) {
+       if (!dados || dados.length === 0) {
+           return;
+       } 
+
+
+          const dadosBanco = dados.map(cliente=> [
+                cliente.status,
+                cliente.id,
+                cliente.nomeDevedor,
+                cliente.tipoPessoa,
+                cliente.documento,
+                cliente.naureza,
+                cliente.valor,
+                Data.dataParaBancoDeDados(cliente.dataCadastro),
+                Data.dataParaBancoDeDados(cliente.dataOcorrenciaVencimento),
+                cliente.operacao 
+            ]);
+
+        try {         
+
+            const serasaDao = new SerasaDao(conexao);
+           const resultado =  await serasaDao.adiciona(dadosBanco);
+           console.log(`Sucesso! ${resultado.affectedRows} registros inseridos.`);
+           return resultado;          
+
+        } catch(erro) {
+            return erro;
+        }
+ 
 
     }
 }
