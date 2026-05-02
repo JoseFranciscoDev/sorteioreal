@@ -30,7 +30,12 @@
                         </div>
                         <div class="corrida-cli">
                             <i class="bx bx-user"></i>
-                            {{ visita.codigoCliente }}</div>
+                            {% if visita.nomeCliente %}
+                                {{ visita.nomeCliente }}
+                            {% else %}
+                                {{ visita.codigoCliente }}
+                            {% endif %}
+                        </div>
                         <div class="corrida-end">
                             <i class="bx bx-map"></i>
                             {{ visita.endereco }}</div>

@@ -9,7 +9,20 @@ class ClienteNerusDao extends AbstractNerus {
                             custp.sincedt as data_cadastro
                             
                             from custp where custp.no = ?`;
-        const [clientes] = await conn.query(texto, [cliente.codigoCliente]);
+        const [resultado] = await conn.query(texto, [cliente.codigoCliente]);
+
+        return resultado;
+
+    }
+    static async getClientes(codigosClientes) {
+        const conn = await this.connection();
+        const texto = `select
+                            custp.no as codigo,
+                            custp.name as nome,
+                            custp.sincedt as data_cadastro
+                            
+                            from custp where custp.no in (?)`;
+        const [clientes] = await conn.query(texto, [codigosClientes]);
 
         return clientes;
 

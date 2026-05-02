@@ -1,6 +1,7 @@
 const { BASE_URL } = require("../configs.json");
 const NavBar = require("../utilitarios/NavBar.js");
 const ConciliacaoDao = require("../modelo/ConciliacaoDao.js");
+const ClienteNerusDao = require("../modelo/ClienteNerusDao.js")
 const fs = require("fs");
 const path = require("path");
 
@@ -147,9 +148,22 @@ class Conciliacao {
         const modulos = NavBar.getModulos();
         const rotaId = req.params.codigo;
 
+        const visitas = await ConciliacaoDao.getVisitasPorCodigoRota(rotaId);
+        const codigosClientes = visitas.map(visita => visita.codigoCliente);
 
-        const visitas = await ConciliacaoDao.getVisitasPorCodigoRota(rotaId)
-        console.log(visitas)
+        const clientes = await ClienteNerusDao.getClientes(codigosClientes);
+
+        const clienteMap = new Map();
+        clientes.forEach(cliente => {
+            clienteMap.set(cliente.codigo, cliente);
+        });
+
+        visitas.forEach(visita => {
+            const cliente = clienteMap.get(visita.codigoCliente);
+            if (cliente) {
+                visita.nomeCliente = cliente.nome;
+            }
+        });
         res.render("conciliacao/visualizarVisitas.njk", { modulos, BASE_URL, visitas, rotaId });
     }
 }
