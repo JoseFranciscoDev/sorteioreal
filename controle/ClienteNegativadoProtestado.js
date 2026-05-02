@@ -3,17 +3,15 @@ const Data = require("../utilitarios/Data.js")
 const ProcessorFactory = require("../modelo/ProcessorFactory.js");
 
 class ClienteNegativadoProtestado {
-
-
-
     
     async uploads(req, res) {
         const [arquivoUrl] = req.files;
-        const {tipoArquvio} = req.body;
+        const {tipoArquivo} = req.body;
         const caminhoArquivo = arquivoUrl.path;
+        
       try {
        
-        const processor = ProcessorFactory.Processor(tipoArquvio);
+        const processor = ProcessorFactory.Processor(tipoArquivo);
 
         if (!processor) {
           return res.status(400).json({error: "Tipo de arquivo invalido"});
@@ -22,11 +20,11 @@ class ClienteNegativadoProtestado {
 
 
         const dados = await  lerArquvioUniversal(caminhoArquivo);
-
+        
         const ClientesFormatados = processor.map(dados);
         await processor.salvar(ClientesFormatados);
 
-
+        //console.log(dados);
         return res.json({mensagem: "Processado com sucesso!", total: ClientesFormatados.length});
 
 
@@ -37,7 +35,7 @@ class ClienteNegativadoProtestado {
          try {
             await removerArquivo(caminhoArquivo);
          } catch(error2) {
-            console.error("Falha na ao remover o arquivo", error2.message);
+            console.error("Falha ao tentar remover o arquivo", error2.message);
          }
       }
 

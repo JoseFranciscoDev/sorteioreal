@@ -89,7 +89,7 @@ async function lerArquvioUniversal(caminhoArquivo) {
 async function removerArquivo(arquivoUrl) {
 
     try {
-        await fs.promises.unlink(arquivourl);
+        await fs.promises.unlink(arquivoUrl);
         console.log("O arquvio em " + arquivoUrl + "foi removido com sucesso");
     } catch(error) {
 

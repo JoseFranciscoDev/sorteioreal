@@ -1,4 +1,4 @@
-
+const ClienteSpc = require("./ClienteSpc.js")
 class SpcStrategy {
 
     map(dados) {

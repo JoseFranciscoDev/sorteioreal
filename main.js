@@ -29,6 +29,8 @@ const UploadsDao = require("./modelo/UploadsDao.js");
 const conexao = require("./databases/conexao.js");
 const uploadRouter = require("./rotas/uploads.js");
 const uploadClienteNegativadosProtesto = require("./rotas/ClienteNegativadoProtestado.js");
+const ProtestoDao = require("./modeloDao/ProtestoDao.js");
+const SerasaDao = require("./modeloDao/SerasaDao.js");
 
 app.use(cors({
     origen: "*"
@@ -68,5 +70,7 @@ app.listen(PORT, async () => {
     await ClienteDao.criarTabela();
     await UploadsDao.criarTabela(conexao);
     await ConciliacaoDao.criarTodasTabelasConciliacao()
+    await ProtestoDao.criarTabelaProtesto(conexao);
+    await SerasaDao.criarTabelaSerasa(conexao);
     console.log("Servidor rodando na porta: " + PORT);
 });
