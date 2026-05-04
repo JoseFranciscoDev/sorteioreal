@@ -30,11 +30,7 @@ class SerasaStrategy {
         }
 
 
-        const dadosBanco = dados.map(cliente =>{
-			
-			console.log(cliente.natureza);
-			
-			return [
+        const dadosBanco = dados.map(cliente => [
             cliente.status,
             cliente.id,
             cliente.nomeDevedor,
@@ -45,7 +41,7 @@ class SerasaStrategy {
             Data.dataParaBancoDeDados(cliente.dataCadastro),
             Data.dataParaBancoDeDados(cliente.dataOcorrenciaVencimento),
             cliente.operacao
-        ]});
+        ]);
 
 
 
