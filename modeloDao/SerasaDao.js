@@ -37,7 +37,7 @@ class SerasaDao {
                 documento varchar(255) not null,
                 natureza varchar(255) not null,
                 valor decimal(15,6) not null,
-                dataCadastro date not null,
+                dataCadastro timestamp not null,
                 dataOcorrenciaVencimento date not null,
                 operacao varchar(255) not null
             )`;
