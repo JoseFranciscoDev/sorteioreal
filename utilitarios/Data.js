@@ -3,8 +3,8 @@
 class Data {
 
     static textoParaData(texto) {
-                
-      if (texto == null || texto == undefined || texto == "") {
+
+        if (texto == null || texto == undefined || texto == "") {
             return null;
         }
 
@@ -21,7 +21,7 @@ class Data {
                 ano = "20" + ano;
             }
 
-        
+
 
             const dataObjeto = new Date(ano, mes - 1, dia);
 
@@ -32,22 +32,22 @@ class Data {
             return new Date(dataLimpa.replace(/-/g, "\/"));
         }
 
-        if (dataLimpa.includes("/") && dataLimpa.includes(":") && 
+        if (dataLimpa.includes("/") && dataLimpa.includes(":") &&
             /^\d{2}\/\d{2}\/\d{2,4} \d{2}:\d{2}(:\d{2})?$/.test(dataLimpa)) {
-                const [parteData, parteHora] = dataLimpa.split(" ");
-                let [dia, mes, ano] = parteData.split("/");
-                let [hora, min, seg] = parteHora.split(":");
+            const [parteData, parteHora] = dataLimpa.split(" ");
+            let [dia, mes, ano] = parteData.split("/");
+            let [hora, min, seg] = parteHora.split(":");
 
-                if (ano.length ===2) ano = "20" + ano;
+            if (ano.length === 2) ano = "20" + ano;
 
-                const dataObjeto = new Date(ano, mes - 1, dia, hora, min, seg || 0);
+            const dataObjeto = new Date(ano, mes - 1, dia, hora, min, seg || 0);
 
-                
-                return isNaN(dataObjeto.getTime()) ? null : dataObjeto;
-            }
 
-         const data = new Date(dataLimpa);
-         return isNaN(data.getTime()) ? null : data;
+            return isNaN(dataObjeto.getTime()) ? null : dataObjeto;
+        }
+
+        const data = new Date(dataLimpa);
+        return isNaN(data.getTime()) ? null : data;
     }
 
 
@@ -60,11 +60,10 @@ class Data {
         const dia = data.getDate().toString().padStart(2, "0");
         const mes = (data.getMonth() + 1).toString().padStart(2, "0");
         const ano = data.getFullYear();
-        console.log(dia);
         return `${dia}/${mes}/${ano}`;
     }
 
-  static dataParaBancoDeDados(data) {
+    static dataParaBancoDeDados(data) {
 
         if (!(data instanceof Date) || isNaN(data.getTime())) {
             return null;
@@ -75,7 +74,7 @@ class Data {
         const dia = data.getDate().toString().padStart(2, "0");
 
         return `${ano}-${mes}-${dia}`;
-  }
+    }
 }
 
 

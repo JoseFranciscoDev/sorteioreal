@@ -16,7 +16,7 @@ class CupomDao extends Abstract {
                         nome,
                         cpf,
                         usuario
-                          from cupons;`;
+                          from cupons order by pedido desc;`;
         const [resultado] = await conn.query(texto);
         return resultado;
     }

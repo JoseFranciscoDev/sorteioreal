@@ -14,5 +14,6 @@ router.post("/conciliacao/cadastro/visita", uploadImagens.fields([
 ]), Conciliacao.cadastroVisitaPost);
 router.get("/conciliacao/visualizar", Conciliacao.visualizar);
 router.get("/conciliacao/rotas/:codigo/visitas", Conciliacao.visualizarVisitas);
+router.get("/conciliacao/visitas/:codigo", Conciliacao.detalheVisita);
 
 module.exports = router;

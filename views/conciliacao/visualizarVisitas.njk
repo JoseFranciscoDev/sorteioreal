@@ -65,6 +65,12 @@
                             </span>
                             <span style="color: var(--primary);">R$ {{ visita.valor }}</span>
                         </div>
+                        <div style="margin-top: 12px;">
+                            <a href="{{ BASE_URL }}/conciliacao/visitas/{{ visita.codigo }}" class="btn-action" style="width: 100%; justify-content: center;">
+                                <i class="bx bx-show"></i>
+                                Ver detalhes
+                            </a>
+                        </div>
                     </div>
                 {% else %}
                     <div style="grid-column: 1 / -1; text-align: center; color: var(--text-muted); padding: 40px; background: #fff; border-radius:

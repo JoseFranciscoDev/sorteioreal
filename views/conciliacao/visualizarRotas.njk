@@ -66,16 +66,18 @@
                                 <strong>{{ rota.nomeRota }}</strong>
                             </td>
                             <td>{{ rota.quantidadeDeVisitas }}</td>
-                            <td>
-                                <a href="{{ BASE_URL }}/conciliacao/rotas/{{ rota.codigoRota }}/visitas" class="btn-action">
-                                    <i class="bx bx-show"></i>
-                                    Ver Corridas
-                                </a>
-                            </td>
+                            {% if rota.quantidadeDeVisitas > 0 %}
+                                <td>
+                                    <a href="{{ BASE_URL }}/conciliacao/rotas/{{ rota.codigoRota }}/visitas" class="btn-action">
+                                        <i class="bx bx-show"></i>
+                                        Ver visitas
+                                    </a>
+                                </td>
+                            {% endif %}
                         </tr>
                     {% else %}
                         <tr>
-                            <td colspan="6" style="text-align: center; color: var(--text-muted);">Nenhuma visita registrada.</td>
+                            <td colspan="6" style="text-align: center; color: var(--text-muted);">Nenhuma rota registrada.</td>
                         </tr>
                     {% endfor %}
                 </tbody>

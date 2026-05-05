@@ -34,9 +34,8 @@
                   <i class="bx bx-map-pin"></i>
                   <select id="visita_id" name="codigoRota" required>
                     <option value="" disabled selected>Selecione de qual rota é esta corrida</option>
-                    <!-- Dados mockados -->
                     {% for rota in rotas %}
-                      <option value="{{ rota.codigo }}">{{ rota.nomeRota }}</option>
+                      <option value="{{ rota.codigoRota }}">{{ rota.nomeRota }}</option>
                     {% endfor %}
                   </select>
                 </div>
@@ -57,7 +56,7 @@
                 </label>
                 <div class="input-wrapper">
                   <i class="bx bx-user"></i>
-                  <input type="text" id="cod_cliente" name="codigoCliente" required/>
+                  <input type="number" id="cod_cliente" name="codigoCliente" required/>
                 </div>
               </div>
               <!-- Endereço -->

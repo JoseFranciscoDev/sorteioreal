@@ -235,6 +235,22 @@ class ConciliacaoDao extends Abstract {
         const [resultado] = await conn.query(sql, dados);
         return resultado;
     }
+
+    static async getVisitaPorCodigo(codigoVisita) {
+        const conn = await this.connection();
+        const sql = `
+            SELECT
+                visitas.*,
+                rotas.codigo  AS codigoRota,
+                rotas.nome    AS nomeRota
+            FROM visitas
+            JOIN rotas ON visitas.codigoRota = rotas.codigo
+            WHERE visitas.codigo = ?
+            LIMIT 1
+        `;
+        const [rows] = await conn.query(sql, [codigoVisita]);
+        return rows[0] ?? null;
+    }
 }
 
 module.exports = ConciliacaoDao;

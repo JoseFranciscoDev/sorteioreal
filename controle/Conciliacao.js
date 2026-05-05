@@ -4,13 +4,8 @@ const ConciliacaoDao = require("../modelo/ConciliacaoDao.js");
 const ClienteNerusDao = require("../modelo/ClienteNerusDao.js")
 const fs = require("fs");
 const path = require("path");
-
-
-function nullifyEmpty(obj) {
-    return Object.fromEntries(
-        Object.entries(obj).map(([k, v]) => [k, v === '' ? null : v])
-    );
-}
+const NullSeVazio = require("../utilitarios/NullSeVazio.js")
+const Data = require("../utilitarios/Data.js")
 
 class Conciliacao {
 
@@ -66,16 +61,17 @@ class Conciliacao {
 
     static async cadastroVisita(req, res) {
         const modulos = NavBar.getModulos();
-        const cobrador = req.session.usuario.codigo
-        const veiculos = await ConciliacaoDao.getVeiculos()
-        const rotas = await ConciliacaoDao.getRotas()
+        const cobrador = req.session.usuario.codigo;
+        const mensagem = req.query.mensagem;
+        console.log(mensagem)
+        const veiculos = await ConciliacaoDao.getVeiculos();
+        const rotas = await ConciliacaoDao.getRotas();
         res.render("conciliacao/cadastroVisita.njk", { modulos, BASE_URL, cobrador, veiculos, rotas });
     }
 
     static async cadastroVisitaPost(req, res) {
         try {
-            const dados = nullifyEmpty(req.body);
-
+            const dados = NullSeVazio(req.body);
             const resultado = await ConciliacaoDao.setVisita(dados);
             const visitaId = resultado.insertId;
 
@@ -150,7 +146,6 @@ class Conciliacao {
 
         const visitas = await ConciliacaoDao.getVisitasPorCodigoRota(rotaId);
         const codigosClientes = visitas.map(visita => visita.codigoCliente);
-
         const clientes = await ClienteNerusDao.getClientes(codigosClientes);
 
         const clienteMap = new Map();
@@ -165,6 +160,24 @@ class Conciliacao {
             }
         });
         res.render("conciliacao/visualizarVisitas.njk", { modulos, BASE_URL, visitas, rotaId });
+    }
+
+    static async detalheVisita(req, res) {
+        const modulos = NavBar.getModulos();
+        const codigoVisita = req.params.codigo;
+
+        const visita = await ConciliacaoDao.getVisitaPorCodigo(codigoVisita);
+        visita.data = Data.dataParaTexto(visita.data)
+        if (!visita) {
+            return res.status(404).render("erro404ou500.njk", { modulos, BASE_URL });
+        }
+
+        const clientes = await ClienteNerusDao.getClientes([visita.codigoCliente]);
+        if (clientes && clientes.length > 0) {
+            visita.nomeCliente = clientes[0].nome;
+        }
+
+        res.render("conciliacao/detalheVisita.njk", { modulos, BASE_URL, visita });
     }
 }
 
