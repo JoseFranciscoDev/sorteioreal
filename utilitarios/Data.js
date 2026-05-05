@@ -32,8 +32,22 @@ class Data {
             return new Date(dataLimpa.replace(/-/g, "\/"));
         }
 
-        const data = new Date(dataLimpa);
-        return isNaN(data.getTime()) ? null : data;
+        if (dataLimpa.includes("/") && dataLimpa.includes(":") && 
+            /^\d{2}\/\d{2}\/\d{2,4} \d{2}:\d{2}(:\d{2})?$/.test(dataLimpa)) {
+                const [parteData, parteHora] = dataLimpa.split(" ");
+                let [dia, mes, ano] = parteData.split("/");
+                let [hora, min, seg] = parteHora.split(":");
+
+                if (ano.length ===2) ano = "20" + ano;
+
+                const dataObjeto = new Date(ano, mes - 1, dia, hora, min, seg || 0);
+
+                
+                return isNaN(dataObjeto.getTime()) ? null : dataObjeto;
+            }
+
+         const data = new Date(dataLimpa);
+         return isNaN(data.getTime()) ? null : data;
     }
 
 

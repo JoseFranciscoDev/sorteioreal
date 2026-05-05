@@ -6,7 +6,7 @@ class ClienteSerasa {
     constructor(status, id, nomeDevedor, tipoPessoa, documento, natureza, valor, dataCadastro, dataOcorrenciaVencimento, operacao) {
         this._status = status;
         this._id = ConverterNumero.textoParaValorInteiro(id);
-        this._nomeDevendor = nomeDevedor;
+        this._nomeDevedor = nomeDevedor;
         this._tipoPessoa = tipoPessoa;
         this._documento = documento;
         this._natureza= natureza;

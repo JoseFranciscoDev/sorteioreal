@@ -173,3 +173,36 @@ create table if not exists protesto (
     ocorrencia_titulo varchar(255),
     data_ocorrencia date null
 );
+
+
+
+  create table if not exists serasa(
+                status varchar(255) not null,
+                id int not null,
+                nomeDevedorPrincipal varchar(255) not null,
+                tipoPessoa varchar(255) not null,
+                documento varchar(255) not null,
+                natureza varchar(255) not null,
+                valor decimal(15,6) not null,
+                dataCadastro timestamp not null,
+                dataOcorrenciaVencimento date not null,
+                operacao varchar(255) not null);
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+

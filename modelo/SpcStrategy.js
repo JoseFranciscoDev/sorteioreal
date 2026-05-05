@@ -1,4 +1,7 @@
 const ClienteSpc = require("./ClienteSpc.js")
+const SpcDao = require("../modeloDao/SpcDao.js");
+const connection = require("../databases/conexao.js");
+
 class SpcStrategy {
 
     map(dados) {
@@ -21,7 +24,38 @@ class SpcStrategy {
     }
 
 
-    salvar(dados) {
+   async salvar(dados) {
+		if (!dados || dados.length === 0) {
+		           return;
+		       }
+
+
+		       const dadosBanco = dados.map(cliente => [
+		           cliente.status,
+		           cliente.id,
+		           cliente.nomeDevedor,
+		           cliente.tipoPessoa,
+		           cliente.documento,
+		           cliente.natureza,
+		           cliente.valor,
+		           Data.dataParaBancoDeDados(cliente.dataCadastro),
+		           Data.dataParaBancoDeDados(cliente.dataOcorrenciaVencimento),
+		           cliente.operacao
+		       ]);
+
+
+
+		       try {
+
+		           const spcDao = new SpcDao(connection);
+		           const resultado = await spcDao.adiciona(dadosBanco);
+		           console.log(`Sucesso! ${resultado.affectedRows} registros inseridos.`);
+		           return resultado;
+
+		       } catch (erro) {
+		           return erro;
+		       }
+		
 
     }
 }
