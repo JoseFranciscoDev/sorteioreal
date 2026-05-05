@@ -2,7 +2,7 @@ const Abstract = require("./Abstract.js");
 
 class CupomDao extends Abstract {
 
-    static async getPedidos() {
+    static async getPedidos(limit = 10, offset = 0) {
         const conn = await this.connection();
 
         const texto = `select codigo,
@@ -16,8 +16,9 @@ class CupomDao extends Abstract {
                         nome,
                         cpf,
                         usuario
-                          from cupons order by pedido desc;`;
-        const [resultado] = await conn.query(texto);
+                          from cupons order by pedido desc limit ? offset ?`;
+        const [resultado] = await conn.query(texto, [limit, offset]);
+        console.log(resultado)
         return resultado;
     }
 

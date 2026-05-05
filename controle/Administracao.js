@@ -35,6 +35,7 @@ class Administracao {
 
     static async listarPedidos(req, res) {
         try {
+            const { pagina = 1, porPagina = 10 } = req.query
             const pedidos = await CupomDao.getPedidos()
             const modulos = NavBar.getModulos();
             const codigosPedidos = pedidos.map(pedido => pedido.pedido)
