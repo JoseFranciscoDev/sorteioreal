@@ -16,10 +16,12 @@ class CupomDao extends Abstract {
                         nome,
                         cpf,
                         usuario
-                          from cupons order by pedido desc limit ? offset ?`;
+                          from cupons order by pedido desc limit ? offset ?;
+                        
+                        select count(1) as totalPedidos from cupons;`;
         const [resultado] = await conn.query(texto, [limit, offset]);
-        console.log(resultado)
-        return resultado;
+        const [pedidos, contagem] = resultado;
+        return { pedidos, total: contagem[0].totalPedidos };
     }
 
     static async getCupomCodigo(pedido) {

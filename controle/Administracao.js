@@ -1,8 +1,7 @@
 const { BASE_URL } = require("../configs.json");
 const UsuariosDao = require("../modelo/UsuariosDao.js");
 const NavBar = require("../utilitarios/NavBar.js");
-const CupomDao = require("../modelo/CupomDao.js");
-const CuponsClientesDao = require("../modelo/CuponsClientesDao.js")
+const AdministracaoService = require("../services/AdministracaoService.js")
 class Administracao {
     static async index(req, res) {
         try {
@@ -35,23 +34,18 @@ class Administracao {
 
     static async listarPedidos(req, res) {
         try {
-            const { pagina = 1, porPagina = 10 } = req.query
-            const pedidos = await CupomDao.getPedidos()
+            const { pagina = 1, porPagina = 10 } = req.query;
+            const paginaInt = parseInt(pagina);
+            const porPaginaInt = parseInt(porPagina);
             const modulos = NavBar.getModulos();
-            const codigosPedidos = pedidos.map(pedido => pedido.pedido)
-            const verificarCuponsImpressos = await CuponsClientesDao.verificarCuponsImpressos(codigosPedidos)
-
-            // Indexa pelo codigoPedido para evitar mapeamento errado por posição
-            const cuponsMap = new Map(verificarCuponsImpressos.map(r => [r.codigoPedido, r]))
-            for (const pedido of pedidos) {
-                const info = cuponsMap.get(pedido.pedido)
-                pedido.todoCuponsImpressos = info ? Boolean(info.todosCuponImpressos) : false
-                pedido.quantidadeImpressa = info.quantidadeImpressa
-            }
+            const { pedidos, ultimaPagina } = await AdministracaoService.getPedidos(paginaInt, porPaginaInt);
 
             res.render("pedidos.njk", {
                 pedidos,
+                ultimaPagina,
                 modulos,
+                paginaInt,
+                porPaginaInt,
                 BASE_URL
             });
         } catch (erro) {
