@@ -1,6 +1,7 @@
 const ClienteSpc = require("./ClienteSpc.js")
 const SpcDao = require("../modeloDao/SpcDao.js");
 const connection = require("../databases/conexao.js");
+const Data = require("../utilitarios/Data.js");
 
 class SpcStrategy {
 
@@ -31,19 +32,22 @@ class SpcStrategy {
 
 
 		       const dadosBanco = dados.map(cliente => [
-		           cliente.status,
-		           cliente.id,
-		           cliente.nomeDevedor,
-		           cliente.tipoPessoa,
-		           cliente.documento,
-		           cliente.natureza,
-		           cliente.valor,
-		           Data.dataParaBancoDeDados(cliente.dataCadastro),
-		           Data.dataParaBancoDeDados(cliente.dataOcorrenciaVencimento),
-		           cliente.operacao
+		           cliente.codigoSpc,
+		           cliente.cpfCnpj,
+		           cliente.consumidor,
+		           cliente.contrato,
+		           Data.dataParaBancoDeDados(cliente.dataVencimento),
+		           cliente.valorDebito,
+		           Data.dataParaBancoDeDados(cliente.dataInclusao),
+		           cliente.horaInclusao,
+		           Data.dataParaBancoDeDados(cliente.dataExclusao),
+				   cliente.tipoNotificacao,
+				   cliente.codigoNotificacao,
+				   cliente.codAssociado
+		           
 		       ]);
 
-
+				//console.log(dadosBanco);
 
 		       try {
 
