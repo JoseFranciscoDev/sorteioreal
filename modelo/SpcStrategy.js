@@ -1,6 +1,7 @@
 const ClienteSpc = require("./ClienteSpc.js")
 const SpcDao = require("../modeloDao/SpcDao.js");
 const connection = require("../databases/conexao.js");
+const Data = require("../utilitarios/Data.js");
 
 class SpcStrategy {
 
@@ -35,18 +36,18 @@ class SpcStrategy {
 		           cliente.cpfCnpj,
 		           cliente.consumidor,
 		           cliente.contrato,
-		           cliente.dataVencimento,
+		           Data.dataParaBancoDeDados(cliente.dataVencimento),
 		           cliente.valorDebito,
-		           cliente.dataInclusao,
+		           Data.dataParaBancoDeDados(cliente.dataInclusao),
 		           cliente.horaInclusao,
-		           cliente.dataExclusao,
+		           Data.dataParaBancoDeDados(cliente.dataExclusao),
 				   cliente.tipoNotificacao,
 				   cliente.codigoNotificacao,
 				   cliente.codAssociado
 		           
 		       ]);
 
-			//	console.log(dadosBanco);
+				//console.log(dadosBanco);
 
 		       try {
 

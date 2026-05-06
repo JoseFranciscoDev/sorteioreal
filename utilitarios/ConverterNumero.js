@@ -5,9 +5,9 @@ class ConverterNumero {
 
         if (!texto) return 0;
 
-        let valor = texto.toString().replace("R$", "").trim();
+        let valor = texto.toString().replace("R$", "").trim().split(".").join("");
 
-        valor = valor.split(",").join("");
+        valor = valor.replace(",", ".");
 
         const resultado = parseFloat(valor);
 
