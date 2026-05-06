@@ -31,19 +31,22 @@ class SpcStrategy {
 
 
 		       const dadosBanco = dados.map(cliente => [
-		           cliente.status,
-		           cliente.id,
-		           cliente.nomeDevedor,
-		           cliente.tipoPessoa,
-		           cliente.documento,
-		           cliente.natureza,
-		           cliente.valor,
-		           Data.dataParaBancoDeDados(cliente.dataCadastro),
-		           Data.dataParaBancoDeDados(cliente.dataOcorrenciaVencimento),
-		           cliente.operacao
+		           cliente.codigoSpc,
+		           cliente.cpfCnpj,
+		           cliente.consumidor,
+		           cliente.contrato,
+		           cliente.dataVencimento,
+		           cliente.valorDebito,
+		           cliente.dataInclusao,
+		           cliente.horaInclusao,
+		           cliente.dataExclusao,
+				   cliente.tipoNotificacao,
+				   cliente.codigoNotificacao,
+				   cliente.codAssociado
+		           
 		       ]);
 
-
+			//	console.log(dadosBanco);
 
 		       try {
 
