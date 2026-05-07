@@ -136,7 +136,7 @@ CREATE TABLE IF NOT EXISTS pagamentos (
     codigoVisita INT NOT NULL UNIQUE,
     contrato VARCHAR(50) NOT NULL,
     parcelas INT NOT NULL,
-    valor DECIMAL(10,2) NOT NULL,
+    valor int NOT NULL,
     CONSTRAINT fk_pagamento_visita
         FOREIGN KEY (codigoVisita) REFERENCES visitas(codigo) ON DELETE CASCADE
 );
