@@ -60,9 +60,19 @@ class Data {
         const dia = data.getDate().toString().padStart(2, "0");
         const mes = (data.getMonth() + 1).toString().padStart(2, "0");
         const ano = data.getFullYear();
-        console.log(dia);
+		
+		const horas = data.getHours().toString().padStart(2, "0");
+		const minutos = data.getMinutes().toString().padStart("2", "0");
+		const seg = data.getSeconds().toString().padStart(2,"0");
+		
+		if (horas != 0 || minutos != 0 || seg != 0) {
+			
+			return `${dia}/${mes}/${ano} ${horas}:${minutos}:${seg}`;
+		}
+		       
         return `${dia}/${mes}/${ano}`;
     }
+	
 
   static dataParaBancoDeDados(data) {
 
@@ -73,6 +83,17 @@ class Data {
         const ano = data.getFullYear();
         const mes = (data.getMonth() + 1).toString().padStart(2, "0");
         const dia = data.getDate().toString().padStart(2, "0");
+		
+		
+		const temhora = data.getHours() != 0 || data.getMinutes() != 0 || data.getSeconds() != 0;
+		
+		if (temhora) {
+			const hora = data.getHours().toString().padStart(2, "0");
+			const min = data.getMinutes().toString().padStart(2,"0");
+			const seg = data.getSeconds().toString().padStart(2,"0");
+			
+			return `${ano}-${mes}-${dia} ${hora}:${min}:${seg}`;
+		}
 
         return `${ano}-${mes}-${dia}`;
   }
