@@ -1,7 +1,7 @@
 const ClienteSerasa = require("./ClienteSerasa.js");
 const SerasaDao = require("../modeloDao/SerasaDao.js");
 const Data = require("../utilitarios/Data.js");
-const conexao = require("../databases/conexao.js");
+const connection = require("../databases/conexao.js");
 
 class SerasaStrategy {
 
@@ -47,7 +47,7 @@ class SerasaStrategy {
 
         try {
 
-            const serasaDao = new SerasaDao(conexao);
+            const serasaDao = new SerasaDao(connection);
             const resultado = await serasaDao.adiciona(dadosBanco);
             console.log(`Sucesso! ${resultado.affectedRows} registros inseridos.`);
             return resultado;
@@ -58,6 +58,19 @@ class SerasaStrategy {
 
 
     }
+	
+	
+	async deletar() {
+		try {
+			const serasaDao = new SerasaDao(connection);
+			const resultado = serasaDaoDao.remove();
+			return resultado;
+		} catch(erro) {
+			return erro;
+		}
+		
+	}
+	
 }
 
 

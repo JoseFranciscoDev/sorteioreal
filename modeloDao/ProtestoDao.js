@@ -28,6 +28,20 @@ class ProtestoDao {
         }
 
     }
+	
+	async remove() {
+		const sql = "select from protesto";
+		try {
+			
+			const conn = await this.connection();
+			const [resultado] = await conn.query(sql);
+			return resultado;
+			
+		} catch(erro) {
+			console.error(erro);
+			throw new Error("Erro ao tentar remover a tabela protesto");
+		}
+	}
 
 
     static async criarTabelaProtesto(connection) {
