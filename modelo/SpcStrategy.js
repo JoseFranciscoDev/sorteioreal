@@ -62,6 +62,20 @@ class SpcStrategy {
 		
 
     }
+	
+	async deletar() {
+		try {
+			const spcDao = new SpcDao(connection);
+			const resultado = SpcDao.remove();
+			return resultado;
+		} catch(erro) {
+			return erro;
+		}
+		
+	}
+	
+	
+	
 }
 
 
