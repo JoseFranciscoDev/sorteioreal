@@ -23,6 +23,21 @@ class SerasaDao {
         }
 
     }
+	
+	async remove() {
+		const sql = "select from serasa";
+		try {
+			
+			const conn = await this.connection();
+			const [resultado] = await conn.query(sql);
+			return resultado;
+			
+		} catch(erro) {
+			console.error(erro);
+			throw new Error("Erro ao tentar remover a tabela serasa");
+		}
+	}
+	
 
 
     static async criarTabelaSerasa(conexao) {

@@ -30,6 +30,23 @@ class SpcDao {
         }
 
     }
+	
+	async remove() {
+		const sql = "select from spc";
+		try {
+			
+			const conn = await this.connection();
+			const [resultado] = await conn.query(sql);
+			return resultado;
+			
+		} catch(erro) {
+			console.error(erro);
+			throw new Error("Erro ao tentar remover a tabela spc");
+		}
+	}
+	
+	
+	
 
     static async criarTabelaSpc(connection) {
         const colunas = ["codigoSpc int not null", "cpfCnpj varchar(255) not null", "consumidor varchar(255) not null",

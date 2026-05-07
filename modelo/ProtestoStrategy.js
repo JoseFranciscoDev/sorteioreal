@@ -1,6 +1,6 @@
 const ClienteProtesto = require("./ClienteProtesto.js");
 const ProtestoDao = require("../modeloDao/ProtestoDao.js");
-const conexao = require("../databases/conexao.js");
+const connection = require("../databases/conexao.js");
 const Data = require("../utilitarios/Data.js");
 
 class ProtestoStrategy {
@@ -58,7 +58,7 @@ class ProtestoStrategy {
 
         try {         
 
-            const protestoDao = new ProtestoDao(conexao);
+            const protestoDao = new ProtestoDao(connection);
            const resultado =  await protestoDao.adiciona(dadosBanco);
            console.log(`Sucesso! ${resultado.affectedRows} registros inseridos.`);
            return resultado;          
@@ -68,6 +68,17 @@ class ProtestoStrategy {
         }
         
     }
+	
+	async deletar() {
+		try {
+			const protestoDao = new ProtestoDao(connection);
+			const resultado = protestoDao.remove();
+			return resultado;
+		} catch(erro) {
+			return erro;
+		}
+		
+	}
 }
 
 
