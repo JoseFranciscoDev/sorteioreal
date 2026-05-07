@@ -147,16 +147,27 @@ class Conciliacao {
         const visitas = await ConciliacaoDao.getVisitasPorCodigoRota(rotaId);
         const codigosClientes = visitas.map(visita => visita.codigoCliente);
         const clientes = await ClienteNerusDao.getClientes(codigosClientes);
-
+        const pagamentos = await ConciliacaoDao.getPagamentos()
+        console.log(pagamentos);
+        const pagamentosMap = new Map();
         const clienteMap = new Map();
         clientes.forEach(cliente => {
             clienteMap.set(cliente.codigo, cliente);
+
+        });
+
+        pagamentos.forEach(pagamento => {
+            pagamentosMap.set(pagamento.codigoVisita, pagamento);
         });
 
         visitas.forEach(visita => {
             const cliente = clienteMap.get(visita.codigoCliente);
+            const pagamento = pagamentosMap.get(visita.codigo)
             if (cliente) {
                 visita.nomeCliente = cliente.nome;
+            }
+            if (pagamento) {
+                visita.pagamento = pagamento.valor
             }
         });
         res.render("conciliacao/visualizarVisitas.njk", { modulos, BASE_URL, visitas, rotaId });

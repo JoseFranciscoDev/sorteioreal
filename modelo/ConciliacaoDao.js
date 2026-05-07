@@ -193,6 +193,7 @@ class ConciliacaoDao extends Abstract {
         WHERE rotas.codigo = ?
             `;
         const [resultado] = await conn.query(sql, codigoRota)
+        console.log(resultado)
         return resultado
     };
 
@@ -204,6 +205,16 @@ class ConciliacaoDao extends Abstract {
         const dados = [pagamento.codigoVisita, pagamento.contrato, pagamento.parcelas, pagamento.valor];
         const [resultado] = await conn.query(sql, dados);
         return resultado;
+    }
+
+    static async getPagamentos() {
+        const conn = await this.connection();
+        const sql = `
+            SELECT * FROM pagamentos;
+        `;
+        const [resultado] = await conn.query(sql);
+
+        return resultado
     }
 
     static async setRenegociacao(renegociacao) {
