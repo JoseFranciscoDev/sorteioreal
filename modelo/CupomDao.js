@@ -2,7 +2,7 @@ const Abstract = require("./Abstract.js");
 
 class CupomDao extends Abstract {
 
-    static async getPedidos() {
+    static async getPedidos(limit = 10, offset = 0) {
         const conn = await this.connection();
 
         const texto = `select codigo,
@@ -16,9 +16,12 @@ class CupomDao extends Abstract {
                         nome,
                         cpf,
                         usuario
-                          from cupons;`;
-        const [resultado] = await conn.query(texto);
-        return resultado;
+                          from cupons order by pedido desc limit ? offset ?;
+                        
+                        select count(1) as totalPedidos from cupons;`;
+        const [resultado] = await conn.query(texto, [limit, offset]);
+        const [pedidos, contagem] = resultado;
+        return { pedidos, total: contagem[0].totalPedidos };
     }
 
     static async getCupomCodigo(pedido) {

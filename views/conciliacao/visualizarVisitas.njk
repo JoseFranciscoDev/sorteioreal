@@ -5,85 +5,81 @@
 {% endblock %}
 {% block principal %}
     <div class="viz-page">
-        <div class="viz-header">
-            <i class="bx bx-list-ul"></i>
-            <div>
-                <h1>Dashboard Conciliação</h1>
-                <p>Visualização de Visitas Técnicas e Veículos cadastrados.</p>
+        <div class="viz-header" style="justify-content: space-between;">
+            <div style="display: flex; align-items: center; gap: 15px;">
+                <i class="bx bx-briefcase-alt"></i>
+                <div>
+                    <h1>Visitas da Rota #{{ rotaId }}</h1>
+                </div>
             </div>
+            <a href="{{ BASE_URL }}/conciliacao/visualizar" class="btn-action" style="background: #999;">
+                <i class="bx bx-arrow-back"></i>
+                Voltar
+            </a>
         </div>
-        <!-- Seção Veículos -->
-        <div class="section-block">
-            <div class="section-title">
-                <i class="bx bx-car"></i>
-                Veículos Cadastrados
+        <!-- Lista de Corridas (Cards) -->
+        <div class="section-block" style="background: transparent; box-shadow: none; padding: 0;">
+            <div class="corridas-grid">
+                {% for visita in visitas %}
+                    <div class="corrida-card">
+                        <div class="corrida-card-header">
+                            <span class="corrida-id">Visita #{{ visita.codigo }}</span>
+                            <span class="corrida-horario">
+                                <i class="bx bx-time"></i>
+                                {{ visita.horario }}</span>
+                        </div>
+                        <div class="corrida-cli">
+                            <i class="bx bx-user"></i>
+                            {% if visita.nomeCliente %}
+                                {{ visita.nomeCliente }}
+                            {% else %}
+                                {{ visita.codigoCliente }}
+                            {% endif %}
+                        </div>
+                        <div class="corrida-end">
+                            <i class="bx bx-map"></i>
+                            {{ visita.endereco }}</div>
+                        <div class="corrida-tags">
+                            <span class="tag-simples">
+                                <i class="bx bx-target-lock"></i>
+                                Encontrado:
+                                <span class="{% if visita.encontrado == 1 %}badge badge-sim">
+                                    Sim {% else %}badge badge-nao"> Não{% endif %}
+                            </span>
+                        </span>
+                        <span class="tag-simples">
+                            <i class="bx bx-handshake"></i>
+                            Renegociado:
+                            {% if visita.renegociado == 1 %}
+                                <span class="badge badge-sim">Sim
+                                {% else %}
+                                    <span class="badge badge-nao">
+                                        Não
+                                    {% endif %}
+                                </span>
+                            </span>
+                        </div>
+                        <div class="corrida-footer">
+                            <span>Pagamento:
+                                <span style="font-weight: 500; font-size: 0.85rem; color: var(--text-muted);">{{ visita.pagou }}</span>
+                            </span>
+                            <span style="color: var(--primary);">R$ {{ visita.valor }}</span>
+                        </div>
+                        <div style="margin-top: 12px;">
+                            <a href="{{ BASE_URL }}/conciliacao/visitas/{{ visita.codigo }}" class="btn-action" style="width: 100%; justify-content: center;">
+                                <i class="bx bx-show"></i>
+                                Ver detalhes
+                            </a>
+                        </div>
+                    </div>
+                {% else %}
+                    <div style="grid-column: 1 / -1; text-align: center; color: var(--text-muted); padding: 40px; background: #fff; border-radius:
+                            12px; border: 1px dashed var(--border);">
+                        <i class="bx bx-ghost" style="font-size: 3rem; margin-bottom: 10px;"></i>
+                        <p>Nenhuma visita cadastrada para esta rota.</p>
+                    </div>
+                {% endfor %}
             </div>
-            <table class="viz-table">
-                <thead>
-                    <tr>
-                        <th>Nome</th>
-                        <th>Placa</th>
-                        <th>Modelo</th>
-                    </tr>
-                </thead>
-                <tbody>
-                    {% for veiculo in veiculos %}
-                        <tr>
-                            <td>
-                                <strong>{{ veiculo.nome }}</strong>
-                            </td>
-                            <td>{{ veiculo.placa }}</td>
-                            <td>{{ veiculo.modelo }}</td>
-                        </tr>
-                    {% else %}
-                        <tr>
-                            <td colspan="4" style="text-align: center; color: var(--text-muted);">Nenhum veículo cadastrado.</td>
-                        </tr>
-                    {% endfor %}
-                </tbody>
-            </table>
-        </div>
-        <!-- Seção Visitas -->
-        <div class="section-block">
-            <div class="section-title">
-                <i class="bx bx-map-pin"></i>
-                Rotas Registradas
-            </div>
-            <table class="viz-table">
-                <thead>
-                    <tr>
-                        <th>Data</th>
-                        <th>Cobrador</th>
-                        <th>Veículo</th>
-                        <th>Saída / Retorno</th>
-                        <th>Visitas Realizadas</th>
-                        <th>Ações</th>
-                    </tr>
-                </thead>
-                <tbody>
-                    {% for visita in visitas %}
-                        <tr>
-                            <td>{{ visita.data }}</td>
-                            <td>
-                                <strong>{{ visita.cobrador }}</strong>
-                            </td>
-                            <td>{{ visita.veiculo }}</td>
-                            <td>{{ visita.saida }} - {{ visita.retorno }}</td>
-                            <td>{{ visita.totalCorridas }}</td>
-                            <td>
-                                <a href="{{ BASE_URL }}/conciliacao/visitas/{{ visita.id }}/corridas" class="btn-action">
-                                    <i class="bx bx-show"></i>
-                                    Ver Corridas
-                                </a>
-                            </td>
-                        </tr>
-                    {% else %}
-                        <tr>
-                            <td colspan="6" style="text-align: center; color: var(--text-muted);">Nenhuma visita registrada.</td>
-                        </tr>
-                    {% endfor %}
-                </tbody>
-            </table>
         </div>
     </div>
 {% endblock %}

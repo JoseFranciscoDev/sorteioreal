@@ -7,7 +7,8 @@ async function conexao() {
         user: REAL_BINGO.user,
         database: REAL_BINGO.database,
         port: REAL_BINGO.port,
-        password: REAL_BINGO.password
+        password: REAL_BINGO.password,
+        multipleStatements: true
     };
     if (conn != null) {
         return conn;

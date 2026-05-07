@@ -1,0 +1,223 @@
+{% extends "home.html" %}
+{% block css %}
+    <link rel="stylesheet" href="/css/navbar.css" media="screen"/>
+    <link rel="stylesheet" type="text/css" href="/css/conciliacao/detalheVisita.css" media="screen"/>
+{% endblock %}
+{% block principal %}
+    <div class="detalhe-page">
+
+        <!-- Cabeçalho -->
+        <div class="detalhe-header">
+            <div class="detalhe-header-info">
+                <i class="bx bx-briefcase-alt"></i>
+                <div>
+                    <h1>Visita #{{ visita.codigo }}</h1>
+                    <p>Rota: {{ visita.nomeRota }} &nbsp;|&nbsp; Data: {{ visita.data }}</p>
+                </div>
+            </div>
+            <a href="javascript:history.back()" class="btn-voltar">
+                <i class="bx bx-arrow-back"></i>
+                Voltar
+            </a>
+        </div>
+
+        <!-- ── Informações Gerais ── -->
+        <div class="detalhe-section">
+            <div class="detalhe-section-title">
+                <i class="bx bx-info-circle"></i>
+                Informações Gerais
+            </div>
+            <div class="info-grid">
+                <div class="info-item">
+                    <span class="info-label">Cliente</span>
+                    <span class="info-value">
+                        {% if visita.nomeCliente %}
+                            {{ visita.nomeCliente }}
+                        {% else %}
+                            Cód. {{ visita.codigoCliente }}
+                        {% endif %}
+                    </span>
+                </div>
+                <div class="info-item">
+                    <span class="info-label">Endereço</span>
+                    <span class="info-value">{{ visita.endereco }}</span>
+                </div>
+                <div class="info-item">
+                    <span class="info-label">Encontrado</span>
+                    <span class="info-value">
+                        {% if visita.encontrado == 1 %}
+                            <span class="badge badge-sim">Sim</span>
+                        {% else %}
+                            <span class="badge badge-nao">Não</span>
+                        {% endif %}
+                    </span>
+                </div>
+                <div class="info-item">
+                    <span class="info-label">Renegociado</span>
+                    <span class="info-value">
+                        {% if visita.renegociado == 1 %}
+                            <span class="badge badge-sim">Sim</span>
+                        {% else %}
+                            <span class="badge badge-nao">Não</span>
+                        {% endif %}
+                    </span>
+                </div>
+                <div class="info-item">
+                    <span class="info-label">Agendamento</span>
+                    <span class="info-value">
+                        {% if visita.agendamento == 1 %}
+                            <span class="badge badge-agend">Agendado</span>
+                        {% else %}
+                            <span class="badge badge-nao">Não</span>
+                        {% endif %}
+                    </span>
+                </div>
+                {% if visita.agendamento == 1 and visita.data_agendamento %}
+                    <div class="info-item">
+                        <span class="info-label">Data do Agendamento</span>
+                        <span class="info-value">{{ visita.data_agendamento }}</span>
+                    </div>
+                {% endif %}
+                {% if visita.novoTelefone %}
+                    <div class="info-item">
+                        <span class="info-label">Novo Telefone</span>
+                        <span class="info-value">{{ visita.novoTelefone }}</span>
+                    </div>
+                {% endif %}
+                {% if visita.coordenadas %}
+                    <div class="info-item">
+                        <span class="info-label">Coordenadas</span>
+                        <span class="info-value">{{ visita.coordenadas }}</span>
+                    </div>
+                {% endif %}
+            </div>
+        </div>
+
+        <!-- ── Logística ── -->
+        <div class="detalhe-section">
+            <div class="detalhe-section-title">
+                <i class="bx bx-trip"></i>
+                Logística da Visita
+            </div>
+            <div class="info-grid">
+                <div class="info-item">
+                    <span class="info-label">Saída</span>
+                    <span class="info-value">{{ visita.saida if visita.saida else '—' }}</span>
+                </div>
+                <div class="info-item">
+                    <span class="info-label">Chegada</span>
+                    <span class="info-value">{{ visita.chegada if visita.chegada else '—' }}</span>
+                </div>
+                <div class="info-item">
+                    <span class="info-label">KM Início</span>
+                    <span class="info-value">{{ visita.kmComeco if visita.kmComeco else '—' }}</span>
+                </div>
+                <div class="info-item">
+                    <span class="info-label">KM Final</span>
+                    <span class="info-value">{{ visita.kmFinal if visita.kmFinal else '—' }}</span>
+                </div>
+                <div class="info-item">
+                    <span class="info-label">Veículo (código)</span>
+                    <span class="info-value {% if not visita.codigoVeiculo %}muted{% endif %}">
+                        {{ visita.codigoVeiculo if visita.codigoVeiculo else 'Não informado' }}
+                    </span>
+                </div>
+                <div class="info-item">
+                    <span class="info-label">Cobrador (código)</span>
+                    <span class="info-value {% if not visita.codigoCobrador %}muted{% endif %}">
+                        {{ visita.codigoCobrador if visita.codigoCobrador else 'Não informado' }}
+                    </span>
+                </div>
+            </div>
+        </div>
+
+        <!-- ── Fotos ── -->
+        <div class="detalhe-section">
+            <div class="detalhe-section-title">
+                <i class="bx bx-image-alt"></i>
+                Fotos da Visita
+            </div>
+            <div class="fotos-grid">
+
+                <!-- Foto da Residência -->
+                <div class="foto-card">
+                    <div class="foto-label">
+                        <i class="bx bx-home"></i>
+                        Foto da Residência
+                    </div>
+                    {% if visita.fotoResidenciaUrl %}
+                        <img
+                            class="foto-img"
+                            src="/{{ visita.fotoResidenciaUrl }}"
+                            alt="Foto da Residência"
+                            onclick="abrirLightbox(this.src)"
+                            title="Clique para ampliar"
+                        />
+                    {% else %}
+                        <div class="foto-vazia">
+                            <i class="bx bx-image-add"></i>
+                            <span>Nenhuma foto de residência</span>
+                        </div>
+                    {% endif %}
+                </div>
+
+                <!-- Foto do Documento -->
+                <div class="foto-card">
+                    <div class="foto-label">
+                        <i class="bx bx-id-card"></i>
+                        Foto do Documento
+                    </div>
+                    {% if visita.fotoDocUrl %}
+                        <img
+                            class="foto-img"
+                            src="/{{ visita.fotoDocUrl }}"
+                            alt="Foto do Documento"
+                            onclick="abrirLightbox(this.src)"
+                            title="Clique para ampliar"
+                        />
+                    {% else %}
+                        <div class="foto-vazia">
+                            <i class="bx bx-image-add"></i>
+                            <span>Nenhuma foto de documento</span>
+                        </div>
+                    {% endif %}
+                </div>
+
+            </div>
+        </div>
+
+        <!-- ── Observações ── -->
+        <div class="detalhe-section">
+            <div class="detalhe-section-title">
+                <i class="bx bx-comment-detail"></i>
+                Observações
+            </div>
+            {% if visita.observacoes %}
+                <div class="obs-box">{{ visita.observacoes }}</div>
+            {% else %}
+                <div class="obs-box vazia">Nenhuma observação registrada.</div>
+            {% endif %}
+        </div>
+
+    </div>
+
+    <!-- ── Lightbox ── -->
+    <div class="lightbox-overlay" id="lightbox" onclick="fecharLightbox()">
+        <span class="lightbox-close" onclick="fecharLightbox()">&times;</span>
+        <img class="lightbox-img" id="lightbox-img" src="" alt="Foto ampliada" onclick="event.stopPropagation()"/>
+    </div>
+
+    <script>
+        function abrirLightbox(src) {
+            document.getElementById('lightbox-img').src = src;
+            document.getElementById('lightbox').classList.add('active');
+        }
+        function fecharLightbox() {
+            document.getElementById('lightbox').classList.remove('active');
+            document.getElementById('lightbox-img').src = '';
+        }
+        document.addEventListener('keydown', function(e) {
+            if (e.key === 'Escape') fecharLightbox();
+        });
+    </script>
+{% endblock %}

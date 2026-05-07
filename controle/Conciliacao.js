@@ -1,15 +1,11 @@
 const { BASE_URL } = require("../configs.json");
 const NavBar = require("../utilitarios/NavBar.js");
 const ConciliacaoDao = require("../modelo/ConciliacaoDao.js");
+const ClienteNerusDao = require("../modelo/ClienteNerusDao.js")
 const fs = require("fs");
 const path = require("path");
-
-
-function nullifyEmpty(obj) {
-    return Object.fromEntries(
-        Object.entries(obj).map(([k, v]) => [k, v === '' ? null : v])
-    );
-}
+const NullSeVazio = require("../utilitarios/NullSeVazio.js")
+const Data = require("../utilitarios/Data.js")
 
 class Conciliacao {
 
@@ -65,16 +61,17 @@ class Conciliacao {
 
     static async cadastroVisita(req, res) {
         const modulos = NavBar.getModulos();
-        const cobrador = req.session.usuario.codigo
-        const veiculos = await ConciliacaoDao.getVeiculos()
-        const rotas = await ConciliacaoDao.getRotas()
+        const cobrador = req.session.usuario.codigo;
+        const mensagem = req.query.mensagem;
+        console.log(mensagem)
+        const veiculos = await ConciliacaoDao.getVeiculos();
+        const rotas = await ConciliacaoDao.getRotas();
         res.render("conciliacao/cadastroVisita.njk", { modulos, BASE_URL, cobrador, veiculos, rotas });
     }
 
     static async cadastroVisitaPost(req, res) {
         try {
-            const dados = nullifyEmpty(req.body);
-
+            const dados = NullSeVazio(req.body);
             const resultado = await ConciliacaoDao.setVisita(dados);
             const visitaId = resultado.insertId;
 
@@ -135,33 +132,52 @@ class Conciliacao {
 
     static async visualizar(req, res) {
         const modulos = NavBar.getModulos();
-
-        // Dados Mockados
+        const { page = 1, porPagina = 10 } = req.query
+        const offset = (page - 1) * porPagina
         const veiculos = await ConciliacaoDao.getVeiculos()
-        console.log(veiculos)
 
-        const visitas = [
-            { id: 1, data: "15/04/2026", cobrador: "João Silva", saida: "08:00", retorno: "12:00", veiculo: "ABC-1234", totalCorridas: 3 },
-            { id: 2, data: "15/04/2026", cobrador: "Maria Souza", saida: "13:30", retorno: "18:00", veiculo: "XYZ-9876", totalCorridas: 5 }
-        ];
-
-        res.render("conciliacao/visualizarVisitas.njk", { modulos, BASE_URL, veiculos, visitas });
+        const rotas = await ConciliacaoDao.getRotas(offset, porPagina)
+        res.render("conciliacao/visualizarRotas.njk", { modulos, BASE_URL, veiculos, rotas });
     }
 
-    static visualizarCorridas(req, res) {
+    static async visualizarVisitas(req, res) {
         const modulos = NavBar.getModulos();
-        const visitaId = req.params.id;
+        const rotaId = req.params.codigo;
 
-        // Dados Mockados
-        const visita = { id: visitaId, data: "15/04/2026", cobrador: "João Silva", veiculo: "ABC-1234" };
+        const visitas = await ConciliacaoDao.getVisitasPorCodigoRota(rotaId);
+        const codigosClientes = visitas.map(visita => visita.codigoCliente);
+        const clientes = await ClienteNerusDao.getClientes(codigosClientes);
 
-        const corridas = [
-            { id: 101, horario: "08:30", cliente: "Cod: 12345", endereco: "Rua das Flores, 123", encontrado: "Sim", renegociado: "Não", pagou: "Não", valor: "0,00" },
-            { id: 102, horario: "09:15", cliente: "Cod: 67890", endereco: "Av. Principal, 456", encontrado: "Sim", renegociado: "Sim", pagou: "Sim", valor: "150,00" },
-            { id: 103, horario: "10:00", cliente: "Cod: 54321", endereco: "Beco Escuro, 78", encontrado: "Não", renegociado: "Não", pagou: "Não", valor: "0,00" },
-        ];
+        const clienteMap = new Map();
+        clientes.forEach(cliente => {
+            clienteMap.set(cliente.codigo, cliente);
+        });
 
-        res.render("conciliacao/visualizarCorridas.njk", { modulos, BASE_URL, visita, corridas });
+        visitas.forEach(visita => {
+            const cliente = clienteMap.get(visita.codigoCliente);
+            if (cliente) {
+                visita.nomeCliente = cliente.nome;
+            }
+        });
+        res.render("conciliacao/visualizarVisitas.njk", { modulos, BASE_URL, visitas, rotaId });
+    }
+
+    static async detalheVisita(req, res) {
+        const modulos = NavBar.getModulos();
+        const codigoVisita = req.params.codigo;
+
+        const visita = await ConciliacaoDao.getVisitaPorCodigo(codigoVisita);
+        visita.data = Data.dataParaTexto(visita.data)
+        if (!visita) {
+            return res.status(404).render("erro404ou500.njk", { modulos, BASE_URL });
+        }
+
+        const clientes = await ClienteNerusDao.getClientes([visita.codigoCliente]);
+        if (clientes && clientes.length > 0) {
+            visita.nomeCliente = clientes[0].nome;
+        }
+
+        res.render("conciliacao/detalheVisita.njk", { modulos, BASE_URL, visita });
     }
 }
 

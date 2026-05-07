@@ -52,7 +52,7 @@ class PedidoDao extends AbstractNerusAWS {
                                 else 0
                                 end as e_funcionario
                             from custp
-                            left join emp on (custp.cpf_cgc=emp.cpf) 
+                            left join emp on (custp.cpf_cgc=emp.cpf and emp.status=1) 
                             where custp.no = ?`;
         const [cliente] = await conn.query(texto, [pedido.codigo]);
 

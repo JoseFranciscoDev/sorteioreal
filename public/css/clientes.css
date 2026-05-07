@@ -304,6 +304,19 @@ nav.open ~ .overlay {
     visibility: visible;
 }
 
+/*Links de navegacao*/
+.links-navegacao {
+    margin-top: 3%;
+    display: flex;
+    justify-content: center;
+    gap: 15px;
+}
+
+.links-navegacao a {
+    text-decoration: none;
+    font-size: 20px;
+}
+
 /* ---- Responsivo ---- */
 @media (max-width: 768px) {
     .admin-header {

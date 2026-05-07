@@ -1,0 +1,87 @@
+{% extends "home.html" %}
+{% block css %}
+    <link rel="stylesheet" href="/css/navbar.css" media="screen"/>
+    <link rel="stylesheet" type="text/css" href="/css/conciliacao/visualizar.css" media="screen"/>
+{% endblock %}
+{% block principal %}
+    <div class="viz-page">
+        <div class="viz-header">
+            <i class="bx bx-list-ul"></i>
+            <div>
+                <h1>Dashboard Conciliação</h1>
+                <p>Visualização de Visitas Técnicas e Veículos cadastrados.</p>
+            </div>
+        </div>
+        <!-- Seção Veículos -->
+        <div class="section-block">
+            <div class="section-title">
+                <i class="bx bx-car"></i>
+                Veículos Cadastrados
+            </div>
+            <table class="viz-table">
+                <thead>
+                    <tr>
+                        <th>Nome</th>
+                        <th>Placa</th>
+                        <th>Modelo</th>
+                    </tr>
+                </thead>
+                <tbody>
+                    {% for veiculo in veiculos %}
+                        <tr>
+                            <td>
+                                <strong>{{ veiculo.nome }}</strong>
+                            </td>
+                            <td>{{ veiculo.placa }}</td>
+                            <td>{{ veiculo.modelo }}</td>
+                        </tr>
+                    {% else %}
+                        <tr>
+                            <td colspan="4" style="text-align: center; color: var(--text-muted);">Nenhum veículo cadastrado.</td>
+                        </tr>
+                    {% endfor %}
+                </tbody>
+            </table>
+        </div>
+        <!-- Seção Visitas -->
+        <div class="section-block">
+            <div class="section-title">
+                <i class="bx bx-map-pin"></i>
+                Rotas Registradas
+            </div>
+            <table class="viz-table">
+                <thead>
+                    <tr>
+                        <th>codigo da Rota</th>
+                        <th>Nome</th>
+                        <th>Quantidade de Visitas</th>
+                        <th>Ações</th>
+                    </tr>
+                </thead>
+                <tbody>
+                    {% for rota in rotas %}
+                        <tr>
+                            <td>{{ rota.codigoRota }}</td>
+                            <td>
+                                <strong>{{ rota.nomeRota }}</strong>
+                            </td>
+                            <td>{{ rota.quantidadeDeVisitas }}</td>
+                            {% if rota.quantidadeDeVisitas > 0 %}
+                                <td>
+                                    <a href="{{ BASE_URL }}/conciliacao/rotas/{{ rota.codigoRota }}/visitas" class="btn-action">
+                                        <i class="bx bx-show"></i>
+                                        Ver visitas
+                                    </a>
+                                </td>
+                            {% endif %}
+                        </tr>
+                    {% else %}
+                        <tr>
+                            <td colspan="6" style="text-align: center; color: var(--text-muted);">Nenhuma rota registrada.</td>
+                        </tr>
+                    {% endfor %}
+                </tbody>
+            </table>
+        </div>
+    </div>
+{% endblock %}
