@@ -24,6 +24,17 @@ class SerasaDao {
 
     }
 	
+	async listar() {
+		try {
+			const conn = await this.connection();
+			const [resultado] = await conn.query("SELECT * FROM serasa ORDER BY dataCadastro DESC");
+			return resultado;
+		} catch(erro) {
+			console.error(erro);
+			throw new Error("Erro ao listar registros da tabela serasa");
+		}
+	}
+
 	async remove() {
 		const sql = "select from serasa";
 		try {

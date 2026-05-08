@@ -7,7 +7,9 @@ const ClienteNegativadoProtesto = require("../controle/ClienteNegativadoProtesta
 const clienteNegativadoProtesto = new ClienteNegativadoProtesto();
 
 
-router.post("/negativados", uploadArquivos.array("arquivos", 1),
+router.get("conciliacao/negativados", (req, res) => clienteNegativadoProtesto.listarNegativados(req, res));
+
+router.post("conciliacao/negativados", uploadArquivos.array("arquivos", 1),
     (req, res) => clienteNegativadoProtesto.uploads(req, res));
 
 

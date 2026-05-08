@@ -1,0 +1,263 @@
+@import url('https://fonts.googleapis.com/css2?family=Poppins:wght@300;400;500;600;700&display=swap');
+
+:root {
+    --primary:        #d1121d;
+    --primary-light:  #e63946;
+    --primary-dark:   #a50e17;
+    --bg-page:        #f4f6f9;
+    --bg-card:        #ffffff;
+    --text-main:      #2d2d2d;
+    --text-muted:     #666666;
+    --border:         #e0e0e0;
+    --shadow-sm:      0 2px 6px rgba(0,0,0,0.06);
+    --shadow-md:      0 6px 18px rgba(0,0,0,0.10);
+    --radius-md:      12px;
+    --transition:     all 0.25s ease;
+}
+
+body { overflow-x: hidden; font-family: 'Poppins', sans-serif; background: var(--bg-page); }
+
+/* ── Página ── */
+.neg-page {
+    padding: 90px 24px 60px;
+    max-width: 1200px;
+    margin: 0 auto;
+}
+
+/* ── Header ── */
+.neg-header {
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    flex-wrap: wrap;
+    gap: 16px;
+    margin-bottom: 28px;
+    background: var(--bg-card);
+    border-radius: var(--radius-md);
+    box-shadow: var(--shadow-sm);
+    padding: 18px 24px;
+}
+/* #filtroForm{
+    display: flex;
+} */
+.neg-header-title {
+    display: flex;
+    align-items: center;
+    gap: 12px;
+}
+
+.neg-header-title i {
+    font-size: 2rem;
+    color: var(--primary);
+}
+
+.neg-header-title h1 {
+    font-size: 1.4rem;
+    font-weight: 700;
+    color: var(--text-main);
+    margin: 0;
+}
+
+.neg-header-title p {
+    font-size: 0.82rem;
+    color: var(--text-muted);
+    margin: 2px 0 0;
+}
+
+/* ── Ações do header ── */
+.neg-actions {
+    display: flex;
+    align-items: center;
+    gap: 12px;
+    flex-wrap: wrap;
+}
+
+.neg-select {
+    appearance: none;
+    background: #f7f7f7;
+    border: 1.5px solid var(--border);
+    border-radius: 8px;
+    padding: 8px 36px 8px 14px;
+    font-family: 'Poppins', sans-serif;
+    font-size: 0.85rem;
+    color: var(--text-main);
+    cursor: pointer;
+    background-image: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='12' height='12' viewBox='0 0 12 12'%3E%3Cpath fill='%23666' d='M6 8L1 3h10z'/%3E%3C/svg%3E");
+    background-repeat: no-repeat;
+    background-position: right 12px center;
+    transition: var(--transition);
+}
+
+.neg-select:focus {
+    outline: none;
+    border-color: var(--primary);
+    box-shadow: 0 0 0 3px rgba(209,18,29,0.10);
+}
+
+/* ── Upload inline ── */
+.neg-upload-form {
+    display: flex;
+    align-items: center;
+    gap: 8px;
+    border-left: 1.5px solid var(--border);
+    padding-left: 14px;
+}
+
+.neg-file-label {
+    display: inline-flex;
+    align-items: center;
+    gap: 6px;
+    background: #f0f0f0;
+    border: 1.5px dashed var(--border);
+    border-radius: 8px;
+    padding: 7px 14px;
+    font-size: 0.82rem;
+    color: var(--text-muted);
+    cursor: pointer;
+    transition: var(--transition);
+    white-space: nowrap;
+}
+
+.neg-file-label:hover {
+    border-color: var(--primary);
+    color: var(--primary);
+    background: #fff5f5;
+}
+
+.neg-file-label i { font-size: 1rem; }
+
+#arquivoInput { display: none; }
+
+.neg-file-name {
+    font-size: 0.78rem;
+    color: var(--text-muted);
+    max-width: 130px;
+    overflow: hidden;
+    text-overflow: ellipsis;
+    white-space: nowrap;
+}
+
+.btn-upload {
+    display: inline-flex;
+    align-items: center;
+    gap: 6px;
+    background: var(--primary);
+    color: #fff;
+    padding: 8px 16px;
+    border-radius: 8px;
+    font-family: 'Poppins', sans-serif;
+    font-size: 0.83rem;
+    font-weight: 600;
+    border: none;
+    cursor: pointer;
+    transition: var(--transition);
+    white-space: nowrap;
+}
+
+.btn-upload:hover { background: var(--primary-dark); }
+.btn-upload:disabled { background: #bbb; cursor: not-allowed; }
+
+/* ── Feedback ── */
+.neg-feedback {
+    padding: 10px 16px;
+    border-radius: 8px;
+    font-size: 0.85rem;
+    font-weight: 500;
+    margin-bottom: 16px;
+    display: none;
+}
+
+.neg-feedback.success {
+    background: #e6f4ea;
+    color: #1e8e3e;
+    border: 1px solid #1e8e3e;
+    display: flex;
+    align-items: center;
+    gap: 8px;
+}
+
+.neg-feedback.error {
+    background: #fce8e6;
+    color: #d93025;
+    border: 1px solid #d93025;
+    display: flex;
+    align-items: center;
+    gap: 8px;
+}
+
+/* ── Seção / tabela ── */
+.section-block {
+    background: var(--bg-card);
+    border-radius: var(--radius-md);
+    box-shadow: var(--shadow-sm);
+    padding: 26px;
+    margin-bottom: 30px;
+}
+
+.section-title {
+    font-size: 1rem;
+    font-weight: 600;
+    color: var(--primary);
+    border-bottom: 2px solid rgba(209,18,29,0.10);
+    padding-bottom: 10px;
+    margin-bottom: 20px;
+    display: flex;
+    align-items: center;
+    gap: 8px;
+}
+
+.viz-table { width: 100%; border-collapse: collapse; }
+
+.viz-table th {
+    text-align: left;
+    padding: 12px;
+    font-size: 0.78rem;
+    color: var(--text-muted);
+    font-weight: 600;
+    text-transform: uppercase;
+    background: #fdfdfd;
+    border-bottom: 1.5px solid var(--border);
+}
+
+.viz-table td {
+    padding: 13px 12px;
+    font-size: 0.87rem;
+    color: var(--text-main);
+    border-bottom: 1px solid var(--border);
+    vertical-align: middle;
+}
+
+.viz-table tr:last-child td { border-bottom: none; }
+.viz-table tbody tr { transition: var(--transition); }
+.viz-table tbody tr:hover { background: #fdf7f7; }
+
+/* ── Badges ── */
+.badge {
+    padding: 3px 10px;
+    border-radius: 20px;
+    font-size: 0.73rem;
+    font-weight: 600;
+    display: inline-block;
+    text-transform: uppercase;
+}
+
+.badge-spc     { background: #e8f0fe; color: #1a73e8; border: 1px solid #1a73e8; }
+.badge-serasa  { background: #fce8e6; color: #d93025; border: 1px solid #d93025; }
+.badge-protesto{ background: #fef7e0; color: #e37400; border: 1px solid #e37400; }
+
+/* ── Estado vazio ── */
+.neg-empty {
+    text-align: center;
+    padding: 50px 20px;
+    color: var(--text-muted);
+}
+
+.neg-empty i { font-size: 3rem; margin-bottom: 12px; display: block; }
+.neg-empty p  { font-size: 0.95rem; }
+
+@media (max-width: 768px) {
+    .neg-header   { flex-direction: column; align-items: flex-start; }
+    .neg-actions  { flex-direction: column; align-items: flex-start; width: 100%; }
+    .neg-upload-form { border-left: none; padding-left: 0; border-top: 1.5px solid var(--border); padding-top: 12px; width: 100%; }
+    .viz-table    { display: block; overflow-x: auto; }
+}

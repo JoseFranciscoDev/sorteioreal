@@ -31,6 +31,17 @@ class SpcDao {
 
     }
 	
+	async listar() {
+		try {
+			const conn = await this.connection();
+			const [resultado] = await conn.query("SELECT * FROM spc ORDER BY dataInclusao DESC");
+			return resultado;
+		} catch(erro) {
+			console.error(erro);
+			throw new Error("Erro ao listar registros da tabela spc");
+		}
+	}
+
 	async remove() {
 		const sql = "select from spc";
 		try {

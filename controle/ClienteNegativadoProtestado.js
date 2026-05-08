@@ -1,6 +1,12 @@
 const {lerArquvioUniversal, removerArquivo} = require("../utilitarios/LerArquivo.js");
 const Data = require("../utilitarios/Data.js")
 const ProcessorFactory = require("../modelo/ProcessorFactory.js");
+const NavBar = require("../utilitarios/NavBar.js");
+const { BASE_URL } = require("../configs.json");
+const SerasaDao = require("../modeloDao/SerasaDao.js");
+const SpcDao = require("../modeloDao/SpcDao.js");
+const ProtestoDao = require("../modeloDao/ProtestoDao.js");
+const conexao = require("../databases/conexao.js");
 
 class ClienteNegativadoProtestado {
     
@@ -26,7 +32,7 @@ class ClienteNegativadoProtestado {
         await processor.salvar(ClientesFormatados);
 
        
-        return res.json({mensagem: "Processado com sucesso!", total: ClientesFormatados.length});
+        return res.redirect(`${BASE_URL}/negativados?tipo=${tipoArquivo}&mensagem=Importado com sucesso!`);
 
 
       } catch(error) {
@@ -43,6 +49,51 @@ class ClienteNegativadoProtestado {
        
             
         
+    }
+
+    async listarNegativados(req, res) {
+        const modulos = NavBar.getModulos();
+        const tipo = req.query.tipo || "spc";
+        const mensagem = req.query.mensagem || null;
+
+        const tiposValidos = ["spc", "serasa", "protesto"];
+        if (!tiposValidos.includes(tipo)) {
+            return res.redirect(`${BASE_URL}/negativados?tipo=spc`);
+        }
+
+        try {
+            let clientes = [];
+
+            if (tipo === "spc") {
+                const dao = new SpcDao(conexao);
+                clientes = await dao.listar();
+            } else if (tipo === "serasa") {
+                const dao = new SerasaDao(conexao);
+                clientes = await dao.listar();
+            } else if (tipo === "protesto") {
+                const dao = new ProtestoDao(conexao);
+                clientes = await dao.listar();
+            }
+
+            return res.render("conciliacao/negativados.njk", {
+                modulos,
+                BASE_URL,
+                tipo,
+                clientes,
+                mensagem
+            });
+
+        } catch (erro) {
+            console.error("[ClienteNegativadoProtestado] Erro ao listar:", erro.message);
+            return res.render("conciliacao/negativados.njk", {
+                modulos,
+                BASE_URL,
+                tipo,
+                clientes: [],
+                mensagem: "Erro ao buscar os dados: " + erro.message,
+                erro: true
+            });
+        }
     }
 }
 

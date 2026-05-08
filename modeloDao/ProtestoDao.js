@@ -29,6 +29,17 @@ class ProtestoDao {
 
     }
 	
+	async listar() {
+		try {
+			const conn = await this.connection();
+			const [resultado] = await conn.query("SELECT * FROM protesto ORDER BY data_solicitacao DESC");
+			return resultado;
+		} catch(erro) {
+			console.error(erro);
+			throw new Error("Erro ao listar registros da tabela protesto");
+		}
+	}
+
 	async remove() {
 		const sql = "select from protesto";
 		try {
