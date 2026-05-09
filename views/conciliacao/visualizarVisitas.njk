@@ -12,10 +12,16 @@
                     <h1>Visitas da Rota #{{ rotaId }}</h1>
                 </div>
             </div>
-            <a href="{{ BASE_URL }}/conciliacao/visualizar" class="btn-action" style="background: #999;">
-                <i class="bx bx-arrow-back"></i>
-                Voltar
-            </a>
+            <div class="header-actions">
+                <a href="{{ BASE_URL }}/conciliacao/rotas/{{ rotaId }}/visitas/tabela" class="btn-action">
+                    <i class="bx bx-table"></i>
+                    Ver em modo tabela
+                </a>
+                <a href="{{ BASE_URL }}/conciliacao/visualizar" class="btn-action" style="background: #999;">
+                    <i class="bx bx-arrow-back"></i>
+                    Voltar
+                </a>
+            </div>
         </div>
         <!-- Lista de Corridas (Cards) -->
         <div class="section-block" style="background: transparent; box-shadow: none; padding: 0;">

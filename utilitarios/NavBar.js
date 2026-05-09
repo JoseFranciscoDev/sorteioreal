@@ -1,4 +1,4 @@
-const { NavBarItems } = require("../routes.json");
+const { NavBarItems } = require("../routes.json")
 
 class NavBar {
     /**

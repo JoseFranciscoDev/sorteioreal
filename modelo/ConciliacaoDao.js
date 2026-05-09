@@ -247,6 +247,29 @@ class ConciliacaoDao extends Abstract {
         return resultado;
     }
 
+    static async getVisitasCompletosPorRota(codigoRota) {
+        const conn = await this.connection();
+        const sql = `
+            SELECT
+                visitas.*,
+                rotas.nome          AS nomeRota,
+                pagamentos.valor    AS pagamentoValor,
+                pagamentos.contrato AS pagamentoContrato,
+                pagamentos.parcelas AS pagamentoParcelas,
+                renegociacoes.valor    AS renegociacaoValor,
+                renegociacoes.contrato AS renegociacaoContrato,
+                renegociacoes.parcelas AS renegociacaoParcelas
+            FROM visitas
+            JOIN rotas ON visitas.codigoRota = rotas.codigo
+            LEFT JOIN pagamentos ON pagamentos.codigoVisita = visitas.codigo
+            LEFT JOIN renegociacoes ON renegociacoes.codigoVisita = visitas.codigo
+            WHERE rotas.codigo = ?
+            ORDER BY visitas.codigo
+        `;
+        const [resultado] = await conn.query(sql, [codigoRota]);
+        return resultado;
+    }
+
     static async getVisitaPorCodigo(codigoVisita) {
         const conn = await this.connection();
         const sql = `

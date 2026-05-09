@@ -13,6 +13,8 @@ router.post("/conciliacao/cadastro/visita", uploadImagens.fields([
     { name: "foto_doc", maxCount: 1 }
 ]), Conciliacao.cadastroVisitaPost);
 router.get("/conciliacao/visualizar", Conciliacao.visualizar);
+router.get("/conciliacao/rotas/:codigo/visitas/tabela", Conciliacao.visualizarVisitasTabela);
+router.get("/conciliacao/rotas/:codigo/visitas/csv", Conciliacao.exportarVisitasCsv);
 router.get("/conciliacao/rotas/:codigo/visitas", Conciliacao.visualizarVisitas);
 router.get("/conciliacao/visitas/:codigo", Conciliacao.detalheVisita);
 

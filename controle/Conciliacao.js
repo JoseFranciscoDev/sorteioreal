@@ -190,6 +190,71 @@ class Conciliacao {
 
         res.render("conciliacao/detalheVisita.njk", { modulos, BASE_URL, visita });
     }
+
+    static async visualizarVisitasTabela(req, res) {
+        const modulos = NavBar.getModulos();
+        const rotaId = req.params.codigo;
+
+        const visitas = await ConciliacaoDao.getVisitasCompletosPorRota(rotaId);
+        const codigosClientes = visitas.map(v => v.codigoCliente);
+
+        if (codigosClientes.length > 0) {
+            const clientes = await ClienteNerusDao.getClientes(codigosClientes);
+            const clienteMap = new Map();
+            clientes.forEach(c => clienteMap.set(c.codigo, c));
+            visitas.forEach(v => {
+                const cliente = clienteMap.get(v.codigoCliente);
+                if (cliente) v.nomeCliente = cliente.nome;
+                v.data = Data.dataParaTexto(v.data);
+            });
+        }
+
+        res.render("conciliacao/tabelaVisitas.njk", { modulos, BASE_URL, visitas, rotaId });
+    }
+
+    static async exportarVisitasCsv(req, res) {
+        const rotaId = req.params.codigo;
+
+        const visitas = await ConciliacaoDao.getVisitasCompletosPorRota(rotaId);
+        const codigosClientes = visitas.map(v => v.codigoCliente);
+
+        let clienteMap = new Map();
+        if (codigosClientes.length > 0) {
+            const clientes = await ClienteNerusDao.getClientes(codigosClientes);
+            clientes.forEach(c => clienteMap.set(c.codigo, c));
+        }
+
+        const header = "Codigo;Cliente;CodigoCliente;Endereco;Data;Saida;Chegada;Encontrado;Renegociado;PagamentoValor;PagamentoContrato;PagamentoParcelas;RenegociacaoValor;RenegociacaoContrato;RenegociacaoParcelas;Observacoes";
+
+        const linhas = visitas.map(v => {
+            const nomeCliente = clienteMap.get(v.codigoCliente)?.nome || "";
+            const dataTexto = Data.dataParaTexto(v.data);
+            return [
+                v.codigo,
+                `"${(nomeCliente).replace(/"/g, '""')}"`,
+                v.codigoCliente,
+                `"${(v.endereco || "").replace(/"/g, '""')}"`,
+                dataTexto,
+                v.saida || "",
+                v.chegada || "",
+                v.encontrado == 1 ? "Sim" : "Nao",
+                v.renegociado == 1 ? "Sim" : "Nao",
+                v.pagamentoValor ? (v.pagamentoValor / 100) : "",
+                v.pagamentoContrato || "",
+                v.pagamentoParcelas || "",
+                v.renegociacaoValor || "",
+                v.renegociacaoContrato || "",
+                v.renegociacaoParcelas || "",
+                `"${(v.observacoes || "").replace(/"/g, '""')}"`
+            ].join(";");
+        });
+
+        const csv = [header, ...linhas].join("\n");
+
+        res.setHeader("Content-Type", "text/csv; charset=utf-8");
+        res.setHeader("Content-Disposition", `attachment; filename=visitas_rota_${rotaId}.csv`);
+        return res.send("\uFEFF" + csv);
+    }
 }
 
 module.exports = Conciliacao;

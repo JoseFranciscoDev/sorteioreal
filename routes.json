@@ -104,7 +104,7 @@
       {
         "modulo": "Conciliação",
         "nome": "Clientes Protesto",
-        "url": "conciliacao/visualizar"
+        "url": "conciliacao/negativados"
       }
     ]
   }}
