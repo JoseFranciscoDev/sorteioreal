@@ -65,9 +65,16 @@ class Conciliacao {
 
     static async cadastroVisita(req, res) {
         const modulos = NavBar.getModulos();
+<<<<<<< Updated upstream
         const cobrador = req.session.usuario.codigo
         const veiculos = await ConciliacaoDao.getVeiculos()
         const rotas = await ConciliacaoDao.getRotas()
+=======
+        const cobrador = req.session.usuario.codigo;
+        const mensagem = req.query.mensagem;
+        const veiculos = await ConciliacaoDao.getVeiculos();
+        const rotas = await ConciliacaoDao.getRotas();
+>>>>>>> Stashed changes
         res.render("conciliacao/cadastroVisita.njk", { modulos, BASE_URL, cobrador, veiculos, rotas });
     }
 
@@ -77,7 +84,7 @@ class Conciliacao {
 
             const resultado = await ConciliacaoDao.setVisita(dados);
             const visitaId = resultado.insertId;
-
+            console.log(dados)
             const arquivos = req.files
 
             const fotoResidArquivo = arquivos?.foto_resid?.[0] ?? null;
@@ -127,8 +134,6 @@ class Conciliacao {
             return res.redirect("visita?mensagem=Visita Cadastrada");
 
         } catch (erro) {
-            console.log(erro);
-            console.log(req.body);
             return res.redirect("visita?mensagem=Erro: " + erro);
         }
     }
@@ -147,11 +152,123 @@ class Conciliacao {
         const modulos = NavBar.getModulos();
         const rotaId = req.params.codigo;
 
+<<<<<<< Updated upstream
 
         const visitas = await ConciliacaoDao.getVisitasPorCodigoRota(rotaId)
         console.log(visitas)
         res.render("conciliacao/visualizarVisitas.njk", { modulos, BASE_URL, visitas, rotaId });
     }
+=======
+        const visitas = await ConciliacaoDao.getVisitasPorCodigoRota(rotaId);
+        const codigosClientes = visitas.map(visita => visita.codigoCliente);
+        const clientes = await ClienteNerusDao.getClientes(codigosClientes);
+        const pagamentos = await ConciliacaoDao.getPagamentos()
+        const pagamentosMap = new Map();
+        const clienteMap = new Map();
+        clientes.forEach(cliente => {
+            clienteMap.set(cliente.codigo, cliente);
+        });
+
+        pagamentos.forEach(pagamento => {
+            pagamentosMap.set(pagamento.codigoVisita, pagamento);
+        });
+
+        visitas.forEach(visita => {
+            const cliente = clienteMap.get(visita.codigoCliente);
+            const pagamento = pagamentosMap.get(visita.codigo)
+            if (cliente) {
+                visita.nomeCliente = cliente.nome;
+            }
+            if (pagamento) {
+                visita.pagamento = pagamento.valor
+            }
+        });
+        res.render("conciliacao/visualizarVisitas.njk", { modulos, BASE_URL, visitas, rotaId });
+    }
+
+    static async detalheVisita(req, res) {
+        const modulos = NavBar.getModulos();
+        const codigoVisita = req.params.codigo;
+
+        const visita = await ConciliacaoDao.getVisitaPorCodigo(codigoVisita);
+        visita.data = Data.dataParaTexto(visita.data)
+        if (!visita) {
+            return res.status(404).render("erro404ou500.njk", { modulos, BASE_URL });
+        }
+
+        const clientes = await ClienteNerusDao.getClientes([visita.codigoCliente]);
+        if (clientes && clientes.length > 0) {
+            visita.nomeCliente = clientes[0].nome;
+        }
+
+        res.render("conciliacao/detalheVisita.njk", { modulos, BASE_URL, visita });
+    }
+
+    static async visualizarVisitasTabela(req, res) {
+        const modulos = NavBar.getModulos();
+        const rotaId = req.params.codigo;
+
+        const visitas = await ConciliacaoDao.getVisitasCompletosPorRota(rotaId);
+        const codigosClientes = visitas.map(v => v.codigoCliente);
+
+        if (codigosClientes.length > 0) {
+            const clientes = await ClienteNerusDao.getClientes(codigosClientes);
+            const clienteMap = new Map();
+            clientes.forEach(c => clienteMap.set(c.codigo, c));
+            visitas.forEach(v => {
+                const cliente = clienteMap.get(v.codigoCliente);
+                if (cliente) v.nomeCliente = cliente.nome;
+                v.data = Data.dataParaTexto(v.data);
+            });
+        }
+
+        res.render("conciliacao/tabelaVisitas.njk", { modulos, BASE_URL, visitas, rotaId });
+    }
+
+    static async exportarVisitasCsv(req, res) {
+        const rotaId = req.params.codigo;
+
+        const visitas = await ConciliacaoDao.getVisitasCompletosPorRota(rotaId);
+        const codigosClientes = visitas.map(v => v.codigoCliente);
+
+        let clienteMap = new Map();
+        if (codigosClientes.length > 0) {
+            const clientes = await ClienteNerusDao.getClientes(codigosClientes);
+            clientes.forEach(c => clienteMap.set(c.codigo, c));
+        }
+
+        const header = "Codigo;Cliente;CodigoCliente;Endereco;Data;Saida;Chegada;Encontrado;Renegociado;PagamentoValor;PagamentoContrato;PagamentoParcelas;RenegociacaoValor;RenegociacaoContrato;RenegociacaoParcelas;Observacoes";
+
+        const linhas = visitas.map(v => {
+            const nomeCliente = clienteMap.get(v.codigoCliente)?.nome || "Cliente não encontrado";
+            const dataTexto = Data.dataParaTexto(v.data);
+            return [
+                v.codigo,
+                `"${(nomeCliente).replace(/"/g, '""')}"`,
+                v.codigoCliente,
+                `"${(v.endereco || "").replace(/"/g, '""')}"`,
+                dataTexto,
+                v.saida || "",
+                v.chegada || "",
+                v.encontrado == 1 ? "Sim" : "Nao",
+                v.renegociado == 1 ? "Sim" : "Nao",
+                v.pagamentoValor ? (v.pagamentoValor / 100) : "",
+                v.pagamentoContrato || "",
+                v.pagamentoParcelas || "",
+                v.renegociacaoValor || "",
+                v.renegociacaoContrato || "",
+                v.renegociacaoParcelas || "",
+                `"${(v.observacoes || "").replace(/"/g, '""')}"`
+            ].join(";");
+        });
+
+        const csv = [header, ...linhas].join("\n");
+        console.log(csv)
+        res.setHeader("Content-Type", "text/csv; charset=utf-8");
+        res.setHeader("Content-Disposition", `attachment; filename=visitas_rota_${rotaId}.csv`);
+        return res.send(csv);
+    }
+>>>>>>> Stashed changes
 }
 
 module.exports = Conciliacao;

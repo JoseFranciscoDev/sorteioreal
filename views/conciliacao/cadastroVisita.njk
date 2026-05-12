@@ -70,67 +70,6 @@
                   <input type="text" id="endereco" name="endereco" required/>
                 </div>
               </div>
-              <!-- Veículo -->
-              <div class="field-group field-full">
-                <label for="veiculo">Veículo
-                  <span class="required">*</span>
-                </label>
-                <div class="input-wrapper">
-                  <i class="bx bx-car"></i>
-                  <select id="veiculo" name="codigoVeiculo" required>
-                    <option value="" disabled selected>Selecione o veículo utilizado</option>
-                    {% for veiculo in veiculos %}
-                      <option value="{{ veiculo.codigo }}">{{ veiculo.nome }}</option>
-                    {% endfor %}
-                  </select>
-                </div>
-              </div>
-              <!-- Data -->
-              <div class="field-group">
-                <label for="data">Data
-                  <span class="required">*</span>
-                </label>
-                <div class="input-wrapper">
-                  <i class="bx bx-calendar"></i>
-                  <input type="date" id="data" name="data" required/>
-                </div>
-              </div>
-              <!-- Saída -->
-              <div class="field-group">
-                <label for="saida">Saída
-                  <span class="required">*</span>
-                </label>
-                <div class="input-wrapper">
-                  <i class="bx bx-log-out"></i>
-                  <input type="time" id="saida" name="saida" required/>
-                </div>
-              </div>
-              <!-- Chegada -->
-              <div class="field-group">
-                <label for="chegada">Chegada
-                  <span class="required">*</span>
-                </label>
-                <div class="input-wrapper">
-                  <i class="bx bx-log-in"></i>
-                  <input type="time" id="chegada" name="chegada" required/>
-                </div>
-              </div>
-              <!-- KM Início -->
-              <div class="field-group">
-                <label for="kmComeco">KM Início</label>
-                <div class="input-wrapper">
-                  <i class="bx bx-tachometer"></i>
-                  <input type="number" id="kmComeco" name="kmComeco" step="0.1" min="0" placeholder="0.0"/>
-                </div>
-              </div>
-              <!-- KM Final -->
-              <div class="field-group">
-                <label for="kmFinal">KM Final</label>
-                <div class="input-wrapper">
-                  <i class="bx bx-tachometer"></i>
-                  <input type="number" id="kmFinal" name="kmFinal" step="0.1" min="0" placeholder="0.0"/>
-                </div>
-              </div>
               <!-- Encontrado? -->
               <div class="field-group">
                 <label>Encontrado?</label>
