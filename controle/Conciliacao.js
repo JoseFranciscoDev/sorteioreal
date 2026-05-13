@@ -63,9 +63,9 @@ class Conciliacao {
         const modulos = NavBar.getModulos();
         const cobrador = req.session.usuario.codigo;
         const mensagem = req.query.mensagem;
-        const veiculos = await ConciliacaoDao.getVeiculos();
+        const retiradas = await ConciliacaoDao.getRetiradas();
         const rotas = await ConciliacaoDao.getRotas();
-        res.render("conciliacao/cadastroVisita.njk", { modulos, BASE_URL, cobrador, veiculos, rotas });
+        res.render("conciliacao/cadastroVisita.njk", { modulos, BASE_URL, cobrador, retiradas, rotas, mensagem });
     }
 
     static async cadastroVisitaPost(req, res) {
@@ -249,6 +249,31 @@ class Conciliacao {
         res.setHeader("Content-Type", "text/csv; charset=utf-8");
         res.setHeader("Content-Disposition", `attachment; filename=visitas_rota_${rotaId}.csv`);
         return res.send(csv);
+    }
+
+    static async cadastroRetirada(req, res) {
+        const modulos = NavBar.getModulos();
+        const mensagem = req.query.mensagem;
+        const veiculos = await ConciliacaoDao.getVeiculos();
+        res.render("conciliacao/cadastroRetirada.njk", { modulos, BASE_URL, veiculos, mensagem });
+    }
+
+    static async cadastroRetiradaPost(req, res) {
+        const dados = req.body;
+        const novaRetirada = {
+            codigoVeiculo: dados.codigoVeiculo,
+            data: dados.data,
+            saida: dados.saida,
+            chegada: dados.chegada,
+            kmInicio: dados.kmInicio ?? 0
+        };
+        try {
+            await ConciliacaoDao.setRetirada(novaRetirada);
+            return res.redirect("retirada?mensagem=Retirada cadastrada com sucesso");
+        } catch (erro) {
+            console.error("[Conciliacao] Erro ao cadastrar retirada:", erro.message);
+            return res.redirect("retirada?mensagem=Erro: " + erro.message);
+        }
     }
 }
 

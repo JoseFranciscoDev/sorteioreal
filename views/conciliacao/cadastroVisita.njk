@@ -40,6 +40,22 @@
                   </select>
                 </div>
               </div>
+              <!-- Retirada de Veículo -->
+              <div class="field-group field-full">
+                <label for="codigoRetiradaVeiculo">Retirada de Veículo
+                  <span class="required">*</span>
+                </label>
+                <div class="input-wrapper">
+                  <i class="bx bx-car"></i>
+                  <select id="codigoRetiradaVeiculo" name="codigoRetiradaVeiculo" required>
+                    <option value="" disabled selected>Selecione a retirada do veículo</option>
+                    {% for ret in retiradas %}
+                      <option value="{{ ret.codigo }}">#{{ ret.codigo }} — {{ ret.nomeVeiculo }} ({{ ret.placaVeiculo }}) — {{ ret.data }}</option>
+                    {% endfor %}
+                  </select>
+                </div>
+                <span class="field-hint">Cadastre a retirada antes, se ainda não fez.</span>
+              </div>
               <!-- Cobrador (automático pelo login) -->
               <div class="field-group">
                 <label for="cobrador">Cobrador</label>
