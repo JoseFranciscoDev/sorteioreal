@@ -260,14 +260,15 @@ class Conciliacao {
 
     static async cadastroRetiradaPost(req, res) {
         const dados = req.body;
-        const novaRetirada = {
-            codigoVeiculo: dados.codigoVeiculo,
-            data: dados.data,
-            saida: dados.saida,
-            chegada: dados.chegada,
-            kmInicio: dados.kmInicio ?? 0
-        };
         try {
+            const novaRetirada = {
+                codigoVeiculo: dados.codigoVeiculo,
+                data: dados.data,
+                saida: dados.saida,
+                chegada: dados.chegada,
+                kmInicio: dados.kmInicio,
+                kmFinal: dados.kmFinal
+            };
             await ConciliacaoDao.setRetirada(novaRetirada);
             return res.redirect("retirada?mensagem=Retirada cadastrada com sucesso");
         } catch (erro) {

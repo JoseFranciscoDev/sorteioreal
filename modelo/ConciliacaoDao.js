@@ -176,7 +176,7 @@ class ConciliacaoDao extends Abstract {
             retirada.saida,
             retirada.chegada,
             retirada.kmInicio,
-            retirada.kmfinal
+            retirada.kmFinal
         ];
         const [resultado] = await conn.query(sql, dados);
         return resultado;
