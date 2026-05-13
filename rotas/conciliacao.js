@@ -5,6 +5,8 @@ const Conciliacao = require("../controle/Conciliacao");
 
 router.get("/conciliacao/cadastro/veiculos", Conciliacao.cadastroVeiculos);
 router.post("/conciliacao/cadastro/veiculos", Conciliacao.cadastroVeiculosPost);
+router.get("/conciliacao/cadastro/retirada", Conciliacao.cadastroRetirada);
+router.post("/conciliacao/cadastro/retirada", Conciliacao.cadastroRetiradaPost);
 router.get("/conciliacao/cadastro/Rota", Conciliacao.cadastroRota);
 router.post("/conciliacao/cadastro/Rota", Conciliacao.cadastroRotaPost);
 router.get("/conciliacao/cadastro/Visita", Conciliacao.cadastroVisita);

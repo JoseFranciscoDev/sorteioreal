@@ -38,6 +38,7 @@ class ConciliacaoDao extends Abstract {
                 codigo            INT          AUTO_INCREMENT PRIMARY KEY,
                 codigoRota        INT          NOT NULL,
                 codigoCliente     INT          NOT NULL,
+                codigoRetiradaVeiculo   INT    NOT NULL,
                 endereco          VARCHAR(200) NOT NULL,
                 encontrado        TINYINT      NOT NULL DEFAULT 0,
                 coordenadas       VARCHAR(50),
@@ -51,16 +52,11 @@ class ConciliacaoDao extends Abstract {
                 novoTelefone          VARCHAR(20),
                 codigoVeiculo INT,
                 codigoCobrador INT,
-                data date not null,
-                saida time not null,
-                chegada time not null,
-                kmComeco DECIMAL(10,1) DEFAULT 0,
-                kmFinal DECIMAL(10,1) DEFAULT 0,
                 observacoes       VARCHAR(500),
+                CONSTRAINT fk_visita_retirada
+                    FOREIGN KEY (codigoRetiradaVeiculo) REFERENCES retiradas(codigo),
                 CONSTRAINT fk_visita_rota
                     FOREIGN KEY (codigoRota) REFERENCES rotas(codigo) ON DELETE CASCADE,
-                CONSTRAINT fk_veiculos
-                FOREIGN KEY (codigoVeiculo)  REFERENCES veiculos(codigo),
                 CONSTRAINT fk_cobrador
                     FOREIGN KEY (codigoCobrador) REFERENCES usuarios(codigo)
             )`;
@@ -98,9 +94,27 @@ class ConciliacaoDao extends Abstract {
         await conn.query(sql);
     }
 
+    static async criarTabelaRetiradas() {
+        const conn = await this.connection();
+        const sql = `
+            CREATE TABLE IF NOT EXISTS retiradas(
+                codigo INT AUTO_INCREMENT PRIMARY KEY,
+                codigo_veiculo int not null,
+                data DATE NOT NULL,
+                saida TIME NOT NULL,
+                chegada TIME NOT NULL,
+                km_inicio INT NOT NULL,
+                km_chegada INT NOT NULL,
+                CONSTRAINT fk_retirada_veiculo
+		            FOREIGN KEY (codigo_veiculo) REFERENCES veiculos(codigo)
+            )`;
+        await conn.query(sql);
+    }
+
     static async criarTodasTabelasConciliacao() {
         await this.criarTabelaVeiculos();
         await this.criarTabelaRotas();
+        await this.criarTabelaRetiradas();
         await this.criarTabelaVisitas();
         await this.criarTabelaPagamentos();
         await this.criarTabelaRenegociacoes();
@@ -151,21 +165,51 @@ class ConciliacaoDao extends Abstract {
         return resultado;
     }
 
+    static async setRetirada(retirada) {
+        const conn = await this.connection();
+        const sql = `
+            INSERT INTO retiradas (codigo_veiculo, data, saida, chegada, km_inicio, km_chegada)
+            VALUES (?, ?, ?, ?, ?, ?)`;
+        const dados = [
+            retirada.codigoVeiculo,
+            retirada.data,
+            retirada.saida,
+            retirada.chegada,
+            retirada.kmInicio,
+            retirada.kmfinal
+        ];
+        const [resultado] = await conn.query(sql, dados);
+        return resultado;
+    }
+
+    static async getRetiradas() {
+        const conn = await this.connection();
+        const sql = `
+            SELECT
+                retiradas.*,
+                veiculos.nome AS nomeVeiculo,
+                veiculos.placa AS placaVeiculo
+            FROM retiradas
+            JOIN veiculos ON retiradas.codigo_veiculo = veiculos.codigo
+            ORDER BY retiradas.codigo DESC`;
+        const [rows] = await conn.query(sql);
+        return rows;
+    }
+
     static async setVisita(visita) {
         const conn = await this.connection();
         const sql = `
             INSERT INTO visitas (
-                codigoRota, codigoCliente, codigoVeiculo, codigoCobrador, endereco,
+                codigoRota, codigoCliente, codigoRetiradaVeiculo, codigoCobrador, endereco,
                 encontrado, coordenadas,
                 fotoResidencia, fotoResidenciaUrl,
                 fotoDoc, fotoDocUrl,
                 renegociado, agendamento, data_agendamento,
                 novoTelefone,
-                data, saida, chegada, kmComeco, kmFinal,
                 observacoes
-            ) VALUES (?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?)`;
+            ) VALUES (?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?)`;
         const dados = [
-            visita.codigoRota, visita.codigoCliente, visita.codigoVeiculo, visita.cobrador,
+            visita.codigoRota, visita.codigoCliente, visita.codigoRetiradaVeiculo, visita.cobrador,
             visita.endereco,
             visita.encontrado ?? 0, visita.coordenadas ?? null,
             visita.fotoResidencia ?? 0, visita.fotoResidenciaUrl ?? null,
@@ -173,8 +217,6 @@ class ConciliacaoDao extends Abstract {
             visita.renegociado ?? 0, visita.agendamento ?? 0,
             visita.data_agendamento ?? null,
             visita.novoTelefone ?? null,
-            visita.data, visita.saida, visita.chegada,
-            visita.kmComeco ?? 0, visita.kmFinal ?? 0,
             visita.observacoes ?? null
         ];
         const [resultado] = await conn.query(sql, dados);

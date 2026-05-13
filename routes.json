@@ -86,6 +86,11 @@
         "nome": "Cadastro de Veiculos",
         "url": "conciliacao/cadastro/veiculos"
       },
+      {
+        "modulo": "Conciliação",
+        "nome": "Retirada de Veículo",
+        "url": "conciliacao/cadastro/retirada"
+      },
        {
         "modulo": "Conciliação",
         "nome": "Cadastro de Rota",

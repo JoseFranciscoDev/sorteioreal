@@ -63,10 +63,9 @@ class Conciliacao {
         const modulos = NavBar.getModulos();
         const cobrador = req.session.usuario.codigo;
         const mensagem = req.query.mensagem;
-        console.log(mensagem)
-        const veiculos = await ConciliacaoDao.getVeiculos();
+        const retiradas = await ConciliacaoDao.getRetiradas();
         const rotas = await ConciliacaoDao.getRotas();
-        res.render("conciliacao/cadastroVisita.njk", { modulos, BASE_URL, cobrador, veiculos, rotas });
+        res.render("conciliacao/cadastroVisita.njk", { modulos, BASE_URL, cobrador, retiradas, rotas, mensagem });
     }
 
     static async cadastroVisitaPost(req, res) {
@@ -74,7 +73,7 @@ class Conciliacao {
             const dados = NullSeVazio(req.body);
             const resultado = await ConciliacaoDao.setVisita(dados);
             const visitaId = resultado.insertId;
-
+            console.log(dados)
             const arquivos = req.files
 
             const fotoResidArquivo = arquivos?.foto_resid?.[0] ?? null;
@@ -124,8 +123,6 @@ class Conciliacao {
             return res.redirect("visita?mensagem=Visita Cadastrada");
 
         } catch (erro) {
-            console.log(erro);
-            console.log(req.body);
             return res.redirect("visita?mensagem=Erro: " + erro);
         }
     }
@@ -148,12 +145,10 @@ class Conciliacao {
         const codigosClientes = visitas.map(visita => visita.codigoCliente);
         const clientes = await ClienteNerusDao.getClientes(codigosClientes);
         const pagamentos = await ConciliacaoDao.getPagamentos()
-        console.log(pagamentos);
         const pagamentosMap = new Map();
         const clienteMap = new Map();
         clientes.forEach(cliente => {
             clienteMap.set(cliente.codigo, cliente);
-
         });
 
         pagamentos.forEach(pagamento => {
@@ -224,10 +219,10 @@ class Conciliacao {
             clientes.forEach(c => clienteMap.set(c.codigo, c));
         }
 
-        const header = "Codigo;Cliente;CodigoCliente;Endereco;Data;Saida;Chegada;Encontrado;Renegociado;PagamentoValor;PagamentoContrato;PagamentoParcelas;RenegociacaoValor;RenegociacaoContrato;RenegociacaoParcelas;Observacoes";
+        const header = "CODIGO;CLIENTE;CODIGOCLIENTE;ENDERECO;DATA;SAIDA;CHEGADA;ENCONTRADO;RENEGOCIADO;PAGAMENTOVALOR;PAGAMENTOCONTRATO;PAGAMENTOPARCELAS;RENEGOCIACAOVALOR;RENEGOCIACAOCONTRATO;RENEGOCIACAOPARCELAS;OBSERVACOES";
 
         const linhas = visitas.map(v => {
-            const nomeCliente = clienteMap.get(v.codigoCliente)?.nome || "";
+            const nomeCliente = clienteMap.get(v.codigoCliente)?.nome || "Cliente não encontrado";
             const dataTexto = Data.dataParaTexto(v.data);
             return [
                 v.codigo,
@@ -250,10 +245,35 @@ class Conciliacao {
         });
 
         const csv = [header, ...linhas].join("\n");
-
+        console.log(csv)
         res.setHeader("Content-Type", "text/csv; charset=utf-8");
         res.setHeader("Content-Disposition", `attachment; filename=visitas_rota_${rotaId}.csv`);
-        return res.send("\uFEFF" + csv);
+        return res.send(csv);
+    }
+
+    static async cadastroRetirada(req, res) {
+        const modulos = NavBar.getModulos();
+        const mensagem = req.query.mensagem;
+        const veiculos = await ConciliacaoDao.getVeiculos();
+        res.render("conciliacao/cadastroRetirada.njk", { modulos, BASE_URL, veiculos, mensagem });
+    }
+
+    static async cadastroRetiradaPost(req, res) {
+        const dados = req.body;
+        const novaRetirada = {
+            codigoVeiculo: dados.codigoVeiculo,
+            data: dados.data,
+            saida: dados.saida,
+            chegada: dados.chegada,
+            kmInicio: dados.kmInicio ?? 0
+        };
+        try {
+            await ConciliacaoDao.setRetirada(novaRetirada);
+            return res.redirect("retirada?mensagem=Retirada cadastrada com sucesso");
+        } catch (erro) {
+            console.error("[Conciliacao] Erro ao cadastrar retirada:", erro.message);
+            return res.redirect("retirada?mensagem=Erro: " + erro.message);
+        }
     }
 }
 
