@@ -1,93 +1,113 @@
 {% extends "home.html" %}
 {% block css %}
-    <link rel="stylesheet" type="text/css" href="/css/clientes.css" media="screen"/>
-    <link rel="icon" type="image/x-icon" href="/image/icon.png">
-        <link rel="stylesheet" href="https://unpkg.com/boxicons@2.1.2/css/boxicons.min.css"/>
-        <title>Shopping Real - Clientes</title>
-    {% endblock %}
-    {% block principal %}
-        <div class="admin-container">
-            <div class="admin-header">
-                <h1 class="admin-title">Pedidos</h1>
-            </div>
-            <div class="table-container">
-                <table class="admin-table">
-                    <thead>
-                        <tr>
-                            <th>Cod. Pedido</th>
-                            <th>Cod. Cliente</th>
-                            <th>Data</th>
-                            <th>Valor</th>
-                            <th>Método de Pagamento</th>
-                            <th>Quantidade de Cupons Esperada</th>
-                            <th>Nome do cliente</th>
-                            <th>CPF</th>
-                            <th>Quantidade de Cupons Impressa</th>
-                            <th>Ver cupons do pedido</th>
-                            <th>Todos Os cupons Foram impressos?</th>
-                            <th>Excluir</th>
-                        </tr>
-                    </thead>
-                    <tbody>
-                        {% if pedidos.length == 0 %}
-                            <tr>
-                                <td colspan="6" class="text-center">Nenhum pedido encontrado.</td>
-                            </tr>
-                        {% else %}
-                            {% for pedido in pedidos %}
-                                <tr class="{{ 'row-success' if pedido.todoCuponsImpressos else 'row-error' }}">
-                                    <td class="">{{ pedido.pedido }}</td>
-                                    <td>{{ pedido.cliente }}</td>
-                                    <td>{{ pedido.data }}</td>
-                                    <td>{{ pedido.valor }}</td>
-                                    <td>{{ pedido.metodoPagamento }}</td>
-                                    <td>{{ pedido.quantidade }}</td>
-                                    <td>{{ pedido.nome }}</td>
-                                    <td>{{ pedido.cpf }}</td>
-                                    <td>{{ pedido.quantidadeImpressa }}</td>
-                                    <td style="background-color: #6c757d;" ">
-                                        <a href="{{ BASE_URL }}/pedido/{{ pedido.pedido }}" style="text-decoration:none;">
-                                            <i class="bx-discount verCupons">
-                                                Ver cupons
-                                            </i>
-                                        </a>
-                                    </td>
-                                    <td>{{ "Sim" if pedido.todoCuponsImpressos else "Não" }}</td>
-                                    <td>
-                                        <i class="bx bx-trash abrirModal" data-codigo="{{ pedido.codigo }}" data-pedido="{{ pedido.pedido }}"></i>
-                                    </td>
-                                </tr>
-                            {% endfor %}
-                        {% endif %}
-                    </tbody>
-                </table>
-            </div>
-        </div>
-        <dialog id="modal">
-            <p>Tem certeza que deseja excluir o pedido
-                <span id="codigoPedidoSpan"></span>? Isso vai excluir todos os cupons
-                            associados
-                            a ele!</p>
-            <button id="fecharModal">Cancelar</button>
-            <a id="linkConfirmar" href="#" style="text-decoration: none; color: red;">
-                <i class="bx bx-trash"></i>Confirmar</a>
-        </dialog>
-        <script>
-            const abrirModal = document.querySelectorAll(".abrirModal");
-            const fecharModal = document.getElementById("fecharModal");
-            const spanCodigo = document.getElementById("codigoPedidoSpan")
-            const linkConfirmar = document.getElementById("linkConfirmar")
-            const verCuponsModal = document.querySelectorAll(".verCupons")
-            const modal = document.getElementById("modal");
-            abrirModal.forEach((abrirModal) => {
-                abrirModal.addEventListener("click", () => {
-                    const codigo = abrirModal.getAttribute("data-codigo");
-                    const pedido = abrirModal.getAttribute("data-pedido")
-                    spanCodigo.innerText = codigo;
-                    linkConfirmar.href = `{{BASE_URL}}/pedido/delete/${pedido}/${codigo}`
-                    modal.showModal();
-                });
-            })
-            fecharModal.onclick = () => modal.close()
-        </script>
-    {% endblock %}
+<link rel="stylesheet" type="text/css" href="/css/clientes.css" media="screen" />
+<link rel="icon" type="image/x-icon" href="/image/icon.png">
+<link rel="stylesheet" href="https://unpkg.com/boxicons@2.1.2/css/boxicons.min.css" />
+<title>Shopping Real - Clientes</title>
+{% endblock %}
+{% block principal %}
+<div class="admin-container">
+    <div class="admin-header">
+        <h1 class="admin-title">Pedidos</h1>
+    </div>
+    <div class="table-container">
+        <table class="admin-table">
+            <thead>
+                <tr>
+                    <th>Cod. Pedido</th>
+                    <th>Cod. Cliente</th>
+                    <th>Data</th>
+                    <th>Valor</th>
+                    <th>Método de Pagamento</th>
+                    <th>Quantidade de Cupons Esperada</th>
+                    <th>Nome do cliente</th>
+                    <th>CPF</th>
+                    <th>Quantidade de Cupons Impressa</th>
+                    <th>Ver cupons do pedido</th>
+                    <th>Todos Os cupons Foram impressos?</th>
+                    <th>Excluir</th>
+                </tr>
+            </thead>
+            <tbody>
+                {% if pedidos.length == 0 %}
+                <tr>
+                    <td colspan="6" class="text-center">Nenhum pedido encontrado.</td>
+                </tr>
+                {% else %}
+                {% for pedido in pedidos %}
+                <tr class="{{ 'row-success' if pedido.todoCuponsImpressos else 'row-error' }}">
+                    <td class="">{{ pedido.pedido }}</td>
+                    <td>{{ pedido.cliente }}</td>
+                    <td>{{ pedido.data }}</td>
+                    <td>{{ pedido.valor }}</td>
+                    <td>{{ pedido.metodoPagamento }}</td>
+                    <td>{{ pedido.quantidade }}</td>
+                    <td>{{ pedido.nome }}</td>
+                    <td>{{ pedido.cpf }}</td>
+                    <td>{{ pedido.quantidadeImpressa }}</td>
+                    <td style="background-color: #6c757d;" ">
+                                        <a href=" {{ BASE_URL }}/pedido/{{ pedido.pedido }}"
+                        style="text-decoration:none;">
+                        <i class="bx-discount verCupons">
+                            Ver cupons
+                        </i>
+                        </a>
+                    </td>
+                    <td>{{ "Sim" if pedido.todoCuponsImpressos else "Não" }}</td>
+                    <td>
+                        <i class="bx bx-trash abrirModal" data-codigo="{{ pedido.codigo }}"
+                            data-pedido="{{ pedido.pedido }}"></i>
+                    </td>
+                </tr>
+                {% endfor %}
+                {% endif %}
+            </tbody>
+        </table>
+    </div>
+    <div class="links-navegacao">
+        {% if paginaInt > 1 %}
+        <a href="{{ BASE_URL }}/administracao/pedidos?pagina={{ paginaInt - 1 }}&porPagina=10">
+            < </a>
+                {% endif %}
+
+                <p>{{paginaInt}}</p>
+                {% if paginaInt < ultimaPagina %} <a
+                    href="{{ BASE_URL }}/administracao/pedidos?pagina={{ paginaInt+1 }}&porPagina=10">>
+        </a>
+        {% endif %}
+
+        {% if paginaInt == ultimaPagina %}
+        <a href="{{ BASE_URL }}/administracao/pedidos?pagina=1&porPagina=10">1</a>
+        {% else %}
+        <a href="{{ BASE_URL }}/administracao/pedidos?pagina={{ ultimaPagina }}&porPagina=10">{{ ultimaPagina }}</a>
+        {% endif %}
+    </div>
+</div>
+<dialog id="modal">
+    <p>Tem certeza que deseja excluir o pedido
+        <span id="codigoPedidoSpan"></span>? Isso vai excluir todos os cupons associados a
+        ele!
+    </p>
+    <button id="fecharModal">Cancelar</button>
+    <a id="linkConfirmar" href="#" style="text-decoration: none; color: red;">
+        <i class="bx bx-trash"></i>Confirmar</a>
+</dialog>
+<script>
+    const abrirModal = document.querySelectorAll(".abrirModal");
+    const fecharModal = document.getElementById("fecharModal");
+    const spanCodigo = document.getElementById("codigoPedidoSpan")
+    const linkConfirmar = document.getElementById("linkConfirmar")
+    const verCuponsModal = document.querySelectorAll(".verCupons")
+    const modal = document.getElementById("modal");
+    abrirModal.forEach((abrirModal) => {
+        abrirModal.addEventListener("click", () => {
+            const codigo = abrirModal.getAttribute("data-codigo");
+            const pedido = abrirModal.getAttribute("data-pedido")
+            spanCodigo.innerText = codigo;
+            linkConfirmar.href = `{{BASE_URL}}/pedido/delete/${pedido}/${codigo}`
+            modal.showModal();
+        });
+    })
+    fecharModal.onclick = () => modal.close()
+</script>
+{% endblock %}

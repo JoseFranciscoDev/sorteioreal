@@ -1,0 +1,109 @@
+{% extends "home.html" %}
+{% block css %}
+    <link rel="stylesheet" href="/css/navbar.css" media="screen"/>
+    <link rel="stylesheet" type="text/css" href="/css/conciliacao/visualizar.css" media="screen"/>
+{% endblock %}
+{% block principal %}
+    <div class="viz-page">
+        <div class="viz-header" style="justify-content: space-between;">
+            <div style="display: flex; align-items: center; gap: 15px;">
+                <i class="bx bx-table"></i>
+                <div>
+                    <h1>Visitas da Rota #{{ rotaId }} — Modo Tabela</h1>
+                    <p class="table-count">{{ visitas | length }} registros encontrados</p>
+                </div>
+            </div>
+            <div class="header-actions">
+                <a href="{{ BASE_URL }}/conciliacao/rotas/{{ rotaId }}/visitas/csv" class="btn-export">
+                    <i class="bx bx-download"></i>
+                    Exportar CSV
+                </a>
+                <a href="{{ BASE_URL }}/conciliacao/rotas/{{ rotaId }}/visitas" class="btn-action" style="background: #999;">
+                    <i class="bx bx-arrow-back"></i>
+                    Voltar para Cards
+                </a>
+            </div>
+        </div>
+
+        <div class="section-block">
+            <div class="section-title">
+                <i class="bx bx-list-ul"></i>
+                Todas as Visitas
+                <span class="badge badge-sim" style="margin-left: auto;">{{ visitas | length }} registros</span>
+            </div>
+
+            {% if visitas and visitas | length > 0 %}
+            <div style="overflow-x: auto;">
+                <table class="viz-table">
+                    <thead>
+                        <tr>
+                            <th>Código</th>
+                            <th>Cliente</th>
+                            <th>Endereço</th>
+                            <th>Data</th>
+                            <th>Saída</th>
+                            <th>Chegada</th>
+                            <th>Encontrado</th>
+                            <th>Renegociado</th>
+                            <th>Pagamento (R$)</th>
+                            <th>Observações</th>
+                            <th>Ações</th>
+                        </tr>
+                    </thead>
+                    <tbody>
+                        {% for visita in visitas %}
+                        <tr>
+                            <td><strong>{{ visita.codigo }}</strong></td>
+                            <td>
+                                {% if visita.nomeCliente %}
+                                    {{ visita.nomeCliente }}
+                                {% else %}
+                                    Cód. {{ visita.codigoCliente }}
+                                {% endif %}
+                            </td>
+                            <td>{{ visita.endereco }}</td>
+                            <td>{{ visita.data }}</td>
+                            <td>{{ visita.saida if visita.saida else '—' }}</td>
+                            <td>{{ visita.chegada if visita.chegada else '—' }}</td>
+                            <td>
+                                {% if visita.encontrado == 1 %}
+                                    <span class="badge badge-sim">Sim</span>
+                                {% else %}
+                                    <span class="badge badge-nao">Não</span>
+                                {% endif %}
+                            </td>
+                            <td>
+                                {% if visita.renegociado == 1 %}
+                                    <span class="badge badge-sim">Sim</span>
+                                {% else %}
+                                    <span class="badge badge-nao">Não</span>
+                                {% endif %}
+                            </td>
+                            <td>
+                                {% if visita.pagamentoValor %}
+                                    R$ {{ visita.pagamentoValor / 100 }}
+                                {% else %}
+                                    —
+                                {% endif %}
+                            </td>
+                            <td>{{ visita.observacoes if visita.observacoes else '—' }}</td>
+                            <td>
+                                <a href="{{ BASE_URL }}/conciliacao/visitas/{{ visita.codigo }}" class="btn-action">
+                                    <i class="bx bx-show"></i>
+                                    Detalhes
+                                </a>
+                            </td>
+                        </tr>
+                        {% endfor %}
+                    </tbody>
+                </table>
+            </div>
+            {% else %}
+            <div style="text-align: center; color: var(--text-muted); padding: 40px;">
+                <i class="bx bx-ghost" style="font-size: 3rem; margin-bottom: 10px;"></i>
+                <p>Nenhuma visita cadastrada para esta rota.</p>
+            </div>
+            {% endif %}
+        </div>
+    </div>
+{% endblock %}

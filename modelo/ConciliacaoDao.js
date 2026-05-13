@@ -193,6 +193,7 @@ class ConciliacaoDao extends Abstract {
         WHERE rotas.codigo = ?
             `;
         const [resultado] = await conn.query(sql, codigoRota)
+        console.log(resultado)
         return resultado
     };
 
@@ -204,6 +205,16 @@ class ConciliacaoDao extends Abstract {
         const dados = [pagamento.codigoVisita, pagamento.contrato, pagamento.parcelas, pagamento.valor];
         const [resultado] = await conn.query(sql, dados);
         return resultado;
+    }
+
+    static async getPagamentos() {
+        const conn = await this.connection();
+        const sql = `
+            SELECT * FROM pagamentos;
+        `;
+        const [resultado] = await conn.query(sql);
+
+        return resultado
     }
 
     static async setRenegociacao(renegociacao) {
@@ -234,6 +245,45 @@ class ConciliacaoDao extends Abstract {
         ];
         const [resultado] = await conn.query(sql, dados);
         return resultado;
+    }
+
+    static async getVisitasCompletosPorRota(codigoRota) {
+        const conn = await this.connection();
+        const sql = `
+            SELECT
+                visitas.*,
+                rotas.nome          AS nomeRota,
+                pagamentos.valor    AS pagamentoValor,
+                pagamentos.contrato AS pagamentoContrato,
+                pagamentos.parcelas AS pagamentoParcelas,
+                renegociacoes.valor    AS renegociacaoValor,
+                renegociacoes.contrato AS renegociacaoContrato,
+                renegociacoes.parcelas AS renegociacaoParcelas
+            FROM visitas
+            JOIN rotas ON visitas.codigoRota = rotas.codigo
+            LEFT JOIN pagamentos ON pagamentos.codigoVisita = visitas.codigo
+            LEFT JOIN renegociacoes ON renegociacoes.codigoVisita = visitas.codigo
+            WHERE rotas.codigo = ?
+            ORDER BY visitas.codigo
+        `;
+        const [resultado] = await conn.query(sql, [codigoRota]);
+        return resultado;
+    }
+
+    static async getVisitaPorCodigo(codigoVisita) {
+        const conn = await this.connection();
+        const sql = `
+            SELECT
+                visitas.*,
+                rotas.codigo  AS codigoRota,
+                rotas.nome    AS nomeRota
+            FROM visitas
+            JOIN rotas ON visitas.codigoRota = rotas.codigo
+            WHERE visitas.codigo = ?
+            LIMIT 1
+        `;
+        const [rows] = await conn.query(sql, [codigoVisita]);
+        return rows[0] ?? null;
     }
 }
 

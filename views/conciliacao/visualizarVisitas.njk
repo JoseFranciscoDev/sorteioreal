@@ -12,10 +12,16 @@
                     <h1>Visitas da Rota #{{ rotaId }}</h1>
                 </div>
             </div>
-            <a href="{{ BASE_URL }}/conciliacao/visualizar" class="btn-action" style="background: #999;">
-                <i class="bx bx-arrow-back"></i>
-                Voltar
-            </a>
+            <div class="header-actions">
+                <a href="{{ BASE_URL }}/conciliacao/rotas/{{ rotaId }}/visitas/tabela" class="btn-action">
+                    <i class="bx bx-table"></i>
+                    Ver em modo tabela
+                </a>
+                <a href="{{ BASE_URL }}/conciliacao/visualizar" class="btn-action" style="background: #999;">
+                    <i class="bx bx-arrow-back"></i>
+                    Voltar
+                </a>
+            </div>
         </div>
         <!-- Lista de Corridas (Cards) -->
         <div class="section-block" style="background: transparent; box-shadow: none; padding: 0;">
@@ -30,7 +36,12 @@
                         </div>
                         <div class="corrida-cli">
                             <i class="bx bx-user"></i>
-                            {{ visita.codigoCliente }}</div>
+                            {% if visita.nomeCliente %}
+                                {{ visita.nomeCliente }}
+                            {% else %}
+                                {{ visita.codigoCliente }}
+                            {% endif %}
+                        </div>
                         <div class="corrida-end">
                             <i class="bx bx-map"></i>
                             {{ visita.endereco }}</div>
@@ -56,9 +67,18 @@
                         </div>
                         <div class="corrida-footer">
                             <span>Pagamento:
-                                <span style="font-weight: 500; font-size: 0.85rem; color: var(--text-muted);">{{ visita.pagou }}</span>
                             </span>
-                            <span style="color: var(--primary);">R$ {{ visita.valor }}</span>
+                            {% if visita.pagamento %}
+                                <span style="color: var(--primary);">R$ {{ visita.pagamento / 100 }}</span>
+                            {% else %}
+                                <span style="color: var(--primary);">Não Houve pagamento</span>
+                            {% endif %}
+                        </div>
+                        <div style="margin-top: 12px;">
+                            <a href="{{ BASE_URL }}/conciliacao/visitas/{{ visita.codigo }}" class="btn-action" style="width: 100%; justify-content: center;">
+                                <i class="bx bx-show"></i>
+                                Ver detalhes
+                            </a>
                         </div>
                     </div>
                 {% else %}

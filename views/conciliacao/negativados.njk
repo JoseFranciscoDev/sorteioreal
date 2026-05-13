@@ -1,0 +1,187 @@
+{% extends "home.html" %}
+{% block css %}
+    <link rel="stylesheet" href="/css/navbar.css" media="screen"/>
+    <link rel="stylesheet" type="text/css" href="/css/conciliacao/negativados.css" media="screen"/>
+{% endblock %}
+{% block principal %}
+    <div
+        class="neg-page">
+        {# ── Header ── #}
+        <div
+            class="neg-header">
+            {# Título #}
+            <div class="neg-header-title">
+                <i class="bx bx-shield-x"></i>
+                <div>
+                    <h1>Clientes Negativados</h1>
+                    <p>{{ tipo }}</p>
+                </div>
+            </div>
+            {# Ações: filtro de tipo + upload #}
+            <div
+                class="neg-actions">
+                {# Dropdown filtro (navega via GET) #}
+                <form id=" " method="GET" action="{{ BASE_URL }}/conciliacao/negativados">
+                    <h3>Mostrando clientes no {{ tipo }}</h3>
+                </form>
+                <form id="uploadForm" class="neg-upload-form" action="{{ BASE_URL }}/conciliacao/negativados" method="POST" enctype="multipart/form-data">
+                    <input type="hidden" id="tipoArquivoInput" name="tipoArquivo" value="{{ tipo }}">
+                        <label for="arquivoInput" class="neg-file-label" id="labelArquivo">
+                            <i class="bx bx-upload"></i>
+                            Escolher arquivo
+                        </label>
+                        <input type="file" id="arquivoInput" name="arquivos" accept=".csv,.xlsx,.xls,.txt" required>
+                            <span class="neg-file-name" id="nomeArquivo">Nenhum arquivo</span>
+                            <input name="tipoArquivo" id="selectUploadTipo" class="neg-select" disabled value="{{ tipo | upper }}">
+                                <button type="submit" class="btn-upload" id="btnUpload">
+                                    <i class="bx bx-cloud-upload"></i>
+                                    Importar
+                                </button>
+                            </form>
+                        </div>
+                    </div>
+                    {% if mensagem %}
+                        <div class="neg-feedback {% if erro %}error{% else %}success{% endif %}">
+                            <i class="bx {% if erro %}bx-error-circle{% else %}bx-check-circle{% endif %}"></i>
+                            {{ mensagem }}
+                        </div>
+                    {% endif %}
+                    {# ── Tabela de clientes ── #}
+                    <div
+                        class="section-block">
+                        {# Título da seção muda com o tipo ativo #}
+                        <div class="section-title">
+                            <i class="bx bx-list-ul"></i>
+                            Registros {{ tipo }}
+                            <span class="badge badge-spc" style="margin-left: auto;">{{ clientes | length }} registros</span>
+                        </div>
+                        {% if clientes and clientes | length > 0 %}
+                            {# ── Tabela SPC ── #}
+                            {% if tipo == 'spc' %}
+                                <div style="overflow-x: auto;">
+                                    <table class="viz-table">
+                                        <thead>
+                                            <tr>
+                                                <th>Cód. SPC</th>
+                                                <th>CPF / CNPJ</th>
+                                                <th>Consumidor</th>
+                                                <th>Contrato</th>
+                                                <th>Vencimento</th>
+                                                <th>Valor (R$)</th>
+                                                <th>Inclusão</th>
+                                            </tr>
+                                        </thead>
+                                        <tbody>
+                                            {% for c in clientes %}
+                                                <tr>
+                                                    <td>{{ c.codigoSpc }}</td>
+                                                    <td>{{ c.cpfCnpj }}</td>
+                                                    <td>{{ c.consumidor }}</td>
+                                                    <td>{{ c.contrato }}</td>
+                                                    <td>{{ c.dataVencimento }}</td>
+                                                    <td>{{ c.valorDebito }}</td>
+                                                    <td>{{ c.dataInclusao }}</td>
+                                                </tr>
+                                            {% endfor %}
+                                        </tbody>
+                                    </table>
+                                </div>
+                            {% endif %}
+                            {# ── Tabela SERASA ── #}
+                            {% if tipo == 'serasa' %}
+                                <div style="overflow-x: auto;">
+                                    <table class="viz-table">
+                                        <thead>
+                                            <tr>
+                                                <th>Status</th>
+                                                <th>ID</th>
+                                                <th>Devedor</th>
+                                                <th>Documento</th>
+                                                <th>Natureza</th>
+                                                <th>Valor (R$)</th>
+                                                <th>Dt. Cadastro</th>
+                                                <th>Dt. Ocorrência</th>
+                                            </tr>
+                                        </thead>
+                                        <tbody>
+                                            {% for c in clientes %}
+                                                <tr>
+                                                    <td>
+                                                        <span class="badge badge-serasa">{{ c.status }}</span>
+                                                    </td>
+                                                    <td>{{ c.id }}</td>
+                                                    <td>{{ c.nomeDevedorPrincipal }}</td>
+                                                    <td>{{ c.documento }}</td>
+                                                    <td>{{ c.natureza }}</td>
+                                                    <td>{{ c.valor }}</td>
+                                                    <td>{{ c.dataCadastro }}</td>
+                                                    <td>{{ c.dataOcorrenciaVencimento }}</td>
+                                                </tr>
+                                            {% endfor %}
+                                        </tbody>
+                                    </table>
+                                </div>
+                            {% endif %}
+                            {# ── Tabela PROTESTO ── #}
+                            {% if tipo == 'protesto' %}
+                                <div style="overflow-x: auto;">
+                                    <table class="viz-table">
+                                        <thead>
+                                            <tr>
+                                                <th>Nº Pedido</th>
+                                                <th>Devedor</th>
+                                                <th>Doc. Devedor</th>
+                                                <th>Comarca</th>
+                                                <th>Valor Título</th>
+                                                <th>Valor Protestado</th>
+                                                <th>Status</th>
+                                                <th>Dt. Solicitação</th>
+                                            </tr>
+                                        </thead>
+                                        <tbody>
+                                            {% for c in clientes %}
+                                                <tr>
+                                                    <td>{{ c.numero_pedido }}</td>
+                                                    <td>{{ c.devedor }}</td>
+                                                    <td>{{ c.doc_devedor }}</td>
+                                                    <td>{{ c.comarca_cartorio }}</td>
+                                                    <td>{{ c.valor_titulo }}</td>
+                                                    <td>{{ c.valor_protestado }}</td>
+                                                    <td>
+                                                        <span class="badge badge-protesto">{{ c.status_pedido }}</span>
+                                                    </td>
+                                                    <td>{{ c.data_solicitacao }}</td>
+                                                </tr>
+                                            {% endfor %}
+                                        </tbody>
+                                    </table>
+                                </div>
+                            {% endif %}
+                        {% else %}
+                            <div class="neg-empty">
+                                <p>Nenhum registro encontrado para
+                                    <strong>{{ tipo | upper }}</strong>.<br>Importe uma planilha para
+                                        começar.</p>
+                                </div>
+                            {% endif %}
+                        </div>
+                    </div>
+                    <script>
+                        const arquivoInput = document.getElementById('arquivoInput');
+                        const nomeArquivoSpan = document.getElementById('nomeArquivo');
+                        const btnUpload = document.getElementById('btnUpload');
+                        arquivoInput.addEventListener('change', function () {
+                            if (this.files && this.files.length > 0) {
+                                nomeArquivoSpan.textContent = this.files[0].name;
+                                btnUpload.disabled = false;
+                            } else {
+                                nomeArquivoSpan.textContent = 'Nenhum arquivo';
+                                btnUpload.disabled = true;
+                            }
+                        });
+                        document.getElementById('uploadForm').addEventListener('submit', function () {
+                            btnUpload.disabled = true;
+                            btnUpload.innerHTML = '<i class="bx bx-loader-alt bx-spin"></i> Enviando...';
+                        });
+                    </script>
+                {% endblock %}

@@ -1,3 +1,7 @@
+const ClienteSpc = require("./ClienteSpc.js")
+const SpcDao = require("../modeloDao/SpcDao.js");
+const connection = require("../databases/conexao.js");
+const Data = require("../utilitarios/Data.js");
 
 class SpcStrategy {
 
@@ -21,9 +25,57 @@ class SpcStrategy {
     }
 
 
-    salvar(dados) {
+   async salvar(dados) {
+		if (!dados || dados.length === 0) {
+		           return;
+		       }
+
+
+		       const dadosBanco = dados.map(cliente => [
+		           cliente.codigoSpc,
+		           cliente.cpfCnpj,
+		           cliente.consumidor,
+		           cliente.contrato,
+		           Data.dataParaBancoDeDados(cliente.dataVencimento),
+		           cliente.valorDebito,
+		           Data.dataParaBancoDeDados(cliente.dataInclusao),
+		           cliente.horaInclusao,
+		           Data.dataParaBancoDeDados(cliente.dataExclusao),
+				   cliente.tipoNotificacao,
+				   cliente.codigoNotificacao,
+				   cliente.codAssociado
+		           
+		       ]);
+
+				//console.log(dadosBanco);
+
+		       try {
+
+		           const spcDao = new SpcDao(connection);
+		           const resultado = await spcDao.adiciona(dadosBanco);
+		           console.log(`Sucesso! ${resultado.affectedRows} registros inseridos.`);
+		           return resultado;
+
+		       } catch (erro) {
+		           return erro;
+		       }
+		
 
     }
+	
+	async deletar() {
+		try {
+			const spcDao = new SpcDao(connection);
+			const resultado = SpcDao.remove();
+			return resultado;
+		} catch(erro) {
+			return erro;
+		}
+		
+	}
+	
+	
+	
 }
 
 

@@ -57,6 +57,26 @@ nav.open .sidebar {
 }
 
 /* ---- Itens do menu ---- */
+.sidebar-content .lists {
+    overflow-y: auto;
+    overflow-x: hidden;
+    flex-grow: 1;
+    margin-bottom: 15px;
+    padding-right: 5px; /* Evita que o scroll sobreponha o conteúdo */
+}
+
+/* Scrollbar customizada para o menu */
+.sidebar-content .lists::-webkit-scrollbar {
+    width: 6px;
+}
+.sidebar-content .lists::-webkit-scrollbar-thumb {
+    background-color: rgba(0, 0, 0, 0.2);
+    border-radius: 4px;
+}
+.sidebar-content .lists::-webkit-scrollbar-track {
+    background: transparent;
+}
+
 .sidebar-content .list {
     list-style: none;
 }

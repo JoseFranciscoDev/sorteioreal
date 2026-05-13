@@ -1,0 +1,306 @@
+@import url('https://fonts.googleapis.com/css2?family=Poppins:wght@300;400;500;600;700&display=swap');
+
+:root {
+    --primary:        #d1121d;
+    --primary-light:  #e63946;
+    --primary-dark:   #a50e17;
+    --bg-page:        #f4f6f9;
+    --bg-card:        #ffffff;
+    --text-main:      #2d2d2d;
+    --text-muted:     #666666;
+    --border:         #e0e0e0;
+    --shadow-sm:      0 2px 6px rgba(0,0,0,0.06);
+    --shadow-md:      0 6px 18px rgba(0,0,0,0.10);
+    --radius-md:      12px;
+    --transition:     all 0.25s ease;
+}
+
+body {
+    overflow-x: hidden;
+    font-family: 'Poppins', sans-serif;
+    background: var(--bg-page);
+}
+
+/* ── Layout principal ── */
+.detalhe-page {
+    padding: 90px 20px 60px;
+    max-width: 900px;
+    margin: 0 auto;
+}
+
+/* ── Cabeçalho ── */
+.detalhe-header {
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    margin-bottom: 32px;
+    gap: 16px;
+    flex-wrap: wrap;
+}
+
+.detalhe-header-info {
+    display: flex;
+    align-items: center;
+    gap: 16px;
+}
+
+.detalhe-header-info i {
+    font-size: 2.4rem;
+    color: var(--primary);
+}
+
+.detalhe-header-info h1 {
+    font-size: 1.55rem;
+    font-weight: 700;
+    color: var(--text-main);
+    margin: 0;
+    line-height: 1.2;
+}
+
+.detalhe-header-info p {
+    font-size: 0.85rem;
+    color: var(--text-muted);
+    margin: 4px 0 0;
+}
+
+/* ── Botão de voltar ── */
+.btn-voltar {
+    background: #888;
+    color: #fff;
+    padding: 8px 16px;
+    border-radius: 8px;
+    font-size: 0.82rem;
+    font-weight: 500;
+    text-decoration: none;
+    display: inline-flex;
+    align-items: center;
+    gap: 6px;
+    transition: var(--transition);
+    white-space: nowrap;
+}
+
+.btn-voltar:hover {
+    background: #666;
+    color: #fff;
+}
+
+/* ── Blocos de seção ── */
+.detalhe-section {
+    background: var(--bg-card);
+    border-radius: var(--radius-md);
+    box-shadow: var(--shadow-sm);
+    padding: 24px 28px;
+    margin-bottom: 24px;
+    border: 1px solid var(--border);
+}
+
+.detalhe-section-title {
+    font-size: 1rem;
+    font-weight: 600;
+    color: var(--primary);
+    border-bottom: 2px solid rgba(209,18,29,0.12);
+    padding-bottom: 10px;
+    margin-bottom: 20px;
+    display: flex;
+    align-items: center;
+    gap: 8px;
+}
+
+/* ── Grid de campos ── */
+.info-grid {
+    display: grid;
+    grid-template-columns: repeat(auto-fill, minmax(220px, 1fr));
+    gap: 18px 24px;
+}
+
+.info-item {
+    display: flex;
+    flex-direction: column;
+    gap: 3px;
+}
+
+.info-label {
+    font-size: 0.72rem;
+    font-weight: 600;
+    color: var(--text-muted);
+    text-transform: uppercase;
+    letter-spacing: 0.5px;
+}
+
+.info-value {
+    font-size: 0.92rem;
+    font-weight: 500;
+    color: var(--text-main);
+    line-height: 1.4;
+}
+
+.info-value.muted {
+    color: var(--text-muted);
+    font-style: italic;
+    font-weight: 400;
+}
+
+/* ── Badges ── */
+.badge {
+    padding: 4px 12px;
+    border-radius: 20px;
+    font-size: 0.75rem;
+    font-weight: 600;
+    display: inline-block;
+}
+
+.badge-sim   { background: #e6f4ea; color: #1e8e3e; border: 1px solid #1e8e3e; }
+.badge-nao   { background: #fce8e6; color: #d93025; border: 1px solid #d93025; }
+.badge-agend { background: #e8f0fe; color: #1a73e8; border: 1px solid #1a73e8; }
+
+/* ── Fotos ── */
+.fotos-grid {
+    display: grid;
+    grid-template-columns: 1fr 1fr;
+    gap: 20px;
+}
+
+.foto-card {
+    border-radius: var(--radius-md);
+    border: 1px solid var(--border);
+    overflow: hidden;
+    background: #fafafa;
+    transition: var(--transition);
+}
+
+.foto-card:hover {
+    box-shadow: var(--shadow-md);
+    border-color: var(--primary);
+}
+
+.foto-label {
+    padding: 10px 14px;
+    font-size: 0.78rem;
+    font-weight: 600;
+    color: var(--text-muted);
+    text-transform: uppercase;
+    letter-spacing: 0.4px;
+    background: #f4f6f9;
+    border-bottom: 1px solid var(--border);
+    display: flex;
+    align-items: center;
+    gap: 6px;
+}
+
+.foto-label i {
+    color: var(--primary);
+    font-size: 1rem;
+}
+
+.foto-img {
+    width: 100%;
+    max-height: 260px;
+    object-fit: cover;
+    display: block;
+    cursor: pointer;
+    transition: var(--transition);
+}
+
+.foto-img:hover {
+    opacity: 0.9;
+}
+
+.foto-vazia {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    justify-content: center;
+    gap: 8px;
+    padding: 40px 20px;
+    color: var(--text-muted);
+    font-size: 0.82rem;
+}
+
+.foto-vazia i {
+    font-size: 2.4rem;
+    opacity: 0.4;
+}
+
+/* ── Lightbox ── */
+.lightbox-overlay {
+    display: none;
+    position: fixed;
+    inset: 0;
+    background: rgba(0,0,0,0.82);
+    z-index: 9999;
+    align-items: center;
+    justify-content: center;
+    cursor: zoom-out;
+    animation: fadeIn 0.2s ease;
+}
+
+.lightbox-overlay.active {
+    display: flex;
+}
+
+.lightbox-img {
+    max-width: 90vw;
+    max-height: 88vh;
+    border-radius: 8px;
+    box-shadow: 0 20px 60px rgba(0,0,0,0.5);
+    object-fit: contain;
+    cursor: default;
+}
+
+.lightbox-close {
+    position: absolute;
+    top: 20px;
+    right: 24px;
+    font-size: 2rem;
+    color: #fff;
+    cursor: pointer;
+    line-height: 1;
+    opacity: 0.8;
+    transition: opacity 0.2s;
+}
+
+.lightbox-close:hover { opacity: 1; }
+
+@keyframes fadeIn {
+    from { opacity: 0; }
+    to   { opacity: 1; }
+}
+
+/* ── Observações ── */
+.obs-box {
+    background: #f9f9f9;
+    border: 1px solid var(--border);
+    border-radius: 8px;
+    padding: 14px 16px;
+    font-size: 0.9rem;
+    color: var(--text-main);
+    line-height: 1.6;
+    white-space: pre-wrap;
+}
+
+.obs-box.vazia {
+    color: var(--text-muted);
+    font-style: italic;
+}
+
+/* ── Responsivo ── */
+@media (max-width: 640px) {
+    .fotos-grid {
+        grid-template-columns: 1fr;
+    }
+
+    .info-grid {
+        grid-template-columns: 1fr 1fr;
+    }
+
+    .detalhe-header {
+        flex-direction: column;
+        align-items: flex-start;
+    }
+}
+
+@media (max-width: 420px) {
+    .info-grid {
+        grid-template-columns: 1fr;
+    }
+}

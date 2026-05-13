@@ -95,21 +95,11 @@ ALTER TABLE cupons ADD COLUMN horario TIME;
     placa VARCHAR(8) NOT NULL UNIQUE,
     chassi VARCHAR(17) NOT NULL UNIQUE
 );
-
-  CREATE TABLE IF NOT EXISTS rotas (
+desc veiculos;
+CREATE TABLE IF NOT EXISTS rotas (
 	codigo INT AUTO_INCREMENT PRIMARY KEY,
-    nome varchar(60) NOT NULL UNIQUE,
-    codigoVeiculo INT,
-    codigoCobrador INT,
-    data date not null,
-    saida time not null,
-    chegada time not null,
-    kmComeco DECIMAL(10,1) DEFAULT 0,
-    kmFinal DECIMAL(10,1) DEFAULT 0,
-    CONSTRAINT fk_cobrador
-    FOREIGN KEY (codigoCobrador) REFERENCES usuarios(codigo),
-    CONSTRAINT fk_veiculos
-    FOREIGN KEY (codigoVeiculo) REFERENCES veiculos(codigo)
+    nome varchar(60) NOT NULL UNIQUE
+    
  );
 
 CREATE TABLE IF NOT EXISTS visitas (
@@ -117,7 +107,6 @@ CREATE TABLE IF NOT EXISTS visitas (
     codigoRota        INT          NOT NULL,
     codigoCliente     INT          NOT NULL,
     endereco          VARCHAR(200) NOT NULL,
-    horario           TIME         NOT NULL,
     encontrado        TINYINT      NOT NULL DEFAULT 0,
     coordenadas       VARCHAR(50),
     fotoResidencia    TINYINT      DEFAULT 0,
@@ -128,18 +117,28 @@ CREATE TABLE IF NOT EXISTS visitas (
     agendamento       TINYINT      NOT NULL DEFAULT 0,
     data_agendamento  DATE,
     novoTelefone          VARCHAR(20),
+    codigoVeiculo INT,
+    codigoCobrador INT,
+    data date not null,
+    saida time not null,
+    chegada time not null,
+    kmComeco DECIMAL(10,1) DEFAULT 0,
+    kmFinal DECIMAL(10,1) DEFAULT 0,
     observacoes       VARCHAR(500),
+    CONSTRAINT fk_cobrador
+    FOREIGN KEY (codigoCobrador) REFERENCES usuarios(codigo),
+    CONSTRAINT fk_veiculos
+    FOREIGN KEY (codigoVeiculo) REFERENCES veiculos(codigo),
     CONSTRAINT fk_visita_rota FOREIGN KEY (codigoRota) REFERENCES rotas(codigo) ON DELETE CASCADE
 );
-
 CREATE TABLE IF NOT EXISTS pagamentos (
     codigo INT AUTO_INCREMENT PRIMARY KEY,
     codigoVisita INT NOT NULL UNIQUE,
     contrato VARCHAR(50) NOT NULL,
     parcelas INT NOT NULL,
-    valor DECIMAL(10,2) NOT NULL,
+    valor int NOT NULL,
     CONSTRAINT fk_pagamento_visita
-        FOREIGN KEY (codigoCorrida) REFERENCES visitas(codigo) ON DELETE CASCADE
+        FOREIGN KEY (codigoVisita) REFERENCES visitas(codigo) ON DELETE CASCADE
 );
 
 CREATE TABLE IF NOT EXISTS renegociacoes (
@@ -152,3 +151,57 @@ CREATE TABLE IF NOT EXISTS renegociacoes (
     CONSTRAINT fk_renegociacao_visita 
         FOREIGN KEY (codigoVisita) REFERENCES visitas(codigo) ON DELETE CASCADE
 );
+
+
+
+create table if not exists protesto (
+    numero_pedido integer not null,
+    comarca_cartorio varchar(255) not null,
+    data_solicitacao date not null,
+    comarca_devedor varchar(255) not null,
+    devedor varchar(255) not null,
+    doc_devedor varchar(255) not null,
+    numero_titulo integer not null,
+    valor_titulo decimal(15,6) not null,
+    valor_protestado decimal(15,6) not null,
+    protocolo integer,
+    data_protocolo date,
+    especie varchar(255) not null,
+    status_pedido varchar(255) not null,
+    irregularidade varchar(255),
+    ocorrencia_titulo varchar(255),
+    data_ocorrencia date null
+);
+
+
+
+  create table if not exists serasa(
+                status varchar(255) not null,
+                id int not null,
+                nomeDevedorPrincipal varchar(255) not null,
+                tipoPessoa varchar(255) not null,
+                documento varchar(255) not null,
+                natureza varchar(255) not null,
+                valor decimal(15,6) not null,
+                dataCadastro timestamp not null,
+                dataOcorrenciaVencimento date not null,
+                operacao varchar(255) not null);
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+

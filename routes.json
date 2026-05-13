@@ -1,0 +1,110 @@
+{
+    "NavBarItems": {
+    "Modulos": [
+      {
+        "clase": "bx bx-plus-circle icon",
+        "nome": "Modulo de Sorteio"
+      },
+      {
+        "clase": "bx bxs-pie-chart-alt-2 icon",
+        "nome": "Relatórios"
+      },
+      {
+        "clase": "bx bx-block icon",
+        "nome": "Black List"
+      },
+      {
+        "clase": "bx bxs-user icon",
+        "nome": "Administração"
+      },
+      {
+        "clase": "bx bxs-user icon",
+        "nome": "Clientes"
+      },
+      {
+        "clase": "bx bxs-image icon",
+        "nome": "Catalogo"
+      },
+      {
+        "clase": "bx bxs-user icon",
+        "nome": "Conciliação"
+      },
+      {
+        "clase": "bx bx-cog icon",
+        "nome": "Configurações",
+        "url": "configuracoes"
+      }
+    ],
+    "ItensModulos": [
+      {
+        "modulo": "Modulo de Sorteio",
+        "nome": "Pedido com Cliente",
+        "url": "home/pedido"
+      },
+      {
+        "modulo": "Modulo de Sorteio",
+        "nome": "Pedido sem Cliente",
+        "url": "home/atualizar/pedido"
+      },
+      {
+        "modulo": "Modulo de Sorteio",
+        "nome": "Reimpressao",
+        "url": "home/pedido/reimpressao"
+      },
+      {
+        "modulo": "Clientes",
+        "nome": "Cadastrar Cliente",
+        "url": "cliente"
+      },
+      {
+        "modulo": "Clientes",
+        "nome": "Clientes Cadastrados",
+        "url": "cliente/todos"
+      },
+      {
+        "modulo": "Catalogo",
+        "nome": "Catalogo de Produtos",
+        "url": "produtos"
+      },
+      {
+        "modulo": "Catalogo",
+        "nome": "Uploads de Imagens",
+        "url": "uploads"
+      },
+      {
+        "modulo": "Administração",
+        "nome": "Usuarios",
+        "url": "administracao/usuarios"
+      },
+      {
+        "modulo": "Administração",
+        "nome": "Pedidos",
+        "url": "administracao/pedidos"
+      },
+      {
+        "modulo": "Conciliação",
+        "nome": "Cadastro de Veiculos",
+        "url": "conciliacao/cadastro/veiculos"
+      },
+       {
+        "modulo": "Conciliação",
+        "nome": "Cadastro de Rota",
+        "url": "conciliacao/cadastro/rota"
+      },
+       {
+        "modulo": "Conciliação",
+        "nome": "Cadastro de Visita",
+        "url": "conciliacao/cadastro/visita"
+      },
+       {
+        "modulo": "Conciliação",
+        "nome": "Visualizar",
+        "url": "conciliacao/visualizar"
+      },
+      {
+        "modulo": "Conciliação",
+        "nome": "Clientes Protesto",
+        "url": "conciliacao/negativados"
+      }
+    ]
+  }}
