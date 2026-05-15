@@ -3,26 +3,27 @@ class Abstract {
     constructor() {
         throw new Error("Essa class não pode ser instanciada");
     }
-   static async setCupom(cupom) {
-        throw new Error("Esse metodo precisa ser implementado!");
+    static async setCupom(cupom) {
+        throw new Error("Esse metodo precisa ser implementado!"); t
     }
-  static async  getcupom (cupom) {
+    static async getcupom(cupom) {
         throw new Error("Esse metodo precisa ser implementado!");
-        
+
     }
-  static async  delete (cupom) {
+    static async delete(cupom) {
         throw new Error("Esse metodo precisa ser implementado!");
-        
+
     }
-  static async  atualiza (cupom) {
+
+    static async atualiza(cupom) {
         throw new Error("Esse metodo precisa ser implementado!");
-        
+
     }
-    
-  static async connection() {
+
+    static async connection() {
         return await connection();
     }
-    
+
 }
 
 
