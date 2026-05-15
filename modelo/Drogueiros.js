@@ -8,18 +8,3 @@ class DrogrueirosDao extends AbstractNerus {
         `
     }
 }
-
-/*
-codigo - prd
-descricao - prdnam
-ultima compra - iprd
-preco fabricante - prp
-preco referencia - prp
-saldo loja 1 - stk
-saldo loja 2 - stk
-No Cent Lucro - cl
-Nome Cent Lucro - cl
-Cod Barras - prdbar
-NCM - prd
-Fornecedor - vend
-*/
