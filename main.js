@@ -29,6 +29,7 @@ const UploadsDao = require("./modelo/UploadsDao.js");
 const conexao = require("./databases/conexao.js");
 const uploadRouter = require("./rotas/uploads.js");
 const uploadClienteNegativadosProtesto = require("./rotas/ClienteNegativadoProtestado.js");
+const routerDrogueiros = require("./rotas/drogueiros.js");
 const ProtestoDao = require("./modeloDao/ProtestoDao.js");
 const SerasaDao = require("./modeloDao/SerasaDao.js");
 const SpcDao = require("./modeloDao/SpcDao.js");
@@ -60,6 +61,7 @@ app.use(`${BASE_URL}/administracao`, verificaConfig, routerAdministracao);
 app.use(BASE_URL, estaLogado, verificaConfig, uploadRouter);
 app.use(BASE_URL, estaLogado, routerConciliacao);
 app.use(BASE_URL, estaLogado, uploadClienteNegativadosProtesto);
+app.use(BASE_URL, estaLogado, verificaConfig, routerDrogueiros);
 
 console.log("base_url", BASE_URL);
 app.listen(PORT, async () => {

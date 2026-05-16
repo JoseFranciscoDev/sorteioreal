@@ -1,0 +1,79 @@
+{% extends "home.html" %}
+
+{% block css %}
+<link rel="stylesheet" type="text/css" href="/css/Compras/drogueiros.css" media="screen" />
+<link rel="icon" type="image/x-icon" href="/image/icon.png">
+<title>Shopping Real - Drogueiros</title>
+{% endblock %}
+
+{% block principal %}
+
+<div class="drogueiros-container">
+
+    <div class="drogueiros-header">
+        <div class="drogueiros-header__titulo">
+            <i class='bx bx-package drogueiros-header__icone'></i>
+            <h1 class="drogueiros-header__texto">Drogueiros</h1>
+        </div>
+        <input class="drogueiros-header__contador" placeholder="Pesquisar por código ou descrição" />
+    </div>
+
+    <div class="tabela-container">
+        <table class="tabela-produtos" id="tabela-drogueiros">
+            <thead>
+                <tr>
+                    <th>Código</th>
+                    <th>Descrição</th>
+                    <th>Código de Barras</th>
+                    <th>N. C. Lucro</th>
+                    <th>Nome C. Lucro</th>
+                    <th>Fornecedor</th>
+                    <th>Última Compra</th>
+                </tr>
+            </thead>
+            <tbody>
+                {% if produtos.length == 0 %}
+                <tr>
+                    <td colspan="7" class="tabela-produtos__vazia">
+                        <i class='bx bx-search-alt-2'></i>
+                        <span>Nenhum produto encontrado.</span>
+                    </td>
+                </tr>
+                {% else %}
+                {% for produto in produtos %}
+                <tr class="tabela-produtos__linha">
+                    <td>{{ produto["Código"] }}</td>
+                    <td class="tabela-produtos__descricao">{{ produto["Descrição"] }}</td>
+                    <td><span class="badge-barcode">{{ produto["Código de Barras"] }}</span></td>
+                    <td>{{ produto["N. Cent. de Lucro"] }}</td>
+                    <td>{{ produto["Nome Cent. Lucro"] }}</td>
+                    <td><span class="badge-fornecedor">{{ produto["Fornecedor"] }}</span></td>
+                    <td>
+                        {% if produto["Ultima Compra"] %}
+                        <span class="badge-data">{{ produto["Ultima Compra"] }}</span>
+                        {% else %}
+                        <span class="badge-sem-compra">—</span>
+                        {% endif %}
+                    </td>
+                </tr>
+                {% endfor %}
+                {% endif %}
+            </tbody>
+        </table>
+    </div>
+
+    <div class="links-navegacao">
+        {% if paginaAtual > 1 %}
+        <a href="{{ BASE_URL }}/compras/drogueiros?porPagina=10&pagina={{ paginaAtual - 1 }}">&lt;</a>
+        {% endif %}
+
+        <p>{{ paginaAtual }}</p>
+
+        {% if temProximaPagina %}
+        <a href="{{ BASE_URL }}/compras/drogueiros?porPagina=10&pagina={{ paginaAtual + 1 }}">&gt;</a>
+        {% endif %}
+    </div>
+
+</div>
+
+{% endblock %}
