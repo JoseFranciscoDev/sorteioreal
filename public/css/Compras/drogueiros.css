@@ -1,0 +1,237 @@
+@import url('https://fonts.googleapis.com/css2?family=Poppins:wght@300;400;500;600;700&display=swap');
+
+
+
+:root {
+    --cor-primaria:      #d1121d;
+    --cor-primaria-leve: #e63946;
+    --bg-pagina:         #f4f6f9;
+    --bg-card:           #ffffff;
+    --texto-principal:   #333333;
+    --texto-secundario:  #666666;
+    --borda:             #e0e0e0;
+    --sombra-sm:         0 2px 4px rgba(0, 0, 0, 0.05);
+    --sombra-md:         0 4px 6px rgba(0, 0, 0, 0.10);
+    --transicao:         all 0.3s ease;
+}
+
+* {
+    margin: 0;
+    padding: 0;
+    box-sizing: border-box;
+}
+
+body, html {
+    height: 100%;
+    font-family: 'Poppins', sans-serif;
+    background-color: var(--bg-pagina);
+    color: var(--texto-principal);
+}
+
+/* ---- Área principal ---- */
+.drogueiros-container {
+    max-width: 1700px;
+    margin: 80px auto 40px;
+    padding: 0 2%;
+}
+
+/* ---- Cabeçalho ---- */
+.drogueiros-header {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    margin-bottom: 28px;
+    flex-wrap: wrap;
+    gap: 12px;
+}
+
+.drogueiros-header__titulo {
+    display: flex;
+    align-items: center;
+    gap: 12px;
+}
+
+.drogueiros-header__icone {
+    font-size: 2.2rem;
+    color: var(--cor-primaria);
+}
+
+.drogueiros-header__texto {
+    font-size: 2rem;
+    font-weight: 700;
+    color: var(--texto-principal);
+}
+
+.drogueiros-header__contador {
+    font-size: 0.9rem;
+    font-weight: 500;
+    color: var(--texto-secundario);
+    background: var(--bg-card);
+    padding: 6px 16px;
+    border-radius: 20px;
+    border: 1px solid var(--borda);
+    box-shadow: var(--sombra-sm);
+}
+
+/* ---- Contêiner da tabela ---- */
+.tabela-container {
+    background: var(--bg-card);
+    border-radius: 14px;
+    box-shadow: var(--sombra-md);
+    border: 1px solid var(--borda);
+    overflow-x: auto;
+    width: 100%;
+}
+
+/* ---- Tabela ---- */
+.tabela-produtos {
+    width: 100%;
+    border-collapse: collapse;
+    min-width: 1200px;
+}
+
+.tabela-produtos thead tr {
+    background: linear-gradient(135deg, var(--cor-primaria) 0%, var(--cor-primaria-leve) 100%);
+}
+
+.tabela-produtos th {
+    padding: 14px 18px;
+    text-align: left;
+    color: #ffffff;
+    font-weight: 600;
+    font-size: 0.80rem;
+    text-transform: uppercase;
+    letter-spacing: 0.6px;
+    white-space: nowrap;
+}
+
+.tabela-produtos td {
+    padding: 15px 20px;
+    border-bottom: 1px solid var(--borda);
+    font-size: 0.88rem;
+    color: var(--texto-principal);
+    vertical-align: middle;
+    white-space: nowrap;
+}
+
+.tabela-produtos tr:last-child td {
+    border-bottom: none;
+}
+
+.tabela-produtos__linha:hover td {
+    background-color: #fef6f6;
+    transition: var(--transicao);
+}
+
+/* Coluna Descrição mais larga */
+.tabela-produtos__descricao {
+    font-weight: 500;
+    min-width: 220px;
+}
+
+/* ---- Badges ---- */
+.badge-barcode {
+    display: inline-block;
+    background: rgba(108, 117, 125, 0.08);
+    color: #555;
+    border: 1px solid rgba(108, 117, 125, 0.20);
+    padding: 3px 10px;
+    border-radius: 6px;
+    font-size: 0.80rem;
+    font-family: 'Courier New', monospace;
+    letter-spacing: 0.5px;
+}
+
+.badge-fornecedor {
+    display: inline-block;
+    background: rgba(209, 18, 29, 0.08);
+    color: var(--cor-primaria);
+    border: 1px solid rgba(209, 18, 29, 0.20);
+    padding: 3px 12px;
+    border-radius: 20px;
+    font-size: 0.80rem;
+    font-weight: 600;
+    white-space: nowrap;
+}
+
+.badge-data {
+    display: inline-block;
+    background: rgba(34, 197, 94, 0.10);
+    color: #16a34a;
+    border: 1px solid rgba(34, 197, 94, 0.25);
+    padding: 3px 12px;
+    border-radius: 20px;
+    font-size: 0.80rem;
+    font-weight: 600;
+    white-space: nowrap;
+}
+
+.badge-sem-compra {
+    color: var(--texto-secundario);
+    font-size: 1rem;
+}
+
+/* ---- Estado vazio ---- */
+.tabela-produtos__vazia {
+    text-align: center;
+    padding: 60px 20px !important;
+    color: var(--texto-secundario);
+}
+
+.tabela-produtos__vazia i {
+    display: block;
+    font-size: 2.5rem;
+    margin-bottom: 10px;
+    color: var(--borda);
+}
+
+.tabela-produtos__vazia span {
+    font-size: 1rem;
+}
+
+/* ---- Paginação ---- */
+.links-navegacao {
+    margin-top: 3%;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    gap: 15px;
+}
+
+.links-navegacao a {
+    text-decoration: none;
+    font-size: 20px;
+    color: var(--cor-primaria);
+    font-weight: 600;
+    padding: 4px 12px;
+    border-radius: 6px;
+    transition: var(--transicao);
+}
+
+.links-navegacao a:hover {
+    background: rgba(209, 18, 29, 0.08);
+}
+
+.links-navegacao p {
+    font-size: 18px;
+    font-weight: 600;
+    color: var(--texto-principal);
+    min-width: 30px;
+    text-align: center;
+}
+
+/* ---- Responsivo ---- */
+@media (max-width: 768px) {
+    .drogueiros-header {
+        flex-direction: column;
+        align-items: flex-start;
+    }
+
+    .drogueiros-header__texto {
+        font-size: 1.5rem;
+    }
+
+    .tabela-container {
+        border-radius: 8px;
+    }
+}

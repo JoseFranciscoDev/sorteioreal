@@ -30,6 +30,10 @@
         "nome": "Conciliação"
       },
       {
+        "clase": "bx bx-cart icon",
+        "nome": "Compras"
+      },
+      {
         "clase": "bx bx-cog icon",
         "nome": "Configurações",
         "url": "configuracoes"
@@ -110,6 +114,11 @@
         "modulo": "Conciliação",
         "nome": "Clientes Protesto",
         "url": "conciliacao/negativados"
+      },
+      {
+        "modulo": "Compras",
+        "nome": "Drogueiros",
+        "url": "compras/drogueiros"
       }
     ]
   }}
