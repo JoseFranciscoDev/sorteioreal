@@ -4,12 +4,14 @@ const {uploadImagens, uploadArquivos} = require("../middlewares/Uploads.js");
 const UploadsController = require("../controle/UploadsController.js");
 const UploadsService = require("../services/UploadsService.js"); 
 const UploadsDao = require("../modelo/UploadsDao.js");
+const CatalogoDao = require("../modelo/CatalogoDao.js");
 const conexao = require("../databases/conexao.js");
 const conexaoAWS = require("../databases/ConexaoNerusAWS");
 
 const uploadsDao = new UploadsDao(conexao, conexaoAWS);
+const catalogoDao = new CatalogoDao();
 
-const uploadsService = new UploadsService(uploadsDao);
+const uploadsService = new UploadsService(uploadsDao, catalogoDao);
 
 const uploadsController = new UploadsController(uploadsService);
 

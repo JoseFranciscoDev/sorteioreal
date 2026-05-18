@@ -18,7 +18,8 @@ class UploadsController {
 			totalPaginas,
 			paginaAtual,
 			modulos,
-			BASE_URL
+			BASE_URL,
+			usuario: req.session.usuario
 		});
 	}
 

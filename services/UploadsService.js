@@ -1,46 +1,39 @@
 const fs = require("fs");
 const path = require("path");
-const { v4: uuidv4 } = require("uuid");
-
 
 
 class CatalogoService {
 
-    constructor(uploadsDao) {
-
+    constructor(uploadsDao, catalogoDao) {
         this.uploadsDao = uploadsDao;
+        this.CatalogoDao = catalogoDao;
     }
 
 
     async listarProdutos(pagina = 1, codigo = null) {
-        const loja = 1;
+        const loja = 2;
         const limit = 10;
         const offset = (pagina - 1) * limit;
 
-        const total = await this.uploadsDao.contarTotalImagens();
-        const totalPaginas = Math.ceil(total / limit);
+        const produtos = await this.CatalogoDao.buscarProdutos(limit, offset, loja);
 
-        const produtos = await this.uploadsDao.buscarImagensProdutos(limit, offset, codigo);
+        const totalLinhasResult = await this.CatalogoDao.totalLinhas();
+        const totalRegistros = totalLinhasResult[0]?.totalLinhas || 0;
+        const totalPaginas = Math.ceil(totalRegistros / limit);
 
-        if (!produtos || produtos.length === 0) {
-            return { produtos: [], totalPaginas, paginaAtual: pagina };
-        }
+        const listaFinal = await Promise.all(
+            produtos.map(async (produto) => {
+                const imagens = await this.uploadsDao.buscarImagensPorCodigo(produto.prdno);
+                return {
+                    prdno: produto.prdno,
+                    name: produto.name,
+                    preco: produto.refprice || null,
+                    temImagens: imagens && imagens.length > 0,
+                    imagens: imagens || []
+                };
+            })
+        );
 
-        const codigos = produtos.map(p => p.codigo_produto);
-        const dadosProdutos = await this.uploadsDao.buscarDadosProdutos(codigos, loja);
-        const mapaProdutos = new Map();
-        for (const item of dadosProdutos) {
-            mapaProdutos.set(item.codigo, item);
-        }
-
-        const listaFinal = produtos.map(produto => {
-            const dados = mapaProdutos.get(produto.codigo_produto);
-            return {
-                ...produto,
-                nome_produto: dados?.produto || null,
-                preco: dados?.preco || null
-            };
-        });
         return { produtos: listaFinal, totalPaginas, paginaAtual: pagina };
     }
 
