@@ -1,0 +1,253 @@
+@import url('https://fonts.googleapis.com/css2?family=Poppins:wght@400;500;700&display=swap');
+
+* {
+    margin: 0;
+    padding: 0;
+    box-sizing: border-box;
+}
+
+body, html {
+    height: 100%;
+    font-family: 'Poppins', sans-serif;
+    font-weight: 400;
+    background-color: #f4f4f4;
+}
+
+/* ===== HEADER ===== */
+.cat-header {
+    position: fixed;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 64px;
+    background-color: #ca2c2c;
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    padding: 0 20px;
+    z-index: 1000;
+    box-shadow: 0 2px 8px rgba(0, 0, 0, 0.25);
+}
+
+.cat-header .header-left {
+    display: flex;
+    align-items: center;
+    gap: 14px;
+    margin-left: 60px;
+}
+
+.cat-header .header-left h1 {
+    font-size: 20px;
+    font-weight: 700;
+    color: #ffffff;
+    letter-spacing: 0.5px;
+}
+
+.menu-icon-header {
+    font-size: 34px;
+    color: #ffffff;
+    cursor: pointer;
+    transition: opacity 0.2s;
+}
+
+.menu-icon-header:hover {
+    opacity: 0.75;
+}
+
+/* ===== SEARCH BAR ===== */
+.search-bar {
+    display: flex;
+    align-items: center;
+    background-color: rgba(255, 255, 255, 0.15);
+    border: 1.5px solid rgba(255, 255, 255, 0.5);
+    border-radius: 25px;
+    overflow: hidden;
+    transition: background-color 0.2s;
+}
+
+.search-bar:focus-within {
+    background-color: rgba(255, 255, 255, 0.25);
+}
+
+.search-bar input {
+    background: transparent;
+    border: none;
+    outline: none;
+    padding: 8px 16px;
+    font-size: 14px;
+    color: #ffffff;
+    font-family: 'Poppins', sans-serif;
+    width: 220px;
+}
+
+.search-bar input::placeholder {
+    color: rgba(255, 255, 255, 0.75);
+}
+
+.search-bar button {
+    background: rgba(255, 255, 255, 0.2);
+    border: none;
+    padding: 8px 14px;
+    cursor: pointer;
+    color: #ffffff;
+    font-size: 18px;
+    display: flex;
+    align-items: center;
+    transition: background-color 0.2s;
+}
+
+.search-bar button:hover {
+    background: rgba(255, 255, 255, 0.35);
+}
+
+/* ===== SIDEBAR / NAV (Overrides) ===== */
+nav {
+    z-index: 1100;
+}
+
+/* O ícone do menu principal fora da sidebar precisa ser branco por causa do fundo vermelho do header */
+nav > .logo .menu-icon {
+    color: #ffffff;
+}
+
+/* ===== PRODUCT GRID ===== */
+.catalog-wrapper {
+    margin-top: 80px;
+    padding: 24px 20px;
+    display: flex;
+    flex-wrap: wrap;
+    gap: 20px;
+    justify-content: center;
+}
+
+/* ===== CARDS ===== */
+.produto-card {
+    width: 220px;
+    border-radius: 12px;
+    overflow: hidden;
+    background: #ffffff;
+    box-shadow: 0 2px 8px rgba(0, 0, 0, 0.1);
+    transition: transform 0.2s, box-shadow 0.2s;
+    display: flex;
+    flex-direction: column;
+}
+
+.produto-card:hover {
+    transform: translateY(-5px);
+    box-shadow: 0 8px 20px rgba(0, 0, 0, 0.15);
+}
+
+.produto-card img {
+    width: 100%;
+    height: 180px;
+    object-fit: cover;
+}
+
+.produto-card .card-body {
+    padding: 12px 14px;
+    display: flex;
+    flex-direction: column;
+    gap: 6px;
+    flex: 1;
+}
+
+.produto-card .card-title {
+    font-size: 14px;
+    font-weight: 600;
+    color: #333333;
+    white-space: nowrap;
+    overflow: hidden;
+    text-overflow: ellipsis;
+}
+
+.produto-card .card-text {
+    font-size: 12px;
+    color: #888888;
+}
+
+.produto-card .preco {
+    font-size: 16px;
+    font-weight: 700;
+    color: #ca2c2c;
+}
+
+.produto-card .btn-ver {
+    margin-top: auto;
+    background-color: #ca2c2c;
+    color: #ffffff;
+    border: none;
+    border-radius: 20px;
+    padding: 7px 0;
+    font-size: 13px;
+    font-family: 'Poppins', sans-serif;
+    font-weight: 500;
+    cursor: pointer;
+    text-align: center;
+    text-decoration: none;
+    display: block;
+    transition: background-color 0.2s;
+}
+
+.produto-card .btn-ver:hover {
+    background-color: #a02020;
+    color: #ffffff;
+}
+
+/* Logo sidebar */
+.sidebar-logo {
+    display: flex;
+    align-items: center;
+    padding: 10px 16px 20px 16px;
+    border-bottom: 1px solid #f0f0f0;
+    margin-bottom: 10px;
+}
+
+.sidebar-logo img {
+    height: 40px;
+}
+
+/* ===== PAGINAÇÃO ===== */
+.pagination-bar {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    gap: 8px;
+    padding: 24px 20px 40px;
+    flex-wrap: wrap;
+}
+
+.page-btn,
+.page-num {
+    display: inline-flex;
+    align-items: center;
+    gap: 4px;
+    padding: 8px 16px;
+    border-radius: 20px;
+    font-size: 14px;
+    font-family: 'Poppins', sans-serif;
+    font-weight: 500;
+    text-decoration: none;
+    color: #ca2c2c;
+    background-color: #ffffff;
+    border: 1.5px solid #ca2c2c;
+    transition: all 0.2s;
+}
+
+.page-btn:hover,
+.page-num:hover {
+    background-color: #ca2c2c;
+    color: #ffffff;
+}
+
+.page-num.active {
+    background-color: #ca2c2c;
+    color: #ffffff;
+    pointer-events: none;
+}
+
+.page-btn.disabled {
+    color: #cccccc;
+    border-color: #cccccc;
+    pointer-events: none;
+    cursor: not-allowed;
+}

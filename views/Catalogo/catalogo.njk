@@ -54,11 +54,11 @@
 <script>
     function filtrarProdutos() {
         const input = document.getElementById("searchInput");
-        const url = "{{baseUrl}}"; 
+        const url = "{{baseUrl}}";
         window.location.href = `${url}/produtos?codigo=${input.value}`;
     }
 
-   document.getElementById("searchInput").addEventListener("keyup", function (e) {
+    document.getElementById("searchInput").addEventListener("keyup", function (e) {
         if (e.key === "Enter") filtrarProdutos();
     });
 </script>
