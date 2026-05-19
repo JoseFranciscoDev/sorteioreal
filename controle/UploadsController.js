@@ -12,7 +12,7 @@ class UploadsController {
 		const codigo = req.query.codigo ? req.query.codigo : null;
 		const { produtos, totalPaginas, paginaAtual } = await this.catalogoService.listarProdutosAdmin(pagina, codigo);
 		const modulos = NavBar.getModulos();
-		return res.render("catalogo.njk", {
+		return res.render("Catalogo/catalogo.njk", {
 			baseUrl: BASE_URL,
 			produtos,
 			totalPaginas,
