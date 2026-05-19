@@ -1,0 +1,66 @@
+{% extends "home.html" %}
+
+{% block css %}
+<link rel="stylesheet" type="text/css" href="/css/catalogoCards.css" />
+<link rel="stylesheet" href="https://unpkg.com/boxicons@2.1.2/css/boxicons.min.css" />
+{% endblock %}
+
+{% block principal %}
+
+<header class="cat-header">
+    <div class="header-left ms-15">
+        <h1>Catálogo de Produtos</h1>
+    </div>
+    <div class="search-bar">
+        <input type="text" id="searchInput" placeholder="Pesquisar produto...">
+        <button type="button" onclick="filtrarProdutos()">
+            <i class="bx bx-search"></i>
+        </button>
+    </div>
+</header>
+
+<div class="catalog-wrapper" id="catalogGrid">
+    {% for produto in produtos %}
+    <div class="produto-card" data-nome="{{ produto.nome_produto | lower }}" data-codigo="{{ produto.codigo_produto }}">
+        <img src="/{{ produto.imagem_url }}" alt="{{ produto.nome_produto }}">
+        <div class="card-body">
+            <h5 class="card-title">{{ produto.nome_produto if produto.nome_produto else "Sem nome" }}</h5>
+            <p class="card-text">Código: {{ produto.codigo_produto }}</p>
+            {% if produto.preco %}
+            <p class="preco">R$ {{ produto.preco / 100 }}</p>
+            {% endif %}
+            <a href="{{ baseUrl }}/produtos/{{ produto.codigo_produto }}" class="btn-ver">Ver produto</a>
+        </div>
+    </div>
+    {% endfor %}
+</div>
+
+<div class="pagination-bar">
+    <a href="?pagina={{ paginaAtual - 1 }}" class="page-btn {% if paginaAtual <= 1 %}disabled{% endif %}">
+        <i class="bx bx-chevron-left"></i> Anterior
+    </a>
+
+    {% for i in range(1, totalPaginas + 1) %}
+    <a href="?pagina={{ i }}" class="page-num {% if i == paginaAtual %}active{% endif %}">
+        {{ i }}
+    </a>
+    {% endfor %}
+
+    <a href="?pagina={{ paginaAtual + 1 }}" class="page-btn {% if paginaAtual >= totalPaginas %}disabled{% endif %}">
+        Próxima <i class="bx bx-chevron-right"></i>
+    </a>
+</div>
+
+<script>
+    function filtrarProdutos() {
+        const input = document.getElementById("searchInput");
+        const url = "{{baseUrl}}"; 
+        window.location.href = `${url}/produtos?codigo=${input.value}`;
+    }
+
+   document.getElementById("searchInput").addEventListener("keyup", function (e) {
+        if (e.key === "Enter") filtrarProdutos();
+    });
+</script>
+
+{% endblock %}
