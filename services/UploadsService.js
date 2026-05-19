@@ -10,19 +10,44 @@ class CatalogoService {
     }
 
 
-    async listarProdutos(pagina = 1, codigo = null) {
+    async listarProdutosAdmin(pagina = 1, codigo = null) {
+        const loja = 2;
+        const limit = 10;
+        const offset = (pagina - 1) * limit;
+
+        const produtos = await this.CatalogoDao.buscarProdutos(limit, offset, loja);
+        const totalLinhasResult = produtos[1]
+        const totalPaginas = Math.ceil(totalLinhasResult / limit);
+
+        const listaFinal = await Promise.all(
+            produtos[0].map(async (produto) => {
+                const imagens = await this.uploadsDao.buscarImagensPorCodigo(produto.codigo);
+                return {
+                    codigo: produto.codigo,
+                    nome: produto.nome,
+                    preco: produto.refprice || null,
+                    grupo: produto.grupo,
+                    temImagens: imagens && imagens.length > 0,
+                    imagens: imagens || []
+                };
+            })
+        );
+
+        return { produtos: listaFinal, totalPaginas, paginaAtual: pagina };
+    }
+
+    async listarProdutosVendedor(pagina = 1, codigo = null) {
         const loja = 2;
         const limit = 10;
         const offset = (pagina - 1) * limit;
 
         const produtos = await this.CatalogoDao.buscarProdutos(limit, offset, loja);
 
-        const totalLinhasResult = await this.CatalogoDao.totalLinhas();
-        const totalRegistros = totalLinhasResult[0]?.totalLinhas || 0;
-        const totalPaginas = Math.ceil(totalRegistros / limit);
+        const totalLinhasResult = produtos[1]
+        const totalPaginas = Math.ceil(totalLinhasResult / limit);
 
         const listaFinal = await Promise.all(
-            produtos.map(async (produto) => {
+            produtos[0].map(async (produto) => {
                 const imagens = await this.uploadsDao.buscarImagensPorCodigo(produto.prdno);
                 return {
                     prdno: produto.prdno,
@@ -36,7 +61,6 @@ class CatalogoService {
 
         return { produtos: listaFinal, totalPaginas, paginaAtual: pagina };
     }
-
     async detalhesProduto(codigo_produto) {
         const loja = 1;
 

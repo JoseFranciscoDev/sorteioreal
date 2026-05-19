@@ -11,7 +11,8 @@ const config = {
     connectionLimit: 10,
     enableKeepAlive: true,
     keepAliveInitialDelay: 10000,
-    ssl: { rejectUnauthorized: false }
+    ssl: { rejectUnauthorized: false },
+    multipleStatements: true
 };
 
 let pool = mysql.createPool(config);
