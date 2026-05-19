@@ -2,6 +2,7 @@ const express = require("express");
 const router = express.Router();
 const { uploadImagens, uploadArquivos } = require("../middlewares/Uploads.js");
 const UploadsController = require("../controle/UploadsController.js");
+const CatalogoCardsController = require("../controle/CatalogoCardsController.js");
 const UploadsService = require("../services/UploadsService.js");
 const UploadsDao = require("../modelo/UploadsDao.js");
 const CatalogoDao = require("../modelo/CatalogoDao.js");
@@ -14,10 +15,11 @@ const catalogoDao = new CatalogoDao();
 const uploadsService = new UploadsService(uploadsDao, catalogoDao);
 
 const uploadsController = new UploadsController(uploadsService);
-
+const catalogoCardsController = new CatalogoCardsController(uploadsService);
 
 
 router.get("/produtos", (req, res) => uploadsController.listarProdutos(req, res));
+router.get("/catalogo", (req, res) => catalogoCardsController.listarProdutos(req, res));
 router.get("/produtos/:codigo", (req, res) => uploadsController.detalhesProduto(req, res));
 router.post("/uploads", uploadImagens.array("imagens", 10), (req, res) => uploadsController.uploads(req, res));
 router.get("/uploads", (req, res) => uploadsController.uploadsImagens(req, res));

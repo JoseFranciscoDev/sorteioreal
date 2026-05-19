@@ -1,7 +1,7 @@
 {% extends "home.html" %}
 
 {% block css %}
-<link rel="stylesheet" type="text/css" href="/css/catalogoCards.css" />
+<link rel="stylesheet" type="text/css" href="/css/Catalogo/catalogoCards.css" />
 <link rel="stylesheet" href="https://unpkg.com/boxicons@2.1.2/css/boxicons.min.css" />
 {% endblock %}
 
@@ -21,15 +21,15 @@
 
 <div class="catalog-wrapper" id="catalogGrid">
     {% for produto in produtos %}
-    <div class="produto-card" data-nome="{{ produto.nome_produto | lower }}" data-codigo="{{ produto.codigo_produto }}">
-        <img src="/{{ produto.imagem_url }}" alt="{{ produto.nome_produto }}">
+    <div class="produto-card" data-nome="{{ produto.nome | lower }}" data-codigo="{{ produto.codigo }}">
+        <img src="/{{ produto.imagens[0].imagem_url if produto.temImagens else 'img/placeholder.png' }}" alt="{{ produto.nome }}">
         <div class="card-body">
-            <h5 class="card-title">{{ produto.nome_produto if produto.nome_produto else "Sem nome" }}</h5>
-            <p class="card-text">Código: {{ produto.codigo_produto }}</p>
+            <h5 class="card-title">{{ produto.nome if produto.nome else "Sem nome" }}</h5>
+            <p class="card-text">Código: {{ produto.codigo }}</p>
             {% if produto.preco %}
             <p class="preco">R$ {{ produto.preco / 100 }}</p>
             {% endif %}
-            <a href="{{ baseUrl }}/produtos/{{ produto.codigo_produto }}" class="btn-ver">Ver produto</a>
+            <a href="{{ baseUrl }}/produtos/{{ produto.codigo }}" class="btn-ver">Ver produto</a>
         </div>
     </div>
     {% endfor %}
