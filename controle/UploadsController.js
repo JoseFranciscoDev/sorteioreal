@@ -10,7 +10,7 @@ class UploadsController {
 	async listarProdutos(req, res) {
 		const pagina = parseInt(req.query.pagina) || 1;
 		const codigo = req.query.codigo ? req.query.codigo : null;
-		const { produtos, totalPaginas, paginaAtual } = await this.catalogoService.listarProdutos(pagina, codigo);
+		const { produtos, totalPaginas, paginaAtual } = await this.catalogoService.listarProdutosAdmin(pagina, codigo);
 		const modulos = NavBar.getModulos();
 		return res.render("catalogo.njk", {
 			baseUrl: BASE_URL,
@@ -18,7 +18,8 @@ class UploadsController {
 			totalPaginas,
 			paginaAtual,
 			modulos,
-			BASE_URL
+			BASE_URL,
+			usuario: req.session.usuario
 		});
 	}
 
@@ -30,7 +31,7 @@ class UploadsController {
 		if (!produto) {
 			return res.redirect(`${BASE_URL}/produtos`);
 		}
-		
+
 
 		return res.render("produto.njk", {
 			baseUrl: BASE_URL,

@@ -1,12 +1,9 @@
 {% extends "home.html" %}
-
 {% block css %}
-<link rel="stylesheet" type="text/css" href="/css/catalogo.css" />
+<link rel="stylesheet" type="text/css" href="/css/Catalogo/catalogo.css" />
 <link rel="stylesheet" href="https://unpkg.com/boxicons@2.1.2/css/boxicons.min.css" />
 {% endblock %}
-
 {% block principal %}
-
 <header class="cat-header">
     <div class="header-left ms-15">
         <h1>Catálogo de Produtos</h1>
@@ -18,49 +15,119 @@
         </button>
     </div>
 </header>
-
-<div class="catalog-wrapper" id="catalogGrid">
-    {% for produto in produtos %}
-    <div class="produto-card" data-nome="{{ produto.nome_produto | lower }}" data-codigo="{{ produto.codigo_produto }}">
-        <img src="/{{ produto.imagem_url }}" alt="{{ produto.nome_produto }}">
-        <div class="card-body">
-            <h5 class="card-title">{{ produto.nome_produto if produto.nome_produto else "Sem nome" }}</h5>
-            <p class="card-text">Código: {{ produto.codigo_produto }}</p>
-            {% if produto.preco %}
-            <p class="preco">R$ {{ produto.preco / 100 }}</p>
+<div class="tabela-container">
+    <table class="tabela-produtos" id="tabela-catalogo">
+        <thead>
+            <tr>
+                <th>Código</th>
+                <th>Produto</th>
+                <th>Centro de lucro</th>
+                <th>Imagens</th>
+                {% if usuario and usuario.tipo == 'ADMIN' %}
+                <th>Ações</th>
+                {% endif %}
+            </tr>
+        </thead>
+        <tbody>
+            {% if produtos.length == 0 %}
+            <tr>
+                <td colspan="5" class="tabela-produtos__vazia">
+                    <i class='bx bx-search-alt-2'></i>
+                    <span>Nenhum produto encontrado.</span>
+                </td>
+            </tr>
+            {% else %}
+            {% for produto in produtos %}
+            <tr class="tabela-produtos__linha">
+                <td>{{ produto.codigo }}</td>
+                <td class="tabela-produtos__descricao">{{ produto.nome if produto.nome else "Sem nome" }}</td>
+                <td>
+                    {{produto.grupo}}
+                </td>
+                <td>
+                    {% if produto.temImagens %}
+                    <a href="{{ baseUrl }}/produtos/{{ produto.prdno }}" class="btn-ver-tabela">Ver imagens</a>
+                    {% else %}
+                    <span class="badge-sem-imagem">Sem imagens</span>
+                    {% endif %}
+                </td>
+                {% if usuario and usuario.tipo == 'ADMIN' %}
+                <td>
+                    <button class="btn-upload-modal" onclick="abrirModalUpload('{{ produto.prdno }}')">
+                        <i class='bx bx-upload'></i>
+                        Upload
+                    </button>
+                </td>
+                {% endif %}
+            </tr>
+            {% endfor %}
             {% endif %}
-            <a href="{{ baseUrl }}/produtos/{{ produto.codigo_produto }}" class="btn-ver">Ver produto</a>
-        </div>
-    </div>
-    {% endfor %}
+        </tbody>
+    </table>
 </div>
-
 <div class="pagination-bar">
     <a href="?pagina={{ paginaAtual - 1 }}" class="page-btn {% if paginaAtual <= 1 %}disabled{% endif %}">
-        <i class="bx bx-chevron-left"></i> Anterior
+        <i class="bx bx-chevron-left"></i>
+        Anterior
     </a>
-
-    {% for i in range(1, totalPaginas + 1) %}
-    <a href="?pagina={{ i }}" class="page-num {% if i == paginaAtual %}active{% endif %}">
-        {{ i }}
+    <a href="?pagina={{ paginaAtual }}" class="page-num active">
+        {{ paginaAtual }}
     </a>
-    {% endfor %}
-
     <a href="?pagina={{ paginaAtual + 1 }}" class="page-btn {% if paginaAtual >= totalPaginas %}disabled{% endif %}">
-        Próxima <i class="bx bx-chevron-right"></i>
+        Próxima
+        <i class="bx bx-chevron-right"></i>
     </a>
 </div>
-
+<!-- Modal Upload -->
+<div id="modalUpload" class="modal-upload" style="display: none;">
+    <div class="modal-upload-content">
+        <span class="close-modal" onclick="fecharModalUpload()">&times;</span>
+        <div class="wrap-cliente">
+            <span class="cliente-form-title">Upload de Imagens</span>
+            <form action="{{ baseUrl }}/uploads" method="POST" enctype="multipart/form-data">
+                <input type="hidden" name="codigo_produto" id="modal_codigo_produto" value="">
+                <div class="wrap-input">
+                    <input type="file" name="imagens" class="input-cliente file-input" multiple required
+                        accept="image/*">
+                </div>
+                <div class="btn-container">
+                    <button type="submit" class="btn-cliente">Enviar Imagens</button>
+                </div>
+            </form>
+        </div>
+    </div>
+</div>
 <script>
     function filtrarProdutos() {
         const input = document.getElementById("searchInput");
-        const url = "{{baseUrl}}";
-        window.location.href = `${url}/produtos?codigo=${input.value}`;
+        const url = "{{ baseUrl }}";
+        window.location.href = `${url}/produtos?codigo=${input.value
+            }`;
     }
-
     document.getElementById("searchInput").addEventListener("keyup", function (e) {
-        if (e.key === "Enter") filtrarProdutos();
-    });
-</script>
+        if (e.key === "Enter")
+            filtrarProdutos();
 
+    });
+    function abrirModalUpload(codigo) {
+        document.getElementById('modal_codigo_produto').value = codigo;
+        document
+            .getElementById('modalUpload')
+            .style
+            .display = 'flex';
+    }
+    function fecharModalUpload() {
+        document
+            .getElementById('modalUpload')
+            .style
+            .display = 'none';
+    }
+    // Fechar modal ao clicar fora
+    window.onclick = function (event) {
+        const modal = document.getElementById('modalUpload');
+        if (event.target == modal) {
+            fecharModalUpload();
+        }
+    }
+</script>
 {% endblock %}
