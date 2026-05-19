@@ -60,7 +60,7 @@ app.use(BASE_URL, estaLogado, verificaConfig, routerCupom);
 app.use(`${BASE_URL}/administracao`, verificaConfig, routerAdministracao);
 app.use(BASE_URL, estaLogado, verificaConfig, uploadRouter);
 app.use(BASE_URL, estaLogado, routerConciliacao);
-app.use(BASE_URL, estaLogado, uploadClienteNegativadosProtesto);
+app.use(uploadClienteNegativadosProtesto);
 app.use(BASE_URL, estaLogado, verificaConfig, routerDrogueiros);
 
 console.log("base_url", BASE_URL);

@@ -95,6 +95,17 @@ class ClienteNegativadoProtestado {
             });
         }
     }
+	
+	async conciliar(req, res) {
+		const {tipo} = req.params;
+		const processor = ProcessorFactory.Processor(tipo);
+		
+		const resultado = await processor.conciliarClientes();
+		
+		res.json(resultado);
+		
+		
+	}
 }
 
 

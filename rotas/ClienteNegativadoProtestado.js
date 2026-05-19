@@ -11,6 +11,8 @@ router.get("/conciliacao/negativados", (req, res) => clienteNegativadoProtesto.l
 
 router.post("/conciliacao/negativados", uploadArquivos.array("arquivos", 1),
     (req, res) => clienteNegativadoProtesto.uploads(req, res));
+	
+router.get("/conciliar/:tipo",clienteNegativadoProtesto.conciliar);
 
 
 

@@ -48,7 +48,6 @@ class SerasaDao {
 			throw new Error("Erro ao tentar remover a tabela serasa");
 		}
 	}
-	
 
 
     static async criarTabelaSerasa(conexao) {
