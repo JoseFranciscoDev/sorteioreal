@@ -23,16 +23,6 @@ class CatalogoDao extends AbstractNerus {
         const [produtos] = await conexao.query(sql, [loja, limit, offset]);
         return produtos;
     }
-    async totalLinhas() {
-        const conexao = await CatalogoDao.connection();
-        const sql = `SELECT
-            count(1) as totalLinhas
-            FROM
-            prdnam
-        `;
-        const [totalLinhas] = await conexao.query(sql);
-        return totalLinhas;
-    }
 }
 
 module.exports = CatalogoDao;
