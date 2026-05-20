@@ -46,7 +46,7 @@
                 </td>
                 <td>
                     {% if produto.temImagens %}
-                    <a href="{{ baseUrl }}/produtos/{{ produto.prdno }}" class="btn-ver-tabela">Ver imagens</a>
+                    <a href="{{ baseUrl }}/produtos/{{ produto.codigo }}" class="btn-ver-tabela">Ver imagens</a>
                     {% else %}
                     <span class="badge-sem-imagem">Sem imagens</span>
                     {% endif %}
@@ -122,7 +122,7 @@
             .style
             .display = 'none';
     }
-    // Fechar modal ao clicar fora
+
     window.onclick = function (event) {
         const modal = document.getElementById('modalUpload');
         if (event.target == modal) {
