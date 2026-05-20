@@ -2,8 +2,9 @@
 
 class SpcDao {
 
-    constructor(connection) {
+    constructor(connection, connectionNerus = null) {
         this.connection = connection;
+		this.connectionNerus= connectionNerus;
     }
 
 
@@ -55,6 +56,42 @@ class SpcDao {
 			throw new Error("Erro ao tentar remover a tabela spc");
 		}
 	}
+	
+	async buscarClientesNegativados() {
+			const sql = `select
+						 spc.cpfCnpj,
+			 			cast(if (position("-" in spc.contrato) > 0, substring_index(spc.contrato, "-", 1), spc.contrato) as Decimal) as contrato,
+			 			cast(if (position("-" in spc.contrato) > 0, substring_index(spc.contrato, "-", -1), " ") as Decimal) as parcela
+			 			from spc where spc.dataExclusao is null;`;					
+			try{
+				
+				const conn = await this.connection();
+				const [resultado] = await conn.query(sql);
+				return resultado;
+				
+			} catch(erro) {
+				console.error(erro);
+				return erro;
+			}
+		}
+		
+		
+		async buscarClientesNegativadosNerus() {
+			
+			const sql = `select cast(itxa.contrno as Decimal) as contrato, cast(itxa.instno as Decimal) as parcela, itxa.status from itxa where itxa.status = 3`;
+			
+			try{
+				const conn = await this.connectionNerus();
+				const [resultado] = await conn.query(sql);
+				
+				return resultado;
+				
+			} catch(erro) {
+				console.error(erro);
+				return erro;
+			}
+			
+		}
 	
 	
 	
