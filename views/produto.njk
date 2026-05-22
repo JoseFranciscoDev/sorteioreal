@@ -21,7 +21,7 @@
         {% if produto.preco %}
         <p class="preco">R$ {{ produto.preco }}</p>
         {% endif %}
-        <a href="{{ baseUrl }}/produtos" class="btn-voltar">
+        <a id="btn-voltar" href="{{ baseUrl }}/catalogo" class="btn-voltar">
             <i class="bx bx-arrow-back"></i> Voltar ao catálogo
         </a>
     </div>
@@ -48,6 +48,18 @@
 </div>
 
 <script>
+    // Botão de voltar inteligente: usa o referrer (página anterior) se for do mesmo site
+    (function () {
+        const referrer = document.referrer;
+        const btnVoltar = document.getElementById("btn-voltar");
+        const baseUrl = "{{ baseUrl }}";
+
+        if (referrer && referrer.includes(window.location.origin)) {
+            btnVoltar.href = referrer;
+        }
+        // fallback já está definido no href do elemento (baseUrl + /catalogo)
+    })();
+
     function abrirLightbox(src) {
         document.getElementById("lightbox-img").src = src;
         document.getElementById("lightbox").classList.add("active");

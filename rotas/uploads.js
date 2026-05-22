@@ -8,6 +8,8 @@ const UploadsDao = require("../modelo/UploadsDao.js");
 const CatalogoDao = require("../modelo/CatalogoDao.js");
 const conexao = require("../databases/conexao.js");
 const conexaoAWS = require("../databases/ConexaoNerusAWS");
+const CatalogoCardsService = require("../services/CatalogoCardsService.js");
+const vericaEAdmin = require("../middlewares/vericaEAdmin.js");
 
 const uploadsDao = new UploadsDao(conexao, conexaoAWS);
 const catalogoDao = new CatalogoDao();
@@ -18,7 +20,7 @@ const uploadsController = new UploadsController(uploadsService);
 const catalogoCardsController = new CatalogoCardsController(uploadsService);
 
 
-router.get("/produtos", (req, res) => uploadsController.listarProdutos(req, res));
+router.get("/produtos", vericaEAdmin, (req, res) => uploadsController.listarProdutos(req, res));
 router.get("/catalogo", (req, res) => catalogoCardsController.listarProdutos(req, res));
 router.get("/produtos/:codigo", (req, res) => uploadsController.detalhesProduto(req, res));
 router.post("/uploads", uploadImagens.array("imagens", 10), (req, res) => uploadsController.uploads(req, res));
