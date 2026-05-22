@@ -10,13 +10,13 @@ class CatalogoService {
     }
 
 
-    async listarProdutosAdmin(pagina = 1, codigo = null) {
+    async listarProdutosAdmin(pagina = 1, busca = null) {
         const loja = 2;
         const limit = 10;
         const offset = (pagina - 1) * limit;
 
-        const produtos = await this.CatalogoDao.buscarProdutos(limit, offset, loja);
-        const totalLinhasResult = produtos[1]
+        const produtos = await this.CatalogoDao.buscarProdutos(limit, offset, loja, busca);
+        const totalLinhasResult = produtos[1][0].totalLinhas;
         const totalPaginas = Math.ceil(totalLinhasResult / limit);
 
         const listaFinal = await Promise.all(

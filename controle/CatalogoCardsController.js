@@ -8,9 +8,9 @@ class CatalogoCardsController {
 
 	async listarProdutos(req, res) {
 		const pagina = parseInt(req.query.pagina) || 1;
-		const codigo = req.query.codigo ? req.query.codigo : null;
+		const busca = req.query.busca ? req.query.busca : null;
 
-		const { produtos, totalPaginas, paginaAtual } = await this.catalogoService.listarProdutosAdmin(pagina, codigo);
+		const { produtos, totalPaginas, paginaAtual } = await this.catalogoService.listarProdutosAdmin(pagina, busca);
 
 		const modulos = NavBar.getModulos();
 

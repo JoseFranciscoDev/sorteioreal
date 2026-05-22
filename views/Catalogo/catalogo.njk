@@ -102,11 +102,19 @@
 
     function filtrarProdutos() {
         const input = document.getElementById("searchInput");
-        window.location.href = `${BASE_URL}/produtos?codigo=${input.value}`;
+        window.location.href = `${BASE_URL}/produtos?busca=${input.value}`;
     }
     document.getElementById("searchInput").addEventListener("keyup", function (e) {
         if (e.key === "Enter")
             filtrarProdutos();
+    });
+
+    document.addEventListener("DOMContentLoaded", function() {
+        const urlParams = new URLSearchParams(window.location.search);
+        const busca = urlParams.get('busca');
+        if(busca) {
+            document.getElementById("searchInput").value = busca;
+        }
     });
 
     function abrirModalUpload(codigo) {

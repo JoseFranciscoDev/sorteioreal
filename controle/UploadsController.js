@@ -9,8 +9,8 @@ class UploadsController {
 	}
 	async listarProdutos(req, res) {
 		const pagina = parseInt(req.query.pagina) || 1;
-		const codigo = req.query.codigo ? req.query.codigo : null;
-		const { produtos, totalPaginas, paginaAtual } = await this.catalogoService.listarProdutosAdmin(pagina, codigo);
+		const busca = req.query.busca ? req.query.busca : null;
+		const { produtos, totalPaginas, paginaAtual } = await this.catalogoService.listarProdutosAdmin(pagina, busca);
 		const modulos = NavBar.getModulos();
 		return res.render("Catalogo/catalogo.njk", {
 			baseUrl: BASE_URL,
@@ -57,24 +57,24 @@ class UploadsController {
 
 
 			if (!codigoProduto) {
-				return res.render("upload.njk", { erro: "Codigo do produto é obrigatorio", modulos: NavBar.getModulos(), BASE_URL });
+				return res.status(400).json({ erro: "Codigo do produto é obrigatorio" });
 			}
 
 
 			if (!arquivos || arquivos.length == 0) {
-				return res.render("upload.njk", { erro: "Nenhuma imagem enviada", modulos: NavBar.getModulos(), BASE_URL });
+				return res.status(400).json({ erro: "Nenhuma imagem enviada" });
 			}
 
 
 			await this.catalogoService.uploadImagens(codigoProduto, usuario, arquivos);
 
 
-			return res.redirect(`${BASE_URL}/uploads?message=Imagens enviadas com sucesso`);
+			return res.status(200).json({ sucesso: "Imagens enviadas com sucesso!" });
 		} catch (erro) {
 
 			console.error(erro);
 
-			return res.render("upload.njk", { erro: "Erro ao enviar imagens", modulos: NavBar.getModulos(), BASE_URL });
+			return res.status(500).json({ erro: "Erro ao enviar imagens" });
 		}
 
 	}
