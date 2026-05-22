@@ -23,7 +23,7 @@ class CatalogoService {
             produtos[0].map(async (produto) => {
                 const imagens = await this.uploadsDao.buscarImagensPorCodigo(produto.codigo);
                 return {
-                    codigo: produto.codigo,
+                    codigo: String(produto.codigo).trim(),
                     nome: produto.nome,
                     preco: produto.refprice || null,
                     grupo: produto.grupo,

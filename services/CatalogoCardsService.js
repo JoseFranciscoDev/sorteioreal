@@ -34,12 +34,16 @@ class CatalogoService {
 
         const listaFinal = produtos.map(produto => {
             const dados = mapaProdutos.get(produto.codigo_produto);
+            const temImagens = !!produto.imagem_url;
             return {
-                ...produto,
-                nome_produto: dados?.produto || null,
-                preco: dados?.preco || null
+                codigo: produto.codigo_produto,
+                nome: dados?.produto || null,
+                preco: dados?.preco || null,
+                temImagens,
+                imagens: temImagens ? [{ imagem_url: produto.imagem_url }] : []
             };
         });
+        console.log({ produtos: listaFinal[1].imagens[0].imagem_url })
         return { produtos: listaFinal, totalPaginas, paginaAtual: pagina };
     }
 

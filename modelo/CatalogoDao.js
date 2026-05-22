@@ -8,16 +8,21 @@ class CatalogoDao extends AbstractNerus {
         let countParams = [];
 
         if (busca) {
-            whereClause = ` WHERE prdnam.prdno LIKE ? OR prdnam.name LIKE ? `;
-            const termoBusca = `%${busca}%`;
-            queryParams.push(termoBusca, termoBusca);
-            countParams.push(termoBusca, termoBusca);
+            if (!isNaN(busca) && busca.trim() !== '') {
+                whereClause = ` WHERE TRIM(prdnam.prdno) = ?`;
+                queryParams.push(busca.trim());
+                countParams.push(busca.trim());
+            } else {
+                whereClause = ` WHERE prdnam.name LIKE ?`;
+                queryParams.push(`%${busca}%`);
+                countParams.push(`%${busca}%`);
+            }
         }
 
         queryParams.push(limit, offset);
 
         const sql = `SELECT
-                prdnam.prdno as codigo,
+                TRIM(prdnam.prdno) as codigo,
                 prdnam.name as nome,
                 (SELECT refprice FROM prp where prp.prdno = prdnam.prdno and prp.storeno = ?) as refprice,
                 cl.name as grupo
@@ -44,7 +49,7 @@ class CatalogoDao extends AbstractNerus {
     async buscarProdutoPorCodigo(limit, offset, loja, codigo) {
         const conexao = await CatalogoDao.connection();
         const sql = `SELECT
-                prdnam.prdno as codigo,
+                TRIM(prdnam.prdno) as codigo,
                 prdnam.name as nome,
                 (SELECT refprice FROM prp where prp.prdno = prdnam.prdno and prp.storeno = ?),
                 cl.name as grupo

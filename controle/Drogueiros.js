@@ -8,7 +8,7 @@ class Drogueiros {
         const offset = (paginaAtual - 1) * PRODUTOS_POR_PAGINA;
 
         const produtos = await DrogueirosDao.getProdutos(PRODUTOS_POR_PAGINA, offset);
-        const modulos  = NavBar.getModulos();
+        const modulos = NavBar.getModulos();
 
         const temProximaPagina = produtos.length === PRODUTOS_POR_PAGINA;
 
