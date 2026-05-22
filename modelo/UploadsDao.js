@@ -40,7 +40,10 @@ class ProdutoImagemDao {
         } else {
             sql = `SELECT pi.* FROM produto_imagens pi
             INNER JOIN(
-                SELECT MIN(id) as min_id FROM produto_imagens where codigo_produto=? GROUP BY codigo_produto
+                SELECT MIN(id) as min_id 
+                FROM produto_imagens
+                where codigo_produto=? 
+                GROUP BY codigo_produto
             ) t ON pi.id = t.min_id
             LIMIT ? OFFSET ?`;
             const [produtos] = await conn.query(sql, [codigo, limit, offset]);
