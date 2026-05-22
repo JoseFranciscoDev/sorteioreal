@@ -6,12 +6,12 @@ class ConciliacaoDao extends Abstract {
         const conn = await this.connection();
         const sql = `
             CREATE TABLE IF NOT EXISTS veiculos (
-                codigo  INT          AUTO_INCREMENT PRIMARY KEY,
-                nome    VARCHAR(100) NOT NULL UNIQUE,
-                modelo  VARCHAR(80)  NOT NULL,
-                cor     VARCHAR(40)  NOT NULL,
-                placa   VARCHAR(8)   NOT NULL UNIQUE,
-                chassi  VARCHAR(17)  NOT NULL UNIQUE
+                codigo INT AUTO_INCREMENT PRIMARY KEY,
+                nome VARCHAR(100) NOT NULL UNIQUE,
+                modelo VARCHAR(80) NOT NULL,
+                cor VARCHAR(40) NOT NULL,
+                placa VARCHAR(8) NOT NULL UNIQUE,
+                chassi VARCHAR(17) NOT NULL UNIQUE
             )`;
         await conn.query(sql);
     }
@@ -20,8 +20,8 @@ class ConciliacaoDao extends Abstract {
         const conn = await this.connection();
         const sql = `
             CREATE TABLE IF NOT EXISTS rotas (
-                codigo        INT          AUTO_INCREMENT PRIMARY KEY,
-                nome          VARCHAR(60)  NOT NULL UNIQUE
+                codigo INT AUTO_INCREMENT PRIMARY KEY,
+                nome varchar(60) NOT NULL UNIQUE
             )`;
         await conn.query(sql);
     }
@@ -62,11 +62,11 @@ class ConciliacaoDao extends Abstract {
         const conn = await this.connection();
         const sql = `
             CREATE TABLE IF NOT EXISTS pagamentos (
-                codigo        INT          AUTO_INCREMENT PRIMARY KEY,
-                codigoVisita  INT          NOT NULL UNIQUE,
-                contrato      VARCHAR(50)  NOT NULL,
-                parcelas      INT          NOT NULL,
-                valor         DECIMAL(10,2) NOT NULL,
+                codigo INT AUTO_INCREMENT PRIMARY KEY,
+                codigoVisita INT NOT NULL UNIQUE,
+                contrato VARCHAR(50) NOT NULL,
+                parcelas INT NOT NULL,
+                valor DECIMAL(10,2) NOT NULL,
                 CONSTRAINT fk_pagamento_visita
                     FOREIGN KEY (codigoVisita) REFERENCES visitas(codigo) ON DELETE CASCADE
             )`;
@@ -77,13 +77,13 @@ class ConciliacaoDao extends Abstract {
         const conn = await this.connection();
         const sql = `
             CREATE TABLE IF NOT EXISTS renegociacoes (
-                codigo         INT      AUTO_INCREMENT PRIMARY KEY,
-                codigoVisita   INT      NOT NULL,
-                contrato       VARCHAR(50)   NOT NULL,
-                parcelas       INT           NOT NULL,
-                valor          DECIMAL(10,2) NOT NULL,
-                data_registro  DATETIME      DEFAULT CURRENT_TIMESTAMP,
-                CONSTRAINT fk_renegociacao_visita
+                codigo INT AUTO_INCREMENT PRIMARY KEY,
+                codigoVisita INT NOT NULL,
+                contrato VARCHAR(50) NOT NULL,
+                parcelas INT NOT NULL,
+                valor DECIMAL(10,2) NOT NULL,
+                data_registro DATETIME DEFAULT CURRENT_TIMESTAMP,
+                CONSTRAINT fk_renegociacao_visita 
                     FOREIGN KEY (codigoVisita) REFERENCES visitas(codigo) ON DELETE CASCADE
             )`;
         await conn.query(sql);
@@ -99,9 +99,9 @@ class ConciliacaoDao extends Abstract {
                 saida TIME NOT NULL,
                 chegada TIME NOT NULL,
                 km_inicio INT NOT NULL,
-                km_chegada INT NOT NULL,
+                km_final INT NOT NULL,
                 CONSTRAINT fk_retirada_veiculo
-		            FOREIGN KEY (codigo_veiculo) REFERENCES veiculos(codigo)
+                    FOREIGN KEY (codigo_veiculo) REFERENCES veiculos(codigo)
             )`;
         await conn.query(sql);
     }
@@ -163,7 +163,7 @@ class ConciliacaoDao extends Abstract {
     static async setRetirada(retirada) {
         const conn = await this.connection();
         const sql = `
-            INSERT INTO retiradas (codigo_veiculo, data, saida, chegada, km_inicio, km_chegada)
+            INSERT INTO retiradas (codigo_veiculo, data, saida, chegada, km_inicio, km_final)
             VALUES (?, ?, ?, ?, ?, ?)`;
         const dados = [
             retirada.codigoVeiculo,

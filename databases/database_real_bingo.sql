@@ -102,41 +102,51 @@ CREATE TABLE IF NOT EXISTS rotas (
     
  );
 
-CREATE TABLE IF NOT EXISTS visitas (
-    codigo            INT          AUTO_INCREMENT PRIMARY KEY,
-    codigoRota        INT          NOT NULL,
-    codigoCliente     INT          NOT NULL,
-    endereco          VARCHAR(200) NOT NULL,
-    encontrado        TINYINT      NOT NULL DEFAULT 0,
-    coordenadas       VARCHAR(50),
-    fotoResidencia    TINYINT      DEFAULT 0,
-    fotoResidenciaUrl VARCHAR(255),
-    fotoDoc           TINYINT      DEFAULT 0,
-    fotoDocUrl        VARCHAR(255),
-    renegociado       TINYINT      NOT NULL DEFAULT 0,
-    agendamento       TINYINT      NOT NULL DEFAULT 0,
-    data_agendamento  DATE,
-    novoTelefone          VARCHAR(20),
-    codigoVeiculo INT,
-    codigoCobrador INT,
-    data date not null,
-    saida time not null,
-    chegada time not null,
-    kmComeco DECIMAL(10,1) DEFAULT 0,
-    kmFinal DECIMAL(10,1) DEFAULT 0,
-    observacoes       VARCHAR(500),
-    CONSTRAINT fk_cobrador
-    FOREIGN KEY (codigoCobrador) REFERENCES usuarios(codigo),
-    CONSTRAINT fk_veiculos
-    FOREIGN KEY (codigoVeiculo) REFERENCES veiculos(codigo),
-    CONSTRAINT fk_visita_rota FOREIGN KEY (codigoRota) REFERENCES rotas(codigo) ON DELETE CASCADE
+CREATE TABLE IF NOT EXISTS retiradas(
+	codigo INT AUTO_INCREMENT PRIMARY KEY,
+    codigo_veiculo int not null,
+    data DATE NOT NULL,
+    saida TIME NOT NULL,
+    chegada TIME NOT NULL,
+    km_inicio INT NOT NULL,
+    km_final INT NOT NULL,
+    CONSTRAINT fk_retirada_veiculo
+		FOREIGN KEY (codigo_veiculo) REFERENCES veiculos(codigo)
 );
+
+CREATE TABLE IF NOT EXISTS visitas (
+                codigo            INT          AUTO_INCREMENT PRIMARY KEY,
+                codigoRota        INT          NOT NULL,
+                codigoCliente     INT          NOT NULL,
+                codigoRetiradaVeiculo   INT    NOT NULL,
+                endereco          VARCHAR(200) NOT NULL,
+                encontrado        TINYINT      NOT NULL DEFAULT 0,
+                coordenadas       VARCHAR(50),
+                fotoResidencia    TINYINT      DEFAULT 0,
+                fotoResidenciaUrl VARCHAR(255),
+                fotoDoc           TINYINT      DEFAULT 0,
+                fotoDocUrl        VARCHAR(255),
+                renegociado       TINYINT      NOT NULL DEFAULT 0,
+                agendamento       TINYINT      NOT NULL DEFAULT 0,
+                data_agendamento  DATE,
+                novoTelefone          VARCHAR(20),
+                codigoVeiculo INT,
+                codigoCobrador INT,
+                observacoes       VARCHAR(500),
+                CONSTRAINT fk_visita_retirada
+                    FOREIGN KEY (codigoRetiradaVeiculo) REFERENCES retiradas(codigo),
+                CONSTRAINT fk_visita_rota
+                    FOREIGN KEY (codigoRota) REFERENCES rotas(codigo) ON DELETE CASCADE,
+                CONSTRAINT fk_cobrador
+                    FOREIGN KEY (codigoCobrador) REFERENCES usuarios(codigo)
+            );
+
 CREATE TABLE IF NOT EXISTS pagamentos (
     codigo INT AUTO_INCREMENT PRIMARY KEY,
     codigoVisita INT NOT NULL UNIQUE,
     contrato VARCHAR(50) NOT NULL,
     parcelas INT NOT NULL,
-    valor int NOT NULL,
+    valor DECIMAL(10,2) NOT NULL,
     CONSTRAINT fk_pagamento_visita
         FOREIGN KEY (codigoVisita) REFERENCES visitas(codigo) ON DELETE CASCADE
 );
