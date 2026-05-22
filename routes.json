@@ -67,11 +67,6 @@
       },
       {
         "modulo": "Catalogo",
-        "nome": "Tabela de Produtos",
-        "url": "produtos"
-      },
-      {
-        "modulo": "Catalogo",
         "nome": "Visualizar Catálogo",
         "url": "catalogo"
       },
@@ -84,6 +79,11 @@
         "modulo": "Administração",
         "nome": "Pedidos",
         "url": "administracao/pedidos"
+      },
+      {
+        "modulo": "Administração",
+        "nome": "Tabela de Produtos",
+        "url": "produtos"
       },
       {
         "modulo": "Conciliação",

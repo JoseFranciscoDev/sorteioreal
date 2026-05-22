@@ -46,14 +46,14 @@
                 </td>
                 <td>
                     {% if produto.temImagens %}
-                    <a href="{{ baseUrl }}/produtos/{{ produto.prdno }}" class="btn-ver-tabela">Ver imagens</a>
+                    <a href="{{ baseUrl }}/produtos/{{ produto.codigo }}" class="btn-ver-tabela">Ver imagens</a>
                     {% else %}
                     <span class="badge-sem-imagem">Sem imagens</span>
                     {% endif %}
                 </td>
                 {% if usuario and usuario.tipo == 'ADMIN' %}
                 <td>
-                    <button class="btn-upload-modal" onclick="abrirModalUpload('{{ produto.prdno }}')">
+                    <button class="btn-upload-modal" onclick="abrirModalUpload('{{ produto.codigo }}')">
                         <i class='bx bx-upload'></i>
                         Upload
                     </button>
@@ -78,56 +78,110 @@
         <i class="bx bx-chevron-right"></i>
     </a>
 </div>
-<!-- Modal Upload -->
 <div id="modalUpload" class="modal-upload" style="display: none;">
     <div class="modal-upload-content">
         <span class="close-modal" onclick="fecharModalUpload()">&times;</span>
         <div class="wrap-cliente">
             <span class="cliente-form-title">Upload de Imagens</span>
-            <form action="{{ baseUrl }}/uploads" method="POST" enctype="multipart/form-data">
+            <div id="modal-upload-mensagem" style="display:none; margin-bottom: 10px; padding: 8px 12px; border-radius: 6px; font-size: 0.9rem;"></div>
+            <form id="formUpload" enctype="multipart/form-data">
                 <input type="hidden" name="codigo_produto" id="modal_codigo_produto" value="">
                 <div class="wrap-input">
                     <input type="file" name="imagens" class="input-cliente file-input" multiple required
                         accept="image/*">
                 </div>
                 <div class="btn-container">
-                    <button type="submit" class="btn-cliente">Enviar Imagens</button>
+                    <button type="submit" class="btn-cliente" id="btn-enviar-imagens">Enviar Imagens</button>
                 </div>
             </form>
         </div>
     </div>
 </div>
 <script>
+    const BASE_URL = "{{ baseUrl }}";
+
     function filtrarProdutos() {
         const input = document.getElementById("searchInput");
-        const url = "{{ baseUrl }}";
-        window.location.href = `${url}/produtos?codigo=${input.value
-            }`;
+        window.location.href = `${BASE_URL}/produtos?busca=${input.value}`;
     }
     document.getElementById("searchInput").addEventListener("keyup", function (e) {
         if (e.key === "Enter")
             filtrarProdutos();
-
     });
+
+    document.addEventListener("DOMContentLoaded", function() {
+        const urlParams = new URLSearchParams(window.location.search);
+        const busca = urlParams.get('busca');
+        if(busca) {
+            document.getElementById("searchInput").value = busca;
+        }
+    });
+
     function abrirModalUpload(codigo) {
         document.getElementById('modal_codigo_produto').value = codigo;
-        document
-            .getElementById('modalUpload')
-            .style
-            .display = 'flex';
+        const msg = document.getElementById('modal-upload-mensagem');
+        msg.style.display = 'none';
+        msg.textContent = '';
+        document.getElementById('btn-enviar-imagens').disabled = false;
+        document.getElementById('modalUpload').style.display = 'flex';
     }
+
     function fecharModalUpload() {
-        document
-            .getElementById('modalUpload')
-            .style
-            .display = 'none';
+        document.getElementById('modalUpload').style.display = 'none';
     }
-    // Fechar modal ao clicar fora
+
     window.onclick = function (event) {
         const modal = document.getElementById('modalUpload');
         if (event.target == modal) {
             fecharModalUpload();
         }
-    }
+    };
+
+    document.getElementById('formUpload').addEventListener('submit', async function (e) {
+        e.preventDefault();
+        const btn = document.getElementById('btn-enviar-imagens');
+        const msg = document.getElementById('modal-upload-mensagem');
+        btn.disabled = true;
+        btn.textContent = 'Enviando...';
+        msg.style.display = 'none';
+
+        const formData = new FormData(this);
+        try {
+            const resp = await fetch(`${BASE_URL}/uploads`, {
+                method: 'POST',
+                body: formData
+            });
+            const dados = await resp.json();
+
+            if (resp.ok && dados.sucesso) {
+                msg.style.background = '#d4edda';
+                msg.style.color = '#155724';
+                msg.style.border = '1px solid #c3e6cb';
+                msg.textContent = dados.sucesso;
+                msg.style.display = 'block';
+                this.reset();
+                setTimeout(() => {
+                    fecharModalUpload();
+                    window.location.reload();
+                }, 1500);
+            } else {
+                msg.style.background = '#f8d7da';
+                msg.style.color = '#721c24';
+                msg.style.border = '1px solid #f5c6cb';
+                msg.textContent = dados.erro || 'Erro ao enviar imagens.';
+                msg.style.display = 'block';
+                btn.disabled = false;
+                btn.textContent = 'Enviar Imagens';
+            }
+        } catch (err) {
+            msg.style.background = '#f8d7da';
+            msg.style.color = '#721c24';
+            msg.style.border = '1px solid #f5c6cb';
+            msg.textContent = 'Erro de rede. Tente novamente.';
+            msg.style.display = 'block';
+            btn.disabled = false;
+            btn.textContent = 'Enviar Imagens';
+        }
+    });
 </script>
 {% endblock %}

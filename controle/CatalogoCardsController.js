@@ -5,17 +5,15 @@ class CatalogoCardsController {
 	constructor(catalogoService) {
 		this.catalogoService = catalogoService;
 	}
-	
+
 	async listarProdutos(req, res) {
 		const pagina = parseInt(req.query.pagina) || 1;
-		const codigo = req.query.codigo ? req.query.codigo : null;
-		
-		// Utilizando o método listarProdutosAdmin (ou o método equivalente no seu UploadsService)
-		// para buscar a lista de produtos com as imagens
-		const { produtos, totalPaginas, paginaAtual } = await this.catalogoService.listarProdutosAdmin(pagina, codigo);
-		
+		const busca = req.query.busca ? req.query.busca : null;
+
+		const { produtos, totalPaginas, paginaAtual } = await this.catalogoService.listarProdutosAdmin(pagina, busca);
+
 		const modulos = NavBar.getModulos();
-		
+
 		return res.render("Catalogo/catalogoCards.njk", {
 			baseUrl: BASE_URL,
 			produtos,

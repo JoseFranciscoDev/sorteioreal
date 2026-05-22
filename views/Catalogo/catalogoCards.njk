@@ -22,7 +22,8 @@
 <div class="catalog-wrapper" id="catalogGrid">
     {% for produto in produtos %}
     <div class="produto-card" data-nome="{{ produto.nome | lower }}" data-codigo="{{ produto.codigo }}">
-        <img src="/{{ produto.imagens[0].imagem_url if produto.temImagens else 'img/placeholder.png' }}" alt="{{ produto.nome }}">
+        <img src="/{{ produto.imagens[0].imagem_url if produto.temImagens else 'image/produto_sem_imagem.png' }}"
+            alt="{{ produto.nome }}">
         <div class="card-body">
             <h5 class="card-title">{{ produto.nome if produto.nome else "Sem nome" }}</h5>
             <p class="card-text">Código: {{ produto.codigo }}</p>
@@ -54,12 +55,20 @@
 <script>
     function filtrarProdutos() {
         const input = document.getElementById("searchInput");
-        const url = "{{baseUrl}}"; 
-        window.location.href = `${url}/produtos?codigo=${input.value}`;
+        const url = "{{baseUrl}}";
+        window.location.href = `${url}/catalogo?busca=${input.value}`;
     }
 
-   document.getElementById("searchInput").addEventListener("keyup", function (e) {
+    document.getElementById("searchInput").addEventListener("keyup", function (e) {
         if (e.key === "Enter") filtrarProdutos();
+    });
+
+    document.addEventListener("DOMContentLoaded", function() {
+        const urlParams = new URLSearchParams(window.location.search);
+        const busca = urlParams.get('busca');
+        if(busca) {
+            document.getElementById("searchInput").value = busca;
+        }
     });
 </script>
 

@@ -12,15 +12,14 @@ class CatalogoService {
     }
 
 
-    async listarProdutos(pagina = 1, codigo = null) {
-        const loja = 1;
+    async listarProdutos(pagina = 1, busca = null, loja = 1) {
         const limit = 10;
         const offset = (pagina - 1) * limit;
 
         const total = await this.uploadsDao.contarTotalImagens();
         const totalPaginas = Math.ceil(total / limit);
 
-        const produtos = await this.uploadsDao.buscarImagensProdutos(limit, offset, codigo);
+        const produtos = await this.uploadsDao.buscarImagensProdutos(limit, offset, busca);
 
         if (!produtos || produtos.length === 0) {
             return { produtos: [], totalPaginas, paginaAtual: pagina };
