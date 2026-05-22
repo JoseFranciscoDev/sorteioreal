@@ -35,7 +35,7 @@ class CatalogoDao extends AbstractNerus {
             prdnam
             ${whereClause};
         `;
-        
+
         const paramsFinal = [...queryParams, ...countParams];
         const [produtos] = await conexao.query(sql, paramsFinal);
         return produtos;

@@ -21,12 +21,7 @@ class ConciliacaoDao extends Abstract {
         const sql = `
             CREATE TABLE IF NOT EXISTS rotas (
                 codigo        INT          AUTO_INCREMENT PRIMARY KEY,
-                nome          VARCHAR(60)  NOT NULL UNIQUE,
-                data          DATE         NOT NULL,
-                saida         TIME,
-                chegada       TIME,
-                kmComeco      DECIMAL(10,1) DEFAULT 0,
-                kmFinal       DECIMAL(10,1) DEFAULT 0
+                nome          VARCHAR(60)  NOT NULL UNIQUE
             )`;
         await conn.query(sql);
     }
