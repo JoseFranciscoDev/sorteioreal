@@ -10,14 +10,13 @@ class CatalogoService {
     }
 
 
-    async listarProdutosAdmin(pagina = 1, busca = null, loja) {
+    async listarProdutosAdmin(pagina = 1, busca = null, loja = 1) {
         const limit = 10;
         const offset = (pagina - 1) * limit;
 
         const produtos = await this.CatalogoDao.buscarProdutos(limit, offset, loja, busca);
         const totalLinhasResult = produtos[1][0].totalLinhas;
         const totalPaginas = Math.ceil(totalLinhasResult / limit);
-        console.log(loja)
         const listaFinal = await Promise.all(
             produtos[0].map(async (produto) => {
                 const imagens = await this.uploadsDao.buscarImagensPorCodigo(produto.codigo);
