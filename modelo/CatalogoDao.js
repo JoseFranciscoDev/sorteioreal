@@ -24,11 +24,12 @@ class CatalogoDao extends AbstractNerus {
         const sql = `SELECT
                 TRIM(prdnam.prdno) as codigo,
                 prdnam.name as nome,
-                (SELECT refprice FROM prp where prp.prdno = prdnam.prdno and prp.storeno = ?) as refprice,
+                prp.refprice,
                 cl.name as grupo
             FROM 
                 prdnam
                 JOIN prd ON prd.no = prdnam.prdno
+                JOIN prp ON prp.prdno = prdnam.prdno and prp.storeno = ?
                 JOIN cl ON cl.no = prd.clno
             ${whereClause}
             ORDER BY  prd.no

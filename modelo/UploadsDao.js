@@ -1,5 +1,3 @@
-
-
 class ProdutoImagemDao {
 
     constructor(conexao, conexaoAWS = null) {
@@ -76,30 +74,29 @@ class ProdutoImagemDao {
     }
 
     async buscarDadosProdutos(codigoProduto, loja) {
+        const sql2 = `
+        SELECT
+            prd.no as codigo,
+            prd.name as produto,
+            prp.refprice as preco,
+            prdnam.name as descricaoCompleta
+        FROM prd
+        LEFT JOIN prp ON prp.prdno = prd.no AND prp.storeno = ?
+        LEFT JOIN prdnam ON prd.no = prdnam.prdno
+        WHERE prd.no IN (?)`;
 
-        const sql2 = `select round(trim(prd.no)) as codigo,
-        prd.name as produto,
-        prp.refprice as preco,
-        prdnam.name as descricaoCompleta
-        from prp inner join prd on(prd.no = prp.prdno)
-        inner join prdnam on(prd.no = prdnam.prdno)
-        where prd.no in (?) and prp.storeno = ?`;
-
-        const parametros = [codigoProduto, loja];
+        const parametros = [loja, codigoProduto];
 
         const conn = await this.conexaoAWS();
 
 
         if (!conn) {
-
             return [];
-
         }
 
         const [resultado] = await conn.query(sql2, parametros);
 
         return resultado;
-
     }
 
 

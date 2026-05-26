@@ -1,6 +1,5 @@
 const { AUTORIZACAO, BASE_URL } = require("../configs.json");
 const NavBar = require("../utilitarios/NavBar.js");
-const buscarProduto = require("../modelo/UploadsDao.js");
 
 
 class UploadsController {

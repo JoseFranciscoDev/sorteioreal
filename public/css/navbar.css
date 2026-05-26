@@ -62,17 +62,20 @@ nav.open .sidebar {
     overflow-x: hidden;
     flex-grow: 1;
     margin-bottom: 15px;
-    padding-right: 5px; /* Evita que o scroll sobreponha o conteúdo */
+    padding-right: 5px;
+    /* Evita que o scroll sobreponha o conteúdo */
 }
 
 /* Scrollbar customizada para o menu */
 .sidebar-content .lists::-webkit-scrollbar {
     width: 6px;
 }
+
 .sidebar-content .lists::-webkit-scrollbar-thumb {
     background-color: rgba(0, 0, 0, 0.2);
     border-radius: 4px;
 }
+
 .sidebar-content .lists::-webkit-scrollbar-track {
     background: transparent;
 }
@@ -85,7 +88,7 @@ nav.open .sidebar {
     display: flex;
     align-items: center;
     margin: 0;
-    padding: 10px 10px;
+    padding: 8px 6px;
     border-radius: 8px;
     text-decoration: none;
     transition: all 0.3s ease;
@@ -127,7 +130,7 @@ nav.open .sidebar {
     z-index: 1050;
 }
 
-nav.open ~ .overlay {
+nav.open~.overlay {
     opacity: 1;
     visibility: visible;
     pointer-events: auto;
@@ -148,35 +151,52 @@ nav.open ~ .overlay {
     transition: transform 0.3s ease;
 }
 
-.list.open > .nav-link.dropdown .dropdown-arrow {
+.list.open>.nav-link.dropdown .dropdown-arrow {
     transform: rotate(180deg);
 }
 
 .dropdown-menu {
+    display: block !important;
+    /* Sobrescreve o display: none do Bootstrap */
     list-style: none;
-    padding: 0;
-    margin: 0;
+    padding: 4px 0;
+    margin: 2px 0 4px 0;
     max-height: 0;
     overflow: hidden;
-    transition: max-height 0.3s ease;
-    background: rgba(0, 0, 0, 0.15);
-    border-radius: 4px;
+    transition: max-height 0.35s ease;
+    background: #f5e6e6;
+    /* rosa claro que combina com o vermelho da sidebar */
+    border-left: 3px solid #ca2c2c;
+    border-radius: 0 4px 4px 0;
+    position: static !important;
+    /* Evita o posicionamento absoluto do Bootstrap */
+    border-top: none !important;
+    border-right: none !important;
+    border-bottom: none !important;
+    box-shadow: none !important;
+    min-width: unset !important;
 }
 
-.list.open > .dropdown-menu {
+.list.open>.dropdown-menu {
     max-height: 300px;
 }
 
 .dropdown-item a {
-    display: block;
-    padding: 8px 16px 8px 48px;
-    color: inherit;
+    display: block !important;
+    padding: 7px 8px 7px 14px;
+    /* menos padding à esquerda para o texto caber */
+    color: #5a1a1a;
     text-decoration: none;
-    font-size: 0.9rem;
-    opacity: 0.85;
-    transition: opacity 0.2s ease;
+    font-size: 0.85rem;
+    font-weight: 500;
+    white-space: nowrap;
+    overflow: hidden;
+    text-overflow: ellipsis;
+    transition: background 0.2s ease, color 0.2s ease;
+    border-radius: 3px;
 }
 
 .dropdown-item a:hover {
-    opacity: 1;
+    background-color: #ca2c2c;
+    color: #fff;
 }

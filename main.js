@@ -63,7 +63,6 @@ app.use(BASE_URL, estaLogado, routerConciliacao);
 app.use(uploadClienteNegativadosProtesto);
 app.use(BASE_URL, estaLogado, verificaConfig, routerDrogueiros);
 
-console.log("base_url", BASE_URL);
 app.listen(PORT, async () => {
     await AbstractNerusAWS.connection();
     await conexaoLocal.connection();
@@ -75,6 +74,6 @@ app.listen(PORT, async () => {
     await ConciliacaoDao.criarTodasTabelasConciliacao()
     await ProtestoDao.criarTabelaProtesto(conexao);
     await SerasaDao.criarTabelaSerasa(conexao);
-	await SpcDao.criarTabelaSpc(conexao);
+    await SpcDao.criarTabelaSpc(conexao);
     console.log("Servidor rodando na porta: " + PORT);
 });

@@ -10,11 +10,10 @@ class CatalogoCardsController {
 		const pagina = parseInt(req.query.pagina) || 1;
 		const busca = req.query.busca ? req.query.busca : null;
 		const loja = req.query?.loja || 1;
-
-		const { produtos, totalPaginas, paginaAtual } = await this.catalogoService.listarProdutosAdmin(pagina, busca);
+		console.log(loja)
+		const { produtos, totalPaginas, paginaAtual } = await this.catalogoService.listarProdutosAdmin(pagina, busca, loja);
 		const modulos = NavBar.getModulos();
 		console.log(produtos);
-
 		return res.render("Catalogo/catalogoCards.njk", {
 			baseUrl: BASE_URL,
 			produtos,
@@ -22,6 +21,7 @@ class CatalogoCardsController {
 			paginaAtual,
 			modulos,
 			BASE_URL,
+			lojaSelecionada: loja,
 			usuario: req.session.usuario
 		});
 	}

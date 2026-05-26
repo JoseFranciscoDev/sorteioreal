@@ -6,7 +6,8 @@
     box-sizing: border-box;
 }
 
-body, html {
+body,
+html {
     height: 100%;
     font-family: 'Poppins', sans-serif;
     font-weight: 400;
@@ -32,7 +33,6 @@ body, html {
 .cat-header .header-left {
     display: flex;
     align-items: center;
-    gap: 14px;
     margin-left: 60px;
 }
 
@@ -106,7 +106,7 @@ nav {
 }
 
 /* O ícone do menu principal fora da sidebar precisa ser branco por causa do fundo vermelho do header */
-nav > .logo .menu-icon {
+nav>.logo .menu-icon {
     color: #ffffff;
 }
 

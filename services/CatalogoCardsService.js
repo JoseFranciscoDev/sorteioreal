@@ -47,11 +47,9 @@ class CatalogoService {
         return { produtos: listaFinal, totalPaginas, paginaAtual: pagina };
     }
 
-    async detalhesProduto(codigo_produto) {
-        const loja = 1;
-
+    async detalhesProduto(codigo_produto, loja) {
         const imagens = await this.uploadsDao.buscarImagensPorCodigo(codigo_produto);
-
+        console.log("Loja", loja)
 
         if (!imagens || imagens.length === 0) {
             return null;
