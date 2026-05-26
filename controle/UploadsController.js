@@ -1,6 +1,5 @@
 const { AUTORIZACAO, BASE_URL } = require("../configs.json");
 const NavBar = require("../utilitarios/NavBar.js");
-const buscarProduto = require("../modelo/UploadsDao.js");
 
 
 class UploadsController {
@@ -9,7 +8,6 @@ class UploadsController {
 	}
 	async listarProdutos(req, res) {
 		const pagina = parseInt(req.query.pagina) || 1;
-		console.log("Tá no Uploads Controller")
 		const busca = req.query.busca ? req.query.busca : null;
 		const { produtos, totalPaginas, paginaAtual } = await this.catalogoService.listarProdutosAdmin(pagina, busca);
 		const modulos = NavBar.getModulos();

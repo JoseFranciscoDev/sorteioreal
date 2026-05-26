@@ -49,9 +49,7 @@ class CatalogoService {
         }
 
         const codigos = produtos.map(p => p.codigo_produto);
-        console.log(codigos, loja);
         const dadosProdutos = await this.uploadsDao.buscarDadosProdutos(codigos, loja);
-        console.log(dadosProdutos);
         const mapaProdutos = new Map();
         for (const item of dadosProdutos) {
             mapaProdutos.set(item.codigo, item);
