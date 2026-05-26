@@ -230,7 +230,6 @@ class ConciliacaoDao extends Abstract {
         WHERE rotas.codigo = ?
             `;
         const [resultado] = await conn.query(sql, codigoRota)
-        console.log(resultado)
         return resultado
     };
 

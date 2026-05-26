@@ -15,7 +15,6 @@ class Conciliacao {
     }
     static async cadastroVeiculosPost(req, res) {
         const modulos = NavBar.getModulos();
-        console.log(req.body)
         const novoVeiculo = {
             nome: req.body.nomeVeiculo,
             modelo: req.body.modelo,
@@ -73,7 +72,6 @@ class Conciliacao {
             const dados = NullSeVazio(req.body);
             const resultado = await ConciliacaoDao.setVisita(dados);
             const visitaId = resultado.insertId;
-            console.log(dados)
             const arquivos = req.files
 
             const fotoResidArquivo = arquivos?.foto_resid?.[0] ?? null;
@@ -245,7 +243,6 @@ class Conciliacao {
         });
 
         const csv = [header, ...linhas].join("\n");
-        console.log(csv)
         res.setHeader("Content-Type", "text/csv; charset=utf-8");
         res.setHeader("Content-Disposition", `attachment; filename=visitas_rota_${rotaId}.csv`);
         return res.send(csv);
