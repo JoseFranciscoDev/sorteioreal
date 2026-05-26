@@ -8,14 +8,26 @@
 {% block principal %}
 
 <header class="cat-header">
-    <div class="header-left ms-15">
-        <h1>Catálogo de Produtos</h1>
+    <div class="d-flex flex-column header-left">
+        <h1 class="mb-0">Catálogo de Produtos</h1>
+        <p class="mb-0 text-white">Produtos da loja {{lojaSelecionada}}</p>
     </div>
-    <div class="search-bar">
-        <input type="text" id="searchInput" placeholder="Pesquisar produto...">
-        <button type="button" onclick="filtrarProdutos()">
-            <i class="bx bx-search"></i>
-        </button>
+    <div class="d-flex gap-4 align-items-center">
+        <div class="d-flex align-items-center gap-3">
+            <label for="loja-select">Loja:</label>
+            <select name="" id="loja-select">
+                <option value="" selected disabled>Selecione uma loja</option>
+                <option value="1" class="loja-option">Loja 1</option>
+                <option value="2" class="loja-option">Loja 2</option>
+                <option value="3" class="loja-option">Loja 3</option>
+            </select>
+        </div>
+        <div class="search-bar">
+            <input type="text" id="searchInput" placeholder="Pesquisar produto...">
+            <button type="button" onclick="filtrarProdutos()">
+                <i class="bx bx-search"></i>
+            </button>
+        </div>
     </div>
 </header>
 
@@ -55,10 +67,19 @@
 </div>
 
 <script>
+    const lojaSelect = document.getElementById("loja-select");
+    const url = "{{baseUrl}}";
+
+    lojaSelect.addEventListener("change", (event) => {
+        const loja = event.target.value;
+        const busca = document.getElementById("searchInput").value;
+        window.location.href = `${url}/catalogo?loja=${loja}&busca=${busca}`;
+    });
+
     function filtrarProdutos() {
-        const input = document.getElementById("searchInput");
-        const url = "{{baseUrl}}";
-        window.location.href = `${url}/catalogo?busca=${input.value}`;
+        const busca = document.getElementById("searchInput").value;
+        const loja = lojaSelect.value;
+        window.location.href = `${url}/catalogo?busca=${busca}&loja=${loja}`;
     }
 
     document.getElementById("searchInput").addEventListener("keyup", function (e) {
@@ -68,8 +89,12 @@
     document.addEventListener("DOMContentLoaded", function () {
         const urlParams = new URLSearchParams(window.location.search);
         const busca = urlParams.get('busca');
+        const loja = urlParams.get('loja');
         if (busca) {
             document.getElementById("searchInput").value = busca;
+        }
+        if (loja) {
+            document.getElementById("loja-select").value = loja;
         }
     });
 </script>
