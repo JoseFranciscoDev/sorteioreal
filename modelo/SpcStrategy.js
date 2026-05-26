@@ -76,123 +76,164 @@ class SpcStrategy {
 	}
 	
 	
-	async conciliarClientes() {
+	compararResultados(resultadoSPC, resultadoNerus) {
 		
-			try {
-				const spcDao = new SpcDao(connection, connectionNerus);
-				
-				const [listaSpc, listaNerus] = await Promise.all(
-					[spcDao.buscarClientesNegativados(), spcDao.buscarClientesNegativadosNerus()]);
-							
-				if (listaSpc instanceof Error || listaNerus instanceof Error) {
-					throw new Error("Error ao buscar dados de uma das bases");
-				}
-				
-				const gerarChave = (contrato, parcela) => `${Number(contrato)}_${Number(parcela)}`;
-				
-				const contratosInteirosNoSpc = new Set();
-				const setSpcChaveComposta = new Set();
-				
-				listaSpc.forEach(c => {
-					const numContrato = Number(c.contrato);
-					const numParcela = Number(c.parcela || 0);
-					
-					if (numParcela === 0) {
-						contratosInteirosNoSpc.add(numContrato);
-					} else {
-						setSpcChaveComposta.add(gerarChave(numContrato, numParcela));
-					}
-				});
-				
-				
-				const contratosNoNerus = new Set();
-				const setNerusChaveComposta = new Set();
-				
-				
-				listaNerus.forEach(n => {
-					const numContrato = Number(n.contrato);
-					const numParcela = Number(n.parcela || 0);
-					
-					contratosNoNerus.add(numContrato);
-					setNerusChaveComposta.add(gerarChave(numContrato, numParcela));
-				});
-				
-				
-				const apenasNoSpc = listaSpc.filter(c => {
-					const numContrato = Number(c.contrato);
-					const numParcela = Number(c.parcela || 0);
-					
-					if (numParcela === 0) {
-						return !contratosNoNerus.has(numContrato);
-					}
-					
-					const chave = gerarChave(numContrato, numParcela);
-					return !setNerusChaveComposta.has(chave);
-				});
-				
-				
-				const apenasNoNerus = listaNerus.filter(c => {
-					const numContrato = Number(c.contrato);
-					const numParcela = Number(c.parcela || 0);
-					
-					if (contratosInteirosNoSpc.has(numContrato)) {
-						return false;
-					}
-					
-					const chave = gerarChave(numContrato, numParcela);
-					return !setSpcChaveComposta.has(chave);
-				});
-				
-				
-				const spcSemDuplicados = Array.from(
-					new Map(apenasNoSpc.map(c => [`${Number(c.contrato)}_${Number(c.parcela || 0)}`, c])).values()
-				);
-				
-				const nerusAgrupadoPorContrato = [];
-				const contratosProcessados = new Set();
-				
-				// ✅ CORREÇÃO: Alterado para ler a variável correta "apenasNoNerus"
-				apenasNoNerus.forEach(n => {
-					const numContrato = Number(n.contrato);
-					
-					if (!contratosProcessados.has(numContrato)) {
-						contratosProcessados.add(numContrato);
-						
-						// Busca as parcelas associadas a esse contrato específico
-						const todasAsParcelasDesteContrato = apenasNoNerus
-							.filter(p => Number(p.contrato) === numContrato)
-							.map(p => Number(p.parcela || 0));
-							
-						nerusAgrupadoPorContrato.push({
-							contrato: numContrato,
-							totalParcelasDivergentes: todasAsParcelasDesteContrato.length,
-							parcelasComProblema: todasAsParcelasDesteContrato
-						});
-					}
-				});			
-				
-				return {
-					sucesso: true,
-					resumoContratos: {
-						totalContratosFaltasSincronizarNoNerus: spcSemDuplicados.length,
-						totalContratosParaLimparNoNerus: nerusAgrupadoPorContrato.length,
-						totalDivergenciasReais: spcSemDuplicados.length + nerusAgrupadoPorContrato.length
-					},
-					detalhes: {
-						esquecidoNoNerus: spcSemDuplicados,
-						limparNoNerus: nerusAgrupadoPorContrato
-					}				
-				};
-				
-			} catch(erro) {
-				console.error("Erro na conciliação:", erro);
-				return {
-					sucesso: false,
-					erro: "Falha ao processar conciliação",
-					detalhe: erro.message
-				};
+		const clientesEmRisco = [];
+		
+		const statusNerus = {
+			1: "Quitado",
+			2: "Pagamento Parcial",
+			3: "SPC (Negativado)",
+			4: "Cobrador",
+			5: "Cancelado/Renegociado"
+		}
+		
+		
+		const mapaNerus = new Map();
+		
+		for (const item of resultadoNerus) {
+			const contratoStr = String(item.contrato).trim();
+			const parcelaStr = String(item.parcela).trim();
+			const statusNum = Number(item.status);
+			
+			
+			if (!mapaNerus.has(contratoStr)) {
+				mapaNerus.set(contratoStr, []);
 			}
+			
+			mapaNerus.get(contratoStr).push({
+				parcela: parcelaStr,
+				status: statusNum,
+				statusTexto: statusNerus[statusNum] || `Status ${statusNum}`
+			});
+		}
+		
+		
+		for (const spc of resultadoSPC) {
+			const contratoSPC = String(spc.contrato).trim();
+			const parcelaSPC = String(spc.parcela).trim();
+			
+			const parcelasNoNerus = mapaNerus.get(contratoSPC) || [];
+			
+			if (parcelasNoNerus.length === 0) {
+				
+				clientesEmRisco.push({
+					cpfCnpj: spc.cpfCnpj,
+					contrato: contratoSPC,
+					parcelaSPC: parcelaSPC === "0" ? "Contrato Inteiro": parcelaSPC,
+					motivo: "O Contrato consta no SPC mas não existe no Nerus.",
+					gravidade: "CRITICA",
+					acao: "REMOVER IMEDIATAMENTE DO SPC"
+				});
+				
+				continue;
+			}
+			
+			
+			if (parcelaSPC === "0") {
+				const tudoRegularizado = parcelasNoNerus.every(p => p.status === 1 || p.status === 5);
+				const possuiParcelaPaga = parcelasNoNerus.some(p => p.status === 1 || p.status === 5);
+				
+				if (tudoRegularizado) {
+					clientesEmRisco.push({
+						cpfCnpj: spc.cpfCnpj,
+						contrato: contratoSPC,
+						parcelaSPC: "Contrato Inteiro (0)",
+						motivo: "O contrato inteiro está negativado, mas todas as parcelas estão pagas/renegociadas no Nerus.",
+						gravidade: "CRITICA",
+						acao: "REMVOER IMEDIATAMENTE DO SPC (Evitar Processo)"
+					});
+				} else if (possuiParcelaPaga) {
+					clientesEmRisco.push({
+						cpfCnpj: spc.cpfCnpj,
+						contrato: contratoSPC,
+						parcelaSPC: "Contrato Inteiro (0)",
+						motivo: "Contrato inteiro negativado, mas o cliente ja pagou algumas parcelas na loja.",
+						gravidade: "ALTA",
+						acao: "REMOVER CONTRATO INTEIRO E NEGATIVADO APENAS AS PARCELAS EM ABERTO"
+					});
+				}
+			} else {
+				const parcelaEncontrada = parcelasNoNerus.find(p => p.parcela === parcelaSPC);
+				
+				if (!parcelaEncontrada) {
+					clientesEmRisco.push({
+						cpfCnpj: spc.cpfCnpj,
+						contrato: contratoSPC,
+						parcelaSPC: parcelaSPC,
+						motivo: `A parcela ${parcelaSPC} está no SPC mas não existe no historico do Nerus.`,
+						gravidade: "ALTA",
+						acao: "REMOVER PARCELA DO SPC"
+					});
+				} else if (parcelaEncontrada.status === 1 || parcelaEncontrada.status === 5) {
+					clientesEmRisco.push({
+						cpfCnpj: spc.cpfCnpj,
+						contrato: contratoSPC,
+						parcelaSPC: parcelaSPC,
+						motivo: `A parcela está ativa no SPC, mas consta como [${parcelaEncontrada.statusTexto}] no Nerus.`,
+						gravidade: "CRITICA",
+						acao: "REMOVER IMEDIATAMENTE DO SPC (Cliente ja pagou/acordou na loja)"
+					});
+				} else if (parcelaEncontrada.status === 2) {
+					clientesEmRisco.push({
+						cpfCnpj: spc.cpfCnpj,
+						contrato: contratoSPC,
+						parcelaSPC: parcelaSPC,
+						motivo: `A parcela está no SPC, mas o cliente fez um [Pagamento Parcial] na loja`,
+						gravidade: "MEDIA",
+						acao: "ATUALIZAR VALOR DA NEGATIVAÇÃO NO SPC (Abater a metade paga)"
+					});
+				}
+			}
+			
+		}
+		
+		return clientesEmRisco;
 	}
+	
+	
+	async executarAuditoriaDefensiva() {
+		
+		try {
+			console.log("[AUDITORIA] Coletando registros ativos do SPC...");
+			
+			const spcDao = new SpcDao(connection, connectionNerus);
+			
+			const dadosSPC = await spcDao.buscarClientesNegativados();
+			
+			if (!dadosSPC || dadosSPC.length === 0) {
+				console.log("[AUDITORIA] Sem registros ativos no SPC. Loja segura.");
+				return [];
+			}
+			
+			const listaContratosUnicos = [...new Set(dadosSPC.map(item => String(item.contrato).trim()))];
+			console.log(`[AUDITORIA] Consultando ${listaContratosUnicos.length} contratos no Nerus...`);
+			
+			
+			const dadosNerus = await spcDao.buscarClientesNegativadosNerus(listaContratosUnicos);
+			console.log(`[AUDITORIA] Cruzando informações e avaliando riscos de processos...`);
+			
+			const relatorioRisco = this.compararResultados(dadosSPC, dadosNerus);
+			
+			const casosCriticos = relatorioRisco.filter(r => r.gravidade === "CRITICA");
+			console.log(`\n=== RELATORIO DE AUDITORIA DE SPC ===`);
+			console.log(`Total de irregularidades: ${relatorioRisco.length}`);
+			console.log(`CASOS CRITICOS COM RISCO DE PROCESSO: ${casosCriticos.length}`);
+			
+			return relatorioRisco;
+			
+		} catch (erro) {
+			console.error("[AUDITORIA] Falta ao rodar verificação de segurança:", erro);
+			
+			return [];
+		}
+	}
+	
+	
+	
+	
+	
+	
 
 	
 	

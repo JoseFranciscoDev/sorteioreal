@@ -100,7 +100,7 @@ class ClienteNegativadoProtestado {
 		const {tipo} = req.params;
 		const processor = ProcessorFactory.Processor(tipo);
 		
-		const resultado = await processor.conciliarClientes();
+		const resultado = await processor.executarAuditoriaDefensiva();
 		
 		res.json(resultado);
 		
