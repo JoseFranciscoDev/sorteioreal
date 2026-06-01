@@ -76,13 +76,24 @@ class SpcDao {
 		}
 		
 		
-		async buscarClientesNegativadosNerus() {
+		async buscarClientesNegativadosNerus(listaContratos) {
 			
-			const sql = `select cast(itxa.contrno as Decimal) as contrato, cast(itxa.instno as Decimal) as parcela, itxa.status from itxa where itxa.status = 3`;
+		if (!listaContratos || listaContratos.length === 0) {
+			return [];
+		}
+		
+		
+			
+		const placeholders = listaContratos.map(() => "?").join(",");
+			
+			const sql = `select 
+				cast(itxa.contrno as Decimal) as contrato,
+				 cast(itxa.instno as Decimal) as parcela,
+				  itxa.status from itxa where itxa.contrno in (${placeholders})`;
 			
 			try{
 				const conn = await this.connectionNerus();
-				const [resultado] = await conn.query(sql);
+				const [resultado] = await conn.query(sql, listaContratos);
 				
 				return resultado;
 				
