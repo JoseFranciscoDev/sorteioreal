@@ -2,6 +2,7 @@ const { BASE_URL } = require("../configs.json");
 const NavBar = require("../utilitarios/NavBar.js");
 const PedidoDao = require("../modelo/PedidoDao.js");
 const CuponsClientesDao = require("../modelo/CuponsClientesDao.js");
+const CupomDao = require("../modelo/CupomDao.js")
 const Cupom = require("./Cupom.js");
 const { CUPONS: CUPOM } = require("../configs.json")
 const DocmentoCupom = require("../utilitarios/DocumentoCupom.js");
@@ -207,6 +208,12 @@ class Pedido {
     static formatarNumero(numero) {
 
         return parseInt(numero) <= 0 ? "" : numero;
+    }
+
+    static async deletar(req, res) {
+        const { codigo, pedido } = req.params;
+        await CupomDao.delete(codigo, pedido);
+        res.redirect(`${BASE_URL}/administracao/pedidos`);
     }
 
 }
