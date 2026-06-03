@@ -15,15 +15,9 @@
             <i class='bx bx-package drogueiros-header__icone'></i>
             <h1 class="drogueiros-header__texto">Drogueiros</h1>
         </div>
-        <div>
-            <label for="">Produtos por página</label>
-            <select name="" id="">
-                <option value="10">10</option>
-                <option value="50">50</option>
-                <option value="100">100</option>
-            </select>
-            <input class="drogueiros-header__contador" placeholder="Pesquisar por código ou descrição" />
-            <button></button>
+        <div class="div-input">
+            <input id="input-busca" class="drogueiros-header__contador"
+                placeholder="Pesquisar por código ou descrição" />
         </div>
     </div>
 
@@ -82,7 +76,28 @@
         <a href="{{ BASE_URL }}/compras/drogueiros?porPagina=10&pagina={{ paginaAtual + 1 }}">&gt;</a>
         {% endif %}
     </div>
-
 </div>
+
+<script>
+    const buscaInput = document.getElementById("input-busca")
+
+    function filtrarProdutos() {
+        const busca = buscaInput.value;
+        window.location.href = `{{ BASE_URL }}/compras/drogueiros?busca=${busca}`;
+    }
+
+    buscaInput.addEventListener("keyup", (e) => {
+        if (e.key == "Enter") filtrarProdutos()
+    })
+
+    document.addEventListener("DOMContentLoaded", function () {
+        const urlParams = new URLSearchParams(window.location.search);
+        const busca = urlParams.get('busca');
+        if (busca) {
+            buscaInput.value = busca;
+        }
+    })
+
+</script>
 
 {% endblock %}

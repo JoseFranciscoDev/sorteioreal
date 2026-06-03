@@ -3,16 +3,16 @@
 
 
 :root {
-    --cor-primaria:      #d1121d;
+    --cor-primaria: #d1121d;
     --cor-primaria-leve: #e63946;
-    --bg-pagina:         #f4f6f9;
-    --bg-card:           #ffffff;
-    --texto-principal:   #333333;
-    --texto-secundario:  #666666;
-    --borda:             #e0e0e0;
-    --sombra-sm:         0 2px 4px rgba(0, 0, 0, 0.05);
-    --sombra-md:         0 4px 6px rgba(0, 0, 0, 0.10);
-    --transicao:         all 0.3s ease;
+    --bg-pagina: #f4f6f9;
+    --bg-card: #ffffff;
+    --texto-principal: #333333;
+    --texto-secundario: #666666;
+    --borda: #e0e0e0;
+    --sombra-sm: 0 2px 4px rgba(0, 0, 0, 0.05);
+    --sombra-md: 0 4px 6px rgba(0, 0, 0, 0.10);
+    --transicao: all 0.3s ease;
 }
 
 * {
@@ -21,7 +21,8 @@
     box-sizing: border-box;
 }
 
-body, html {
+body,
+html {
     height: 100%;
     font-family: 'Poppins', sans-serif;
     background-color: var(--bg-pagina);
@@ -63,6 +64,7 @@ body, html {
 }
 
 .drogueiros-header__contador {
+    width: 100%;
     font-size: 0.9rem;
     font-weight: 500;
     color: var(--texto-secundario);
@@ -71,6 +73,10 @@ body, html {
     border-radius: 20px;
     border: 1px solid var(--borda);
     box-shadow: var(--sombra-sm);
+}
+
+.div-input {
+    width: 25%;
 }
 
 /* ---- Contêiner da tabela ---- */
