@@ -82,8 +82,14 @@ class CuponsClientesDao extends Abstract {
 
 
 
-    static async delete() {
-        return;
+    static async delete(codigo) {
+        const conn = await this.connection();
+        console.log(codigo)
+        const texto = `
+            DELETE FROM cuponsclientes WHERE codigo = ?
+        `;
+        const [resultado] = await conn.query(texto, codigo)
+        return resultado;
     }
 
     static async update() {

@@ -1,47 +1,73 @@
 {% extends "home.html" %}
-
 {% block css %}
-<link rel="stylesheet" type="text/css" href="/css/clientes.css" media="screen" />
-<link rel="icon" type="image/x-icon" href="/image/icon.png">
-<link rel="stylesheet" href="https://unpkg.com/boxicons@2.1.2/css/boxicons.min.css" />
-<title>Shopping Real - Clientes</title>
-{% endblock %}
-
-{% block principal %}
-
-<div class="admin-container">
-    <div class="admin-header">
-        <h1 class="admin-title">Cupons do pedido {{codigoPedido}}</h1>
-    </div>
-
-    <div class="table-container">
-        <table class="admin-table">
-            <thead>
-                <tr>
-                    <th>Cod. Cupom</th>
-                    <th>Nome do cliente</th>
-                    <th>CPF</th>
-                    <th>Excluir</th>
-                </tr>
-            </thead>
-            <tbody>
-                {% if cupons.length == 0 %}
-                <tr>
-                    <td colspan="6" class="text-center">Nenhum cupon encontrado.</td>
-                </tr>
-                {% else %}
-                {% for cupom in cupons %}
-                <tr>
-                    <td class="">{{ cupom.codigo }}</td>
-                    <td>{{cupom.nome}}</td>
-                    <td>{{cupom.cpf}}</td>
-                    <td><i class="bx bx-trash abrirModal" data-codigo="{{codigoPedido}}"></i></td>
-                </tr>
-                {% endfor %}
-                {% endif %}
-            </tbody>
-        </table>
-    </div>
-</div>
-
-{%endblock%}
+    <link rel="stylesheet" type="text/css" href="/css/clientes.css" media="screen"/>
+    <link rel="icon" type="image/x-icon" href="/image/icon.png">
+        <link rel="stylesheet" href="https://unpkg.com/boxicons@2.1.2/css/boxicons.min.css"/>
+        <title>Shopping Real - Clientes</title>
+    {% endblock %}
+    {% block principal %}
+        <div class="admin-container">
+            <div class="admin-header">
+                <h1 class="admin-title">Cupons do pedido {{ codigoPedido }}</h1>
+            </div>
+            <div class="table-container">
+                <table class="admin-table">
+                    <thead>
+                        <tr>
+                            <th>Cod. Cupom</th>
+                            <th>Nome do cliente</th>
+                            <th>CPF</th>
+                            <th>Excluir</th>
+                        </tr>
+                    </thead>
+                    <tbody>
+                        {% if cupons.length == 0 %}
+                            <tr>
+                                <td colspan="6" class="text-center">Nenhum cupon encontrado.</td>
+                            </tr>
+                        {% else %}
+                            {% for cupom in cupons %}
+                                <tr>
+                                    <td class="">{{ cupom.codigo }}</td>
+                                    <td>{{ cupom.nome }}</td>
+                                    <td>{{ cupom.cpf }}</td>
+                                    <td>
+                                        <i class="bx bx-trash abrirModal" data-codigo="{{ cupom.codigo }}"></i>
+                                    </td>
+                                </tr>
+                            {% endfor %}
+                        {% endif %}
+                    </tbody>
+                </table>
+            </div>
+        </div>
+        <dialog id="modal">
+            <p>Tem certeza que deseja excluir o cupom
+                <span id="codigoCupomSpan"></span>
+                do pedido
+                <span id="codigoPedidoSpan"></span>?
+            </p>
+            <button id="fecharModal">Cancelar</button>
+            <a id="linkConfirmar" href="#" style="text-decoration: none; color: red;">
+                <i class="bx bx-trash"></i>Confirmar</a>
+        </dialog>
+        <script>
+            const abrirModal = document.querySelectorAll(".abrirModal");
+            const fecharModal = document.getElementById("fecharModal");
+            const spanCodigo = document.getElementById("codigoCupomSpan");
+            const spanPedido = document.getElementById("codigoPedidoSpan");
+            const linkConfirmar = document.getElementById("linkConfirmar");
+            const modal = document.getElementById("modal");
+            abrirModal.forEach((abrirModal) => {
+                abrirModal.addEventListener("click", () => {
+                    const codigo = abrirModal.getAttribute("data-codigo");
+                    const pedido = {{ codigoPedido }};
+                    spanCodigo.innerText = codigo;
+                    spanPedido.innerText = pedido
+                    linkConfirmar.href = `{{BASE_URL}}/cupomCliente/delete/${codigo}`
+                    modal.showModal();
+                });
+            })
+            fecharModal.onclick = () => modal.close()
+        </script>
+    {% endblock %}

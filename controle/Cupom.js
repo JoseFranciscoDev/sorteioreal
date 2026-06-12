@@ -90,10 +90,15 @@ class Cupom {
 
     }
 
-    static async deletar(req, res) {
-        const {codigo, pedido} = req.params;
-        await CupomDao.delete(codigo, pedido);
-        res.redirect(`${BASE_URL}/administracao/pedidos`);
+    static async deletarCupomCliente(req, res) {
+        try {
+            const { codigo } = req.params;
+            await CuponsClientesDao.delete(codigo)
+            res.redirect(`${BASE_URL}/administracao/pedidos?mensagem=Cupom excluido com sucesso`);
+        } catch (error) {
+            console.error(error)
+            res.redirect(`${BASE_URL}/administracao/pedidos?mensagem=Erro ao Excluir Cupom`)
+        }
     }
 
 }

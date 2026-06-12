@@ -47,11 +47,6 @@
       },
       {
         "modulo": "Modulo de Sorteio",
-        "nome": "Pedido sem Cliente",
-        "url": "home/atualizar/pedido"
-      },
-      {
-        "modulo": "Modulo de Sorteio",
         "nome": "Reimpressao",
         "url": "home/pedido/reimpressao"
       },
