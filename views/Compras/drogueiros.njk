@@ -15,15 +15,9 @@
             <i class='bx bx-package drogueiros-header__icone'></i>
             <h1 class="drogueiros-header__texto">Drogueiros</h1>
         </div>
-        <div>
-            <label for="">Produtos por página</label>
-            <select name="" id="">
-                <option value="10">10</option>
-                <option value="50">50</option>
-                <option value="100">100</option>
-            </select>
-            <input class="drogueiros-header__contador" placeholder="Pesquisar por código ou descrição" />
-            <button></button>
+        <div class="div-input">
+            <input id="input-busca" class="drogueiros-header__contador"
+                placeholder="Pesquisar por código ou descrição" />
         </div>
     </div>
 
@@ -33,17 +27,20 @@
                 <tr>
                     <th>Código</th>
                     <th>Descrição</th>
-                    <th>Código de Barras</th>
-                    <th>N. C. Lucro</th>
-                    <th>Nome C. Lucro</th>
-                    <th>Fornecedor</th>
                     <th>Última Compra</th>
+                    <th>Código de Barras</th>
+                    <th>Saldo</th>
+                    <th>N. C. Lucro</th>
+                    <th>No C. Lucro</th>
+                    <th>Nome C. Lucro</th>
+                    <th>Loja</th>
+                    <th>Fornecedor</th>
                 </tr>
             </thead>
             <tbody>
                 {% if produtos.length == 0 %}
                 <tr>
-                    <td colspan="7" class="tabela-produtos__vazia">
+                    <td colspan="10" class="tabela-produtos__vazia">
                         <i class='bx bx-search-alt-2'></i>
                         <span>Nenhum produto encontrado.</span>
                     </td>
@@ -53,10 +50,6 @@
                 <tr class="tabela-produtos__linha">
                     <td>{{ produto["Código"] }}</td>
                     <td class="tabela-produtos__descricao">{{ produto["Descrição"] }}</td>
-                    <td><span class="badge-barcode">{{ produto["Código de Barras"] }}</span></td>
-                    <td>{{ produto["N. Cent. de Lucro"] }}</td>
-                    <td>{{ produto["Nome Cent. Lucro"] }}</td>
-                    <td><span class="badge-fornecedor">{{ produto["Fornecedor"] }}</span></td>
                     <td>
                         {% if produto["Ultima Compra"] %}
                         <span class="badge-data">{{ produto["Ultima Compra"] }}</span>
@@ -64,6 +57,13 @@
                         <span class="badge-sem-compra">—</span>
                         {% endif %}
                     </td>
+                    <td><span class="badge-barcode">{{ produto["Código de Barras"] }}</span></td>
+                    <td>{{ produto["Saldo"] }}</td>
+                    <td>{{ produto["N. Cent. de Lucro"] }}</td>
+                    <td>{{ produto["No Cent. Lucro"] }}</td>
+                    <td>{{ produto["Nome Cent. Lucro"] }}</td>
+                    <td>{{ produto["Loja"] }}</td>
+                    <td><span class="badge-fornecedor">{{ produto["Fornecedor"] }}</span></td>
                 </tr>
                 {% endfor %}
                 {% endif %}
@@ -82,7 +82,28 @@
         <a href="{{ BASE_URL }}/compras/drogueiros?porPagina=10&pagina={{ paginaAtual + 1 }}">&gt;</a>
         {% endif %}
     </div>
-
 </div>
+
+<script>
+    const buscaInput = document.getElementById("input-busca")
+
+    function filtrarProdutos() {
+        const busca = buscaInput.value;
+        window.location.href = `{{ BASE_URL }}/compras/drogueiros?busca=${busca}`;
+    }
+
+    buscaInput.addEventListener("keyup", (e) => {
+        if (e.key == "Enter") filtrarProdutos()
+    })
+
+    document.addEventListener("DOMContentLoaded", function () {
+        const urlParams = new URLSearchParams(window.location.search);
+        const busca = urlParams.get('busca');
+        if (busca) {
+            buscaInput.value = busca;
+        }
+    })
+
+</script>
 
 {% endblock %}

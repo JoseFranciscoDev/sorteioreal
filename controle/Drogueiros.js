@@ -6,8 +6,12 @@ class Drogueiros {
     static async listarProdutos(req, res) {
         const paginaAtual = Math.max(1, parseInt(req.query.pagina) || 1);
         const offset = (paginaAtual - 1) * PRODUTOS_POR_PAGINA;
+        const busca = req.query.busca || null
+        const produtos = await DrogueirosDao.getProdutos(
+            PRODUTOS_POR_PAGINA,
+            offset,
+            busca);
 
-        const produtos = await DrogueirosDao.getProdutos(PRODUTOS_POR_PAGINA, offset);
         const modulos = NavBar.getModulos();
 
         const temProximaPagina = produtos.length === PRODUTOS_POR_PAGINA;
