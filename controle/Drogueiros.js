@@ -7,7 +7,6 @@ class Drogueiros {
         const paginaAtual = Math.max(1, parseInt(req.query.pagina) || 1);
         const offset = (paginaAtual - 1) * PRODUTOS_POR_PAGINA;
         const busca = req.query.busca || null
-        console.log(busca)
         const produtos = await DrogueirosDao.getProdutos(
             PRODUTOS_POR_PAGINA,
             offset,
