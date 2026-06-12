@@ -43,13 +43,11 @@ class CatalogoService {
                 imagens: temImagens ? [{ imagem_url: produto.imagem_url }] : []
             };
         });
-        console.log({ produtos: listaFinal[1].imagens[0].imagem_url })
         return { produtos: listaFinal, totalPaginas, paginaAtual: pagina };
     }
 
     async detalhesProduto(codigo_produto, loja) {
         const imagens = await this.uploadsDao.buscarImagensPorCodigo(codigo_produto);
-        console.log("Loja", loja)
 
         if (!imagens || imagens.length === 0) {
             return null;
