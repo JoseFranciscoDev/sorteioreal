@@ -27,17 +27,20 @@
                 <tr>
                     <th>Código</th>
                     <th>Descrição</th>
-                    <th>Código de Barras</th>
-                    <th>N. C. Lucro</th>
-                    <th>Nome C. Lucro</th>
-                    <th>Fornecedor</th>
                     <th>Última Compra</th>
+                    <th>Código de Barras</th>
+                    <th>Saldo</th>
+                    <th>N. C. Lucro</th>
+                    <th>No C. Lucro</th>
+                    <th>Nome C. Lucro</th>
+                    <th>Loja</th>
+                    <th>Fornecedor</th>
                 </tr>
             </thead>
             <tbody>
                 {% if produtos.length == 0 %}
                 <tr>
-                    <td colspan="7" class="tabela-produtos__vazia">
+                    <td colspan="10" class="tabela-produtos__vazia">
                         <i class='bx bx-search-alt-2'></i>
                         <span>Nenhum produto encontrado.</span>
                     </td>
@@ -47,10 +50,6 @@
                 <tr class="tabela-produtos__linha">
                     <td>{{ produto["Código"] }}</td>
                     <td class="tabela-produtos__descricao">{{ produto["Descrição"] }}</td>
-                    <td><span class="badge-barcode">{{ produto["Código de Barras"] }}</span></td>
-                    <td>{{ produto["N. Cent. de Lucro"] }}</td>
-                    <td>{{ produto["Nome Cent. Lucro"] }}</td>
-                    <td><span class="badge-fornecedor">{{ produto["Fornecedor"] }}</span></td>
                     <td>
                         {% if produto["Ultima Compra"] %}
                         <span class="badge-data">{{ produto["Ultima Compra"] }}</span>
@@ -58,6 +57,13 @@
                         <span class="badge-sem-compra">—</span>
                         {% endif %}
                     </td>
+                    <td><span class="badge-barcode">{{ produto["Código de Barras"] }}</span></td>
+                    <td>{{ produto["Saldo"] }}</td>
+                    <td>{{ produto["N. Cent. de Lucro"] }}</td>
+                    <td>{{ produto["No Cent. Lucro"] }}</td>
+                    <td>{{ produto["Nome Cent. Lucro"] }}</td>
+                    <td>{{ produto["Loja"] }}</td>
+                    <td><span class="badge-fornecedor">{{ produto["Fornecedor"] }}</span></td>
                 </tr>
                 {% endfor %}
                 {% endif %}
